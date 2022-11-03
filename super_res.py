@@ -1,10 +1,10 @@
 from PIL import Image
-import cv2, os, random
 from cv2 import dnn_superres
+import cv2, os, random, numpy
 
 
-# if you have no idea what theme to use, just use "default"
-themes = ['default', 'anime girl', 'anime boy', 'waifu', 'robot/mecha/android/cyborg', 'low res', 'nature']
+# if a theme doesn't appear in the list, use "default"
+themes = ['default', 'anime girl', 'anime boy', 'waifu', 'nature', 'space', 'robot', 'mecha', 'android', 'cyborg', 'low res']
 
 
 def upscale_image(image: Image, scale: int) -> Image:
@@ -12,14 +12,18 @@ def upscale_image(image: Image, scale: int) -> Image:
     Upscale an image using OpenCV's EDSR model
     """
     sr = dnn_superres.DnnSuperResImpl_create()
-    image = cv2.imread(image)
+    if isinstance(image, str):
+        image = cv2.imread(image)
+    else:
+        # convert PIL image to cv2 image
+        image = cv2.cvtColor(numpy.array(image), cv2.COLOR_RGB2BGR)
     path = "EDSR_x4.pb" if scale == 4 else "EDSR_x3.pb" if scale == 3 else "EDSR_x2.pb" if scale == 2 else None
     if path is None:
         raise ValueError("Scale must be 2, 3, or 4")
     sr.readModel(path)
     sr.setModel("edsr", scale)
     result = sr.upsample(image)
-    return result
+    return Image.fromarray(cv2.cvtColor(result, cv2.COLOR_BGR2RGB))
 
 
 def upscale_video(video_path: str, scale: int) -> None:
@@ -48,12 +52,12 @@ def upscale_video(video_path: str, scale: int) -> None:
 
 def get_optimized_file_prompts(filepath: str, theme: str) -> list[str]:
     """
-    Read a file with each prompt in a different line and return a list of prompts.\n
-    Recommended to specify the gender of any characters in the prompt.
+    Read a file with each prompt in a different line and return a list of prompts.\\
+    Pass a theme from the themes list to get a prompt that fits the theme.
     """
     prompts = []
     if not os.path.isfile(filepath):
-        raise ValueError("Filepath is invalid")
+        raise ValueError("Given filepath is invalid")
     with open(filepath, "r", encoding="utf8") as f:
         for line in f:
             if 'anime girl' in line or 'waifu' in line or theme == "anime girl" or theme == "waifu":
@@ -71,7 +75,19 @@ def get_optimized_file_prompts(filepath: str, theme: str) -> list[str]:
                     else:
                         prompts.append(line + "trending on pixiv")
             elif theme == "nature":
-                prompts.append(line.strip() + ", 4k, 8k, uhd, hyperrealistic")
+                line = line.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
+                if not "detailed" in line:
+                    line += ", highly detailed"
+                prompts.append(line)
+            elif theme == "space":
+                if len(line) < 45:
+                    prompts.append(line.strip() + ", octane render, masterpiece, cinematic, trending on artstation, 8k ultra hd")
+                elif not "lighting" in line:
+                    prompts.append(line.strip() + ", cinematic lighting, 8k ultra hd")
+                else:
+                    prompts.append(line.strip() + ", 8k ultra hd")
+            else:
+                prompts.append(line.strip())
     return prompts
 
 

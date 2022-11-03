@@ -1,28 +1,26 @@
 import json
 from IPython import display
 
-import gc, math, os, pathlib, subprocess, sys, time
+import os, sys, time
 import cv2
 import numpy as np
-import pandas as pd
 import random
 import requests
 import torch
-import torch.nn as nn
 import torchvision.transforms as T
 import torchvision.transforms.functional as TF
-from contextlib import contextmanager, nullcontext
+from contextlib import nullcontext
 from einops import rearrange, repeat
 from omegaconf import OmegaConf
 from PIL import Image
 from pytorch_lightning import seed_everything
 from skimage.exposure import match_histograms
 from torchvision.utils import make_grid
-from tqdm import tqdm, trange
 from types import SimpleNamespace
 from torch import autocast
 import re
 from scipy.ndimage import gaussian_filter
+from super_res import upscale_image
 
 sys.path.extend([
     'src/taming-transformers',
@@ -34,7 +32,7 @@ sys.path.extend([
     'MiDaS',
 ])
 
-from helpers import DepthModel, sampler_fn
+from helpers import sampler_fn
 from k_diffusion.external import CompVisDenoiser
 from ldm.util import instantiate_from_config
 from ldm.models.diffusion.ddim import DDIMSampler
@@ -857,7 +855,7 @@ def next_seed(args):
     return args.seed
 
 
-def render_image_batch(args: SimpleNamespace, prompts: list[str] = []):
+def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1) -> None:
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
     # create output folder for the batch
@@ -923,13 +921,15 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = []):
                             filename = f"{args.time}_{sanitize(prompt)[:160]}.png"
                         else:
                             filename = f"{args.time}_{args.seed}.png"
+                        if upscale_ratio > 1:
+                            image = upscale_image(image, upscale_ratio)
                         image.save(os.path.join(args.outdir, filename))
                     if args.display_samples:
                         display.display(image)
                     index += 1
                 args.seed = next_seed(args)
 
-        # make grid of all images
+        # make grid of all images, if applicable
         if args.make_grid:
             grid = make_grid(all_images,
                              nrow=int(len(all_images) / args.grid_rows))

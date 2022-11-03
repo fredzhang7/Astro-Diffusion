@@ -2,3 +2,7 @@ deforum-stable-diffusion
 src
 .vscode
 sd-v1-5.ckpt
+MiDaS
+pytorch3d-lite
+stable-diffusion
+__pycache__

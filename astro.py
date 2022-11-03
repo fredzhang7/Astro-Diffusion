@@ -1,7 +1,6 @@
 from types import SimpleNamespace
 import os, time, random, gc, torch
 from deforum_stable_diffusion import render_image_batch
-from super_res import upscale_image
 
 
 def get_output_folder(output_path, batch_folder):
@@ -29,7 +28,7 @@ model_checkpoints = {
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = ""                # one of "custom" or one of the keys in model_checkpoints
+    model_checkpoint = "sd-v1-5.ckpt"    # one of "custom", a key in model_checkpoints (above)
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
@@ -64,11 +63,11 @@ def AstroArgs():
 
     # Batch Settings
     n_batch = 1                          # number of samples to generate in parallel
-    batch_name = "StableFun"             # name of the batch
+    output_path = "./"                   # folder path to save images to
+    batch_name = "StableFun"             # subfolder name to save images to
     seed_behavior = "random"             # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
-    output_path = "./"                   # path to save images to
     filename_format = "{timestring}_{index}_{prompt}.png"
     outdir = get_output_folder(output_path, batch_name)
 
@@ -116,4 +115,6 @@ if args.sampler != 'ddim':
 gc.collect()
 torch.cuda.empty_cache()
 
-render_image_batch(args)
+prompts = [ 'bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+
+render_image_batch(args, prompts, 2)
