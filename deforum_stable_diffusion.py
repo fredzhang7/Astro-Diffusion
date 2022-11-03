@@ -21,6 +21,7 @@ from torch import autocast
 import re
 from scipy.ndimage import gaussian_filter
 from super_res import upscale_image
+from typing import Tuple
 
 sys.path.extend([
     'src/taming-transformers',
@@ -105,11 +106,11 @@ def load_mask_latent(mask_input, shape):
     return mask
 
 
-def prepare_mask(mask_input: str or Image.Image,  # path to the mask image or a PIL Image object
-                 mask_shape: list,                # shape of the image to match, usually latent_image.shape
-                 args: SimpleNamespace,           # args object from DeforumArgs
-                 mask_brightness_adjust=1.0,      # brightness of the mask. 0 is black, 1 is no adjustment, >1 is brighter
-                 mask_contrast_adjust=1.0):       # contrast of the mask. 0 is black, 1 is no adjustment, >1 is more contrast
+def prepare_mask(mask_input: Tuple[str, Image.Image],  # path to the mask image or a PIL Image object
+                 mask_shape: list,                     # shape of the image to match, usually latent_image.shape
+                 args: SimpleNamespace,                # args object from DeforumArgs
+                 mask_brightness_adjust=1.0,           # brightness of the mask. 0 is black, 1 is no adjustment, >1 is brighter
+                 mask_contrast_adjust=1.0):            # contrast of the mask. 0 is black, 1 is no adjustment, >1 is more contrast
 
     mask = load_mask_latent(mask_input, mask_shape)
 
@@ -675,7 +676,7 @@ def load_model(args,                         # args from astro.py
         },
         "sd-v1-4-full-ema.ckpt": {
             'sha256': '14749efc0ae8ef0329391ad4436feb781b402f4fece4883c7ad8d10556d8a36a',
-            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-2-original/blob/main/sd-v1-4-full-ema.ckpt',
+            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt',
             'requires_login': True,
         },
         "sd-v1-4.ckpt": {
@@ -685,7 +686,7 @@ def load_model(args,                         # args from astro.py
         },
         "sd-v1-3-full-ema.ckpt": {
             'sha256': '54632c6e8a36eecae65e36cb0595fab314e1a1545a65209f24fde221a8d4b2ca',
-            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-3-original/blob/main/sd-v1-3-full-ema.ckpt',
+            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-3-original/resolve/main/sd-v1-3-full-ema.ckpt',
             'requires_login': True,
         },
         "sd-v1-3.ckpt": {
@@ -695,7 +696,7 @@ def load_model(args,                         # args from astro.py
         },
         "sd-v1-2-full-ema.ckpt": {
             'sha256': 'bc5086a904d7b9d13d2a7bccf38f089824755be7261c7399d92e555e1e9ac69a',
-            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-2-original/blob/main/sd-v1-2-full-ema.ckpt',
+            'url': 'https://huggingface.co/CompVis/stable-diffusion-v-1-2-original/resolve/main/sd-v1-2-full-ema.ckpt',
             'requires_login': True,
         },
         "sd-v1-2.ckpt": {
@@ -721,6 +722,10 @@ def load_model(args,                         # args from astro.py
         "waifu-diffusion-v1-3.ckpt": {
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
+            'requires_login': False,
+        },
+        "disney-diffusion-v1.ckpt": {
+            'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/blob/main/moDi-v1-pruned.ckpt',
             'requires_login': False,
         }
     }

@@ -1,10 +1,7 @@
 from PIL import Image
 from cv2 import dnn_superres
+from typing import Tuple
 import cv2, os, random, numpy
-
-
-# if a theme doesn't appear in the list, use "default"
-themes = ['default', 'anime girl', 'anime boy', 'waifu', 'nature', 'space', 'robot', 'mecha', 'android', 'cyborg', 'low res']
 
 
 def upscale_image(image: Image, scale: int) -> Image:
@@ -15,7 +12,6 @@ def upscale_image(image: Image, scale: int) -> Image:
     if isinstance(image, str):
         image = cv2.imread(image)
     else:
-        # convert PIL image to cv2 image
         image = cv2.cvtColor(numpy.array(image), cv2.COLOR_RGB2BGR)
     path = "EDSR_x4.pb" if scale == 4 else "EDSR_x3.pb" if scale == 3 else "EDSR_x2.pb" if scale == 2 else None
     if path is None:
@@ -50,44 +46,47 @@ def upscale_video(video_path: str, scale: int) -> None:
     out.release()
 
 
-def get_optimized_file_prompts(filepath: str, theme: str) -> list[str]:
+def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> list[str]:
     """
-    Read a file with each prompt in a different line and return a list of prompts.\\
-    Pass a theme from the themes list to get a prompt that fits the theme.
+    - Read a file with each prompt in a different line, or pass an array of prompts.
+    - Pass a theme from the themes list to get a prompt that fits the theme.
+    - Returns a list of optimized prompts.
     """
-    prompts = []
-    if not os.path.isfile(filepath):
-        raise ValueError("Given filepath is invalid")
-    with open(filepath, "r", encoding="utf8") as f:
-        for line in f:
-            if 'anime girl' in line or 'waifu' in line or theme == "anime girl" or theme == "waifu":
-                line = "correct body positions, " + line.strip() + ", sharp focus, beautiful, attractive"
-                if 'girls' in line:
-                    prompts.append(line)
-                else:
-                    prompts.append("1girl, " + line + ", anime incarnation")
-            elif 'anime boy' in line or theme == "anime boy":
-                emotions = ["sad", "angry", "surprised", "disgusted", "afraid", "calm", "confused", "bored"]
-                if not any(emotion in line for emotion in emotions):
-                    line = "1boy, " + line.strip() + ", feeling very happy, excited, joyful, cheerful, "
-                    if random.randint(0, 1) == 0:
-                        prompts.append(line + "trending on artstation")
-                    else:
-                        prompts.append(line + "trending on pixiv")
-            elif theme == "nature":
-                line = line.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
-                if not "detailed" in line:
-                    line += ", highly detailed"
-                prompts.append(line)
-            elif theme == "space":
-                if len(line) < 45:
-                    prompts.append(line.strip() + ", octane render, masterpiece, cinematic, trending on artstation, 8k ultra hd")
-                elif not "lighting" in line:
-                    prompts.append(line.strip() + ", cinematic lighting, 8k ultra hd")
-                else:
-                    prompts.append(line.strip() + ", 8k ultra hd")
+    prompts = None
+    if not os.path.isfile(prompt_source):
+        prompts = prompt_source
+    else:
+        with open(prompt_source, 'r') as f:
+            prompts = f.readlines()
+    for prompt in prompts:
+        if 'anime girl' in prompt or 'waifu' in prompt or theme == "anime girl" or theme == "waifu":
+            prompt = "correct body positions, " + prompt.strip() + ", sharp focus, beautiful, attractive, 4k, 8k ultra hd"
+            if 'girls' in prompt:
+                prompts.append(prompt)
             else:
-                prompts.append(line.strip())
+                prompts.append("1girl, " + prompt + ", anime incarnation")
+        elif 'anime boy' in prompt or theme == "anime boy":
+            emotions = ["sad", "angry", "surprised", "disgusted", "afraid", "calm", "confused", "bored"]
+            if not any(emotion in prompt for emotion in emotions):
+                prompt = "1boy, " + prompt.strip() + ", feeling very happy, excited, joyful, cheerful, "
+                if random.randint(0, 1) == 0:
+                    prompts.append(prompt + "trending on artstation")
+                else:
+                    prompts.append(prompt + "trending on pixiv")
+        elif theme == "nature":
+            prompt = prompt.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
+            if not "detailed" in prompt:
+                prompt += ", highly detailed"
+            prompts.append(prompt)
+        elif theme == "space":
+            if len(prompt) < 45:
+                prompts.append(prompt.strip() + ", octane render, masterpiece, cinematic, trending on artstation, 8k ultra hd")
+            elif not "lighting" in prompt:
+                prompts.append(prompt.strip() + ", cinematic lighting, 8k ultra hd")
+            else:
+                prompts.append(prompt.strip() + ", 8k ultra hd")
+        else:
+            prompts.append(prompt.strip())
     return prompts
 
 

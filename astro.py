@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 import os, time, random, gc, torch
 from deforum_stable_diffusion import render_image_batch
+from super_res import get_optimized_prompts, get_optimized_model_choice
 
 
 def get_output_folder(output_path, batch_folder):
@@ -18,8 +19,9 @@ model_checkpoints = {
     "sd-v1-1-full-ema.ckpt":      "7.2 GB, lower resolution, medium VRAM",
     "sd-v1-1.ckpt":               "4.0 GB, lowest resolution, medium VRAM",
 
-    # Waifu Diffusion Models
-    "waifu-diffusion-v1-3.ckpt":  "2.1 GB, high-quality waifu images, low VRAM",
+    # Animation Diffusion Models
+    "waifu-diffusion-v1-3.ckpt":  "2.0 GB, high-quality waifu characters, low VRAM",
+    "disney-diffusion-v1.ckpt":   "2.0 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM",
 
     # Robo Diffusion Models
     "robo-diffusion-v1.ckpt":     "4.0 GB, high-quality robot-like images, medium VRAM",
@@ -28,15 +30,15 @@ model_checkpoints = {
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "sd-v1-5.ckpt"    # one of "custom", a key in model_checkpoints (above)
+    model_checkpoint = "waifu-diffusion-v1-3.ckpt"    # one of "custom", a key in model_checkpoints (above)
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
     allow_nsfw = False                   # whether to allow nsfw images. set to True if you are 18+ and want to use nsfw images
 
     # Image Settings
-    W = 1024                             # image width
-    H = 1024                             # image height
+    W = 640                             # image width
+    H = 640                             # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -115,6 +117,15 @@ if args.sampler != 'ddim':
 gc.collect()
 torch.cuda.empty_cache()
 
-prompts = [ 'bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
 
-render_image_batch(args, prompts, 2)
+# if a theme doesn't appear in the list, pass "default" to get_optimized_prompts
+themes = ['default', 'anime girl', 'anime boy', 'waifu', 'nature', 'space', 'robot', 'mecha', 'android', 'cyborg', 'low res']
+
+prompts = []
+"""
+    Examples:
+     1. prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')
+     2. prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+"""
+
+render_image_batch(args, prompts, upscale_ratio=2)
