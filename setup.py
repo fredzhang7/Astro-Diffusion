@@ -1,6 +1,7 @@
+import subprocess, time
+
 def setup_environment(setup_environment: bool, print_subprocess: bool):
     if (not setup_environment): return
-    import subprocess, time
     print("Setting up environment...")
     start_time = time.time()
     all_process = [
