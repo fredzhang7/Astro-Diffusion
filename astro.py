@@ -12,33 +12,43 @@ def get_output_folder(output_path, batch_folder):
     return out_path
 
 
-model_checkpoints = {
-    # Stable Diffusion Models
-    "sd-v1-5-full-ema.ckpt":      "7.2 GB, latest, highest resolution SD, high VRAM",
-    "sd-v1-5.ckpt":               "4.0 GB, latest, higher resolution SD, medium VRAM",
-    "sd-v1-1-full-ema.ckpt":      "7.2 GB, lower resolution, medium VRAM",
-    "sd-v1-1.ckpt":               "4.0 GB, lowest resolution, medium VRAM",
+"""
+    Stable Diffusion Models
+     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution SD, high VRAM)
+     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution SD, medium VRAM)
+     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, medium VRAM)
+     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, medium VRAM)
 
-    # Animation Diffusion Models
-    "waifu-diffusion-v1-3.ckpt":  "2.0 GB, high-quality waifu characters, low VRAM",
-    "disney-diffusion-v1.ckpt":   "2.0 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM",
+    Animated Diffusion Models
+     waifu-diffusion-v1-3.ckpt           (2.0 GB, high-quality waifu characters, low VRAM)
+     disney-diffusion-v1.ckpt            (2.0 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
 
-    # Robo Diffusion Models
-    "robo-diffusion-v1.ckpt":     "4.0 GB, high-quality robot-like images, medium VRAM",
+    Robo Diffusion Models
+     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot-like images, medium VRAM)
+
+    Aesthetic Diffusion Models
+     scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, very low VRAM)
+     watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, very low VRAM)
+     pixelart-diffusion-v1-3.pt          (0.4 GB, high-quality pixel art, very low VRAM)
+     portrait-diffusion-v1-0.pt          (0.5 GB, portraits generator, very low VRAM)
+
+    OpenAI Diffusion Models
+     256x256-diffusion-uncond.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
+     512x512-diffusion-uncond.pt         (2.1 GB, trained on 512x512 images, medium VRAM)
 }
-
+"""
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "waifu-diffusion-v1-3.ckpt"    # one of "custom", a key in model_checkpoints (above)
+    model_checkpoint = "waifu-diffusion-v1-3.ckpt"    # one of "custom", a model checkpoint listed above
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
     allow_nsfw = False                   # whether to allow nsfw images. set to True if you are 18+ and want to use nsfw images
 
     # Image Settings
-    W = 640                             # image width
-    H = 640                             # image height
+    W = 640                              # image width
+    H = 640                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -122,13 +132,13 @@ torch.cuda.empty_cache()
     If a theme doesn't appear in the list, pass "default" to get_optimized_prompts(). Lowercase works too.
 
     Themes:
-     - Default
-     - Anime Girl (anime girl, waifu)
-     - Anime Boy (anime boy, husbando)
-     - Disney (disney princess, disney character, disney villain, disney animal, animated car, animated landscape)
-     - Space (universe, supernova, black hole, planet, galaxy, nebula, star, astronaut, rocket, spaceship, alien, night sky)
-     - Robot (robot, android, cyborg, mecha)
-     - Low Res (low resolution, pixel art)
+     Default
+     Anime Girl                          (anime girl, waifu)
+     Anime Boy                           (anime boy, husbando)
+     Disney                              (disney princess, disney character, disney villain, disney animal, animated car, animated landscape)
+     Space                               (universe, supernova, black hole, planet, galaxy, nebula, star, astronaut, rocket, spaceship, alien, night sky)
+     Robot                               (robot, android, cyborg, mecha)
+     Low Res                             (low resolution, pixel art)
 
     Examples:
      1. prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')

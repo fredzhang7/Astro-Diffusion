@@ -89,25 +89,9 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
                 prompts.append(prompt.strip() + ", cinematic lighting, 8k ultra hd")
             else:
                 prompts.append(prompt.strip() + ", 8k ultra hd")
+        elif "low res" in theme:
+            if not "low res" in prompt:
+                prompts.append(prompt.strip() + ", low resolution")
         else:
             prompts.append(prompt.strip())
     return prompts
-
-
-def get_optimized_model_choice(theme: str, lightweight: bool) -> str:
-    """
-    Return the model name based on the theme and the checkpoint model size (lightweight)
-    """
-    if 'anime' in theme or 'waifu' in theme:
-        return "waifu-diffusion-v1-3.ckpt"
-    if 'robot' in theme or 'mecha' in theme or 'android' in theme or 'cyborg' in theme:
-        return "robo-diffusion-v1.ckpt"
-    
-    if lightweight:
-        if 'low res' in theme:
-            return "sd-v1-1.ckpt"
-        return 'sd-v1-5.ckpt'
-    else:
-        if 'low res' in theme:
-            return "sd-v1-1-full-ema.ckpt"
-        return "sd-v1-5-full-ema.ckpt"

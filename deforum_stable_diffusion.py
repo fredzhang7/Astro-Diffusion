@@ -727,6 +727,51 @@ def load_model(args,                         # args from astro.py
         "disney-diffusion-v1.ckpt": {
             'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/blob/main/moDi-v1-pruned.ckpt',
             'requires_login': False,
+        },
+        '256x256-diffusion-uncond.pt': {
+		    'sha256': 'a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1',
+		    'url': 'https://openaipublic.blob.core.windows.net/diffusion/jul-2021/256x256_diffusion_uncond.pt',
+            'requires_login': False
+	    },
+        '512x512-diffusion-uncond.pt': {
+            'sha256': '9c111ab89e214862b76e1fa6a1b3f1d329b1a88281885943d2cdbe357ad57648',
+            'url': 'https://huggingface.co/lowlevelware/512x512_diffusion_unconditional_ImageNet/resolve/main/512x512_diffusion_uncond_finetune_008100.pt',
+            'requires_login': False
+        },
+        'portrait-diffusion-v1-0.pt': {
+            'sha256': 'b7e8c747af880d4480b6707006f1ace000b058dd0eac5bb13558ba3752d9b5b9',
+            'url': 'https://huggingface.co/felipe3dartist/portrait_generator_v001/resolve/main/portrait_generator_v001_ema_0.9999_1MM.pt',
+            'requires_login': False
+        },
+        'pixelart-diffusion-v1-3.pt': {
+            'sha256': 'a73b40556634034bf43b5a716b531b46fb1ab890634d854f5bcbbef56838739a',
+            'url': 'https://huggingface.co/KaliYuga/PADexpanded/resolve/main/PADexpanded.pt',
+            'requires_login': False
+        },
+        'pixel-art-diffusion-hard-256.pt': {
+            'sha256': 'be4a9de943ec06eef32c65a1008c60ad017723a4d35dc13169c66bb322234161',
+            'url': 'https://huggingface.co/KaliYuga/pixel_art_diffusion_hard_256/resolve/main/pixel_art_diffusion_hard_256.pt',
+            'requires_login': False
+        },
+        'pixelart-diffusion-soft-256.pt': {
+            'sha256': 'd321590e46b679bf6def1f1914b47c89e762c76f19ab3e3392c8ca07c791039c',
+            'url': 'https://huggingface.co/KaliYuga/pixel_art_diffusion_soft_256/resolve/main/pixel_art_diffusion_soft_256.pt',
+            'requires_login': False
+        },
+        'pixelart-diffusion-4k.pt': {
+            'sha256': 'a1ba4f13f6dabb72b1064f15d8ae504d98d6192ad343572cc416deda7cccac30',
+            'uri_list': 'https://huggingface.co/KaliYuga/pixelartdiffusion4k/resolve/main/pixelartdiffusion4k.pt',
+            'requires_login': False
+        },
+        'watercolor-diffusion-v2.pt': {
+            'sha256': '49c281b6092c61c49b0f1f8da93af9b94be7e0c20c71e662e2aa26fee0e4b1a9',
+            'url': 'https://huggingface.co/KaliYuga/watercolordiffusion_2/resolve/main/watercolordiffusion_2.pt',
+            'requires_login': False
+        },
+        'scifipulp-diffusion.pt': {
+            'sha256': 'b79e62613b9f50b8a3173e5f61f0320c7dbb16efad42a92ec94d014f6e17337f',
+            'url': 'https://huggingface.co/KaliYuga/PulpSciFiDiffusion/resolve/main/PulpSciFiDiffusion.pt',
+            'requires_login': False
         }
     }
 
