@@ -118,14 +118,24 @@ gc.collect()
 torch.cuda.empty_cache()
 
 
-# if a theme doesn't appear in the list, pass "default" to get_optimized_prompts
-themes = ['default', 'anime girl', 'anime boy', 'waifu', 'nature', 'space', 'robot', 'mecha', 'android', 'cyborg', 'low res']
-
-prompts = []
 """
+    If a theme doesn't appear in the list, pass "default" to get_optimized_prompts(). Lowercase works too.
+
+    Themes:
+     - Default
+     - Anime Girl (anime girl, waifu)
+     - Anime Boy (anime boy, husbando)
+     - Disney (disney princess, disney character, disney villain, disney animal, animated car, animated landscape)
+     - Space (universe, supernova, black hole, planet, galaxy, nebula, star, astronaut, rocket, spaceship, alien, night sky)
+     - Robot (robot, android, cyborg, mecha)
+     - Low Res (low resolution, pixel art)
+
     Examples:
      1. prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')
      2. prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+
 """
+
+prompts = []
 
 render_image_batch(args, prompts, upscale_ratio=2)

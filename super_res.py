@@ -53,19 +53,23 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
     - Returns a list of optimized prompts.
     """
     prompts = None
+    theme = theme.toLowerCase()
     if not os.path.isfile(prompt_source):
         prompts = prompt_source
     else:
         with open(prompt_source, 'r') as f:
             prompts = f.readlines()
     for prompt in prompts:
-        if 'anime girl' in prompt or 'waifu' in prompt or theme == "anime girl" or theme == "waifu":
+        if "anime girl" in theme or "waifu" in theme:
             prompt = "correct body positions, " + prompt.strip() + ", sharp focus, beautiful, attractive, 4k, 8k ultra hd"
             if 'girls' in prompt:
                 prompts.append(prompt)
             else:
-                prompts.append("1girl, " + prompt + ", anime incarnation")
-        elif 'anime boy' in prompt or theme == "anime boy":
+                if random.randint(0, 1) == 1:
+                    prompts.append("1girl, " + prompt + ", anime incarnation")
+                else:
+                    prompts.append("1woman, " + prompt + ", anime incarnation")
+        elif "anime boy" in theme or "husbando" in theme:
             emotions = ["sad", "angry", "surprised", "disgusted", "afraid", "calm", "confused", "bored"]
             if not any(emotion in prompt for emotion in emotions):
                 prompt = "1boy, " + prompt.strip() + ", feeling very happy, excited, joyful, cheerful, "
@@ -73,12 +77,12 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
                     prompts.append(prompt + "trending on artstation")
                 else:
                     prompts.append(prompt + "trending on pixiv")
-        elif theme == "nature":
+        elif "nature" in theme:
             prompt = prompt.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
             if not "detailed" in prompt:
                 prompt += ", highly detailed"
             prompts.append(prompt)
-        elif theme == "space":
+        elif "space" in theme:
             if len(prompt) < 45:
                 prompts.append(prompt.strip() + ", octane render, masterpiece, cinematic, trending on artstation, 8k ultra hd")
             elif not "lighting" in prompt:
