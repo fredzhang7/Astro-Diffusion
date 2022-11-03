@@ -35,7 +35,6 @@ def get_output_folder(output_path, batch_folder):
     OpenAI Diffusion Models
      256x256-diffusion-uncond.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
      512x512-diffusion-uncond.pt         (2.1 GB, trained on 512x512 images, medium VRAM)
-}
 """
 
 def AstroArgs():
