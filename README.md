@@ -26,3 +26,5 @@
 5. In a terminal, run ``git clone https://github.com/FredZhang7/Astro-Diffusion.git``
 <br>
 6. Read the comments and instructions in ``astro_image.py`` to generate images
+<br>
+7. <a href="https://www.python.org/downloads/" target="_blank">Install Python >= 3.9</a>
