@@ -972,6 +972,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
                         else:
                             filename = f"{args.time}_{args.seed}.png"
                         if upscale_ratio > 1:
+                            print(f"Upscaling {filename} by {upscale_ratio}")
                             image = upscale_image(image, upscale_ratio)
                         image.save(os.path.join(args.outdir, filename))
                     if args.display_samples:

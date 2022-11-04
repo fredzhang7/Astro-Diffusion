@@ -1,10 +1,24 @@
 import subprocess, time
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 def setup_environment(setup_environment: bool, print_subprocess: bool):
     if (not setup_environment): return
-    print("Setting up environment...")
+    print(bcolors.HEADER + "Setting up environment... This may take a few minutes..." + bcolors.ENDC)
     start_time = time.time()
     all_process = [
+        [
+            *"pip install".split(), 'numpy', 'requests', 'IPython', 'Pillow'
+        ],
         [
             *"pip install".split(), 'torch==1.12.1+cu113',
             'torchvision==0.13.1+cu113', '--extra-index-url',
@@ -31,7 +45,7 @@ def setup_environment(setup_environment: bool, print_subprocess: bool):
         ],
         [
             *"pip install".split(),
-            *'opencv-python opencv-contrib-python PIL skimage scipy'.split()
+            *'opencv-python opencv-contrib-python scikit-image scipy'.split()
         ],
         "git clone https://github.com/shariqfarooq123/AdaBins.git".split(),
         "git clone https://github.com/isl-org/MiDaS.git".split(),

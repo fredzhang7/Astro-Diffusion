@@ -52,14 +52,14 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
     - Pass a theme from the themes list to get a prompt that fits the theme.
     - Returns a list of optimized prompts.
     """
-    prompts = None
-    theme = theme.toLowerCase()
+    prompts = []
+    theme = theme.lower()
     if not os.path.isfile(prompt_source):
-        prompts = prompt_source
+        prompt_source = prompt_source
     else:
         with open(prompt_source, 'r') as f:
-            prompts = f.readlines()
-    for prompt in prompts:
+            prompt_source = f.readlines()
+    for prompt in prompt_source:
         if "anime girl" in theme or "waifu" in theme:
             prompt = "correct body positions, " + prompt.strip() + ", sharp focus, beautiful, attractive, 4k, 8k ultra hd"
             if 'girls' in prompt:

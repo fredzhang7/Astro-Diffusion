@@ -1,7 +1,12 @@
+# Uncomment the following to automatically install the required libraries
+# from setup import setup_environment
+# setup_environment(True, True)
+
+
 from types import SimpleNamespace
 import os, time, random, gc, torch
 from deforum_stable_diffusion import render_image_batch
-from super_res import get_optimized_prompts, get_optimized_model_choice
+from super_res import get_optimized_prompts
 
 
 def get_output_folder(output_path, batch_folder):
@@ -145,6 +150,6 @@ torch.cuda.empty_cache()
 
 """
 
-prompts = []
+prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')
 
 render_image_batch(args, prompts, upscale_ratio=2)
