@@ -13,14 +13,14 @@
 5. Image & Video Super Resolution v0.1
 
 ### Setup for NVIDIA GPU Users
-<img align="left" width="135" height="76" src="https://assets.nvidiagrid.net/ngc/logos/Cuda.png" alt="CUDA Icon">
+<img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">
 1. <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">Download CUDA v11.2</a>
 <br>
 2. <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank">Join the NVIDIA Developer Program and download cuDNN</a>
 <br>
 3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
 <br>
-<img align="left" width="135" height="135" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt="Git Icon">
+<img align="left" width="125" height="125" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt="Git Icon">
 4. <a href="https://git-scm.com/downloads" target="_blank">Install Git</a>
 <br>
 5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git`
