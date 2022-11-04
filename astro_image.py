@@ -45,7 +45,7 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "pixelart-diffusion-4k.pt"    # one of "custom", a model checkpoint listed above
+    model_checkpoint = "sd-v1-5.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
