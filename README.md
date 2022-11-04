@@ -1,6 +1,6 @@
 # Astro Diffusion v1.0
 
-### Optimized, Customizable Diffusion Models
+### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
 1. <a href="https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb" target="_blank" alt="Deforum SDF">DeForum Stable Diffusion</a>
 <br>
@@ -11,6 +11,8 @@
 4. Prompt Optimization v0.1
 <br>
 5. Image & Video Super Resolution v0.1
+<br>
+6. More Documentation v0.1
 
 ### Setup for NVIDIA GPU Users
 <img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">
