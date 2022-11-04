@@ -11,8 +11,6 @@
 4. Prompt Optimization v0.1
 <br>
 5. Image & Video Super Resolution v0.1
-<br>
-6. More Documentation v0.1
 
 ### Setup for NVIDIA GPU Users
 <img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">
@@ -27,4 +25,4 @@
 <br>
 5. In a terminal, run ``git clone https://github.com/FredZhang7/Astro-Diffusion.git``
 <br>
-6. Read the comments in ``astro_image.py`` to generate images
+6. Read the comments and instructions in ``astro_image.py`` to generate images
