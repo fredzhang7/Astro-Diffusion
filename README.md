@@ -6,4 +6,4 @@
 <br>
 2. <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank">Join the NVIDIA Developer Program and download cuDNN</a> &nbsp;
 <br>
-3. Move all files in cuDNN to the <a href="file:///C:/Program%20Files/NVIDIA%20GPU%20Computing%20Toolkit/CUDA/v11.2/bin/" target="_blank">CUDA folder</a>
+3. Move all files in cuDNN to the <a href="C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.2\bin" target="_blank">CUDA folder</a>
