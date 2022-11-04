@@ -1,4 +1,4 @@
-# Astro Diffusion v1.0
+# Astro Diffusion v0.1
 
 ### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
