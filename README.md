@@ -23,6 +23,6 @@
 <img align="left" width="125" height="125" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt="Git Icon">
 4. <a href="https://git-scm.com/downloads" target="_blank">Install Git</a>
 <br>
-5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git`
+5. In a terminal, run <p bgcolor="#cccccc">git clone https://github.com/FredZhang7/Astro-Diffusion.git</p>
 <br>
-6. Read the comments in `astro_image.py` to generate images
+6. Read the comments in astro_image.py to generate images
