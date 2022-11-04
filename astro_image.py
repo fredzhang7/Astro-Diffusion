@@ -34,8 +34,9 @@ def get_output_folder(output_path, batch_folder):
     Aesthetic Diffusion Models
      scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, very low VRAM)
      watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, very low VRAM)
-     pixelart-diffusion-v1-3.pt          (0.4 GB, high-quality pixel art, very low VRAM)
      portrait-diffusion-v1-0.pt          (0.5 GB, portraits generator, very low VRAM)
+     pixelart-diffusion-v1-3.pt          (0.4 GB, darker pixel art, very low VRAM)
+     pixelart-diffusion-4k.pt            (0.4 GB, brighter pixel art, very low VRAM)
 
     OpenAI Diffusion Models
      256x256-diffusion-uncond.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
@@ -44,15 +45,15 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "waifu-diffusion-v1-3.ckpt"    # one of "custom", a model checkpoint listed above
+    model_checkpoint = "pixelart-diffusion-4k.pt"    # one of "custom", a model checkpoint listed above
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
     allow_nsfw = False                   # whether to allow nsfw images. set to True if you are 18+ and want to use nsfw images
 
     # Image Settings
-    W = 640                              # image width
-    H = 640                              # image height
+    W = 512                              # image width
+    H = 512                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -60,7 +61,7 @@ def AstroArgs():
     seed = -1                            # random seed
     sampler = "klms"                     # one of "klms", "dpm2", "dpm2_ancestral", "heun", "euler", "euler_ancestral", "ddim"
     steps = 50                           # number of steps to run
-    scale = 8                            # guidance scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
+    scale = 7                            # scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
     ddim_eta = 0.0                       # amount of ddim to use (0.0: no ddim, 1.0: full ddim)
     dynamic_threshold = None             # adaptive threshold for dpm2
     static_threshold = None              # static threshold for dpm2
@@ -107,7 +108,6 @@ def AstroArgs():
     C = 4                                # number of channels
     f = 8                                # number of features
 
-    prompt = ""                          # optional prompt
     timestring = ""                      # time string for output file name
     init_latent = None                   # if not None, use this latent as the starting point for generation
     init_sample = None                   # if not None, use this image as the initial sample
@@ -150,6 +150,6 @@ torch.cuda.empty_cache()
 
 """
 
-prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')
+prompts = ['panda at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
 
-render_image_batch(args, prompts, upscale_ratio=2)
+render_image_batch(args, prompts, upscale_ratio=1)

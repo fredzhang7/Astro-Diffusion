@@ -760,7 +760,7 @@ def load_model(args,                         # args from astro.py
         },
         'pixelart-diffusion-4k.pt': {
             'sha256': 'a1ba4f13f6dabb72b1064f15d8ae504d98d6192ad343572cc416deda7cccac30',
-            'uri_list': 'https://huggingface.co/KaliYuga/pixelartdiffusion4k/resolve/main/pixelartdiffusion4k.pt',
+            'url': 'https://huggingface.co/KaliYuga/pixelartdiffusion4k/resolve/main/pixelartdiffusion4k.pt',
             'requires_login': False
         },
         'watercolor-diffusion-v2.pt': {
@@ -872,14 +872,20 @@ def load_model_from_config(config,
                            device,
                            verbose=False,
                            half_precision=True):
-    map_location = "cuda"
-    print(f"Loading model from {ckpt}")
-    pl_sd = torch.load(ckpt, map_location=map_location)
-    if "global_step" in pl_sd:
-        print(f"Global Step: {pl_sd['global_step']}")
-    sd = pl_sd["state_dict"]
-    model = instantiate_from_config(config.model)
-    m, u = model.load_state_dict(sd, strict=False)
+    model, m, u = None, None, None
+    if ckpt.endswith(".ckpt"):
+        print(f"Loading model from {ckpt}")
+        pl_sd = torch.load(ckpt, map_location=device.type)
+        if "global_step" in pl_sd:
+            print(f"Global Step: {pl_sd['global_step']}")
+        sd = pl_sd["state_dict"]
+        model = instantiate_from_config(config.model)
+        m, u = model.load_state_dict(sd, strict=False)
+    elif ckpt.endswith(".pt"):
+        print(f"Loading model from {ckpt}")
+        sd = torch.load(ckpt, map_location=device.type)
+        model = instantiate_from_config(config.model)
+        m, u = model.load_state_dict(sd, strict=False)
     if len(m) > 0 and verbose:
         print("missing keys:")
         print(m)
