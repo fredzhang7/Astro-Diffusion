@@ -34,3 +34,4 @@
 2. Other GPU compatibility
 3. Deforum SDF video generation
 4. Disco DF video generation
+5. Space Diffusion - train on 50,000+ high res images of galaxies, stars, universe, nebula, planets, etc.
