@@ -720,7 +720,7 @@ def load_model(args,                         # args from astro.py
             'url': 'https://huggingface.co/nousr/robo-diffusion/resolve/main/models/robo-diffusion-v1.ckpt',
             'requires_login': False,
         },
-        "waifu-diffusion-v1-3.ckpt": {
+        "anime-diffusion-v1-3.ckpt": {
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
             'requires_login': False,
@@ -915,7 +915,7 @@ def next_seed(args):
 def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1) -> None:
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
-    if args.H >= 1024 or args.W >= 1024:
+    if args.H >= 1024 and args.W >= 1024:
         torch.backends.cuda.matmul.allow_tf32 = True
 
     # create output folder for the batch

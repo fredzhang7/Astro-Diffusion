@@ -25,7 +25,7 @@ def get_output_folder(output_path, batch_folder):
      sd-v1-1.ckpt                        (4.0 GB, lowest resolution, medium VRAM)
 
     Animated Diffusion Models
-     waifu-diffusion-v1-3.ckpt           (2.0 GB, high-quality waifu characters, low VRAM)
+     anime-diffusion-v1-3.ckpt           (2.0 GB, high-quality anime male and female characters, low VRAM)
      disney-diffusion-v1.ckpt            (2.0 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
 
     Robo Diffusion Models
@@ -45,14 +45,14 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "sd-v1-5.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
+    model_checkpoint = "anime-diffusion-v1-3.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
 
     # Image Settings
-    W = 512                             # image width
-    H = 512                             # image height
+    W = 640                             # image width
+    H = 640                             # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -60,7 +60,7 @@ def AstroArgs():
     seed = -1                            # random seed
     sampler = "klms"                     # one of "klms", "dpm2", "dpm2_ancestral", "heun", "euler", "euler_ancestral", "ddim"
     steps = 50                           # number of steps to run
-    scale = 7                            # scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
+    scale = 8                            # scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
     ddim_eta = 0.0                       # amount of ddim to use (0.0: no ddim, 1.0: full ddim)
     dynamic_threshold = None             # adaptive threshold for dpm2
     static_threshold = None              # static threshold for dpm2
@@ -144,11 +144,23 @@ torch.cuda.empty_cache()
      Low Res                             (low resolution, pixel art)
 
     Examples:
-     1. prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
-     2. prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+     1. model_checkpoint = "anime-diffusion-v1-3.ckpt"
+        W = 640
+        H = 640
+        ...
+        scale = 8
+        ...
+        prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
+     2. model_checkpoint = "sd-v1-5.ckpt"
+        W = 1024
+        H = 1024
+        ...
+        scale = 8
+        ...
+        prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
 
 """
 
-prompts = ['panda at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
 
 render_image_batch(args, prompts, upscale_ratio=2)

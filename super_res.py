@@ -74,12 +74,11 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
                     prompts.append("1girl, " + prompt + ", anime incarnation")
         elif "anime boy" in theme or "husbando" in theme:
             emotions = ["sad", "angry", "surprised", "disgusted", "afraid", "calm", "confused", "bored"]
+            if not prompt.startswith("1boy"):
+                prompt = "1boy, " + prompt.strip()
             if not any(emotion in prompt for emotion in emotions):
-                prompt = "1boy, " + prompt.strip() + ", feeling very happy, excited, joyful, cheerful, "
-                if random.randint(0, 1) == 0:
-                    prompts.append(prompt + "trending on artstation")
-                else:
-                    prompts.append(prompt + "trending on pixiv")
+                prompt = ", feeling happy, anime incarnation"
+            prompts.append(prompt)
         elif "nature" in theme:
             prompt = prompt.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
             if not "detailed" in prompt:
