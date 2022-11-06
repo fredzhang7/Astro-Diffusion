@@ -8,7 +8,7 @@
 <br>
 3. <a href="https://huggingface.co/nitrosocke/mo-di-diffusion" target="_blank" alt="Disney DF">Disney Diffusion</a>
 <br>
-4. Prompt Optimization v0.1
+4. Speed & Prompt Optimization v0.1
 <br>
 5. Image & Video Super Resolution v0.1
 
@@ -23,8 +23,14 @@
 <img align="left" width="125" height="125" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt="Git Icon">
 4. <a href="https://git-scm.com/downloads" target="_blank">Install Git</a>
 <br>
-5. In a terminal, run &lt; git clone https://github.com/FredZhang7/Astro-Diffusion.git &gt;
+5. In a terminal, run &lt;git clone https://github.com/FredZhang7/Astro-Diffusion.git​​​&gt;
 <br>
-6. Read the comments and instructions in &lt; astro_image.py &gt; to generate images
+6. <a href="https://www.python.org/downloads/" target="_blank">Install Python >= 3.9 <= 3.10</a>, or &lt;pyenv install 3.10.4&gt; and &lt;pyenv global 3.10.4&gt;
 <br>
-7. <a href="https://www.python.org/downloads/" target="_blank">Install Python >= 3.9</a>, or &lt; pyenv install 3.10.4 &gt; and &lt; pyenv global 3.10.4 &gt;
+7. Read the comments and instructions in &lt;astro_image.py&gt; to generate photos, pixelart, paintings, and more
+
+### To-do
+1. Disco DF config
+2. Other GPU compatibility
+3. Deforum SDF video generation
+4. Disco DF video generation

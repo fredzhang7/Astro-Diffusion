@@ -5,7 +5,7 @@
 
 from types import SimpleNamespace
 import os, time, random, gc, torch
-from deforum_stable_diffusion import render_image_batch
+from astro_diffusion import render_image_batch
 from super_res import get_optimized_prompts
 
 
@@ -39,21 +39,20 @@ def get_output_folder(output_path, batch_folder):
      pixelart-diffusion-4k.pt            (0.4 GB, brighter pixel art, very low VRAM)
 
     OpenAI Diffusion Models
-     256x256-diffusion-uncond.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
-     512x512-diffusion-uncond.pt         (2.1 GB, trained on 512x512 images, medium VRAM)
+     openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
+     openai-512x512-diffusion.pt         (2.1 GB, trained on 512x512 images, medium VRAM)
 """
 
 def AstroArgs():
     # Model Settings
     model_checkpoint = "sd-v1-5.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
-    check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if having issues with model downloads
+    check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
-    allow_nsfw = False                   # whether to allow nsfw images. set to True if you are 18+ and want to use nsfw images
 
     # Image Settings
-    W = 512                              # image width
-    H = 512                              # image height
+    W = 512                             # image width
+    H = 512                             # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -145,11 +144,11 @@ torch.cuda.empty_cache()
      Low Res                             (low resolution, pixel art)
 
     Examples:
-     1. prompts = get_optimized_prompts(prompt_source='./anime_girls.txt', theme='anime girl')
+     1. prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
      2. prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
 
 """
 
 prompts = ['panda at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
 
-render_image_batch(args, prompts, upscale_ratio=1)
+render_image_batch(args, prompts, upscale_ratio=2)

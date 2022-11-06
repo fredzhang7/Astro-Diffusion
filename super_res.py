@@ -57,7 +57,7 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
     if not os.path.isfile(prompt_source):
         prompt_source = prompt_source
     else:
-        with open(prompt_source, 'r') as f:
+        with open(prompt_source, 'r', encoding="utf8") as f:
             prompt_source = f.readlines()
     for prompt in prompt_source:
         if "anime girl" in theme or "waifu" in theme:

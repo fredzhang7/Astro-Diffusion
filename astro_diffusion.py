@@ -23,6 +23,7 @@ from scipy.ndimage import gaussian_filter
 from super_res import upscale_image
 from typing import Tuple
 
+
 sys.path.extend([
     'src/taming-transformers',
     'src/clip',
@@ -728,12 +729,12 @@ def load_model(args,                         # args from astro.py
             'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/blob/main/moDi-v1-pruned.ckpt',
             'requires_login': False,
         },
-        '256x256-diffusion-uncond.pt': {
+        'openai-256x256-diffusion.pt': {
 		    'sha256': 'a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1',
 		    'url': 'https://openaipublic.blob.core.windows.net/diffusion/jul-2021/256x256_diffusion_uncond.pt',
             'requires_login': False
 	    },
-        '512x512-diffusion-uncond.pt': {
+        'openai-512x512-diffusion.pt': {
             'sha256': '9c111ab89e214862b76e1fa6a1b3f1d329b1a88281885943d2cdbe357ad57648',
             'url': 'https://huggingface.co/lowlevelware/512x512_diffusion_unconditional_ImageNet/resolve/main/512x512_diffusion_uncond_finetune_008100.pt',
             'requires_login': False
@@ -913,6 +914,9 @@ def next_seed(args):
 
 def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1) -> None:
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
+
+    if args.H >= 1024 or args.W >= 1024:
+        torch.backends.cuda.matmul.allow_tf32 = True
 
     # create output folder for the batch
     os.makedirs(args.outdir, exist_ok=True)
