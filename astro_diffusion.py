@@ -13,7 +13,6 @@ from contextlib import nullcontext
 from einops import rearrange, repeat
 from omegaconf import OmegaConf
 from PIL import Image
-from pytorch_lightning import seed_everything
 from skimage.exposure import match_histograms
 from torchvision.utils import make_grid
 from types import SimpleNamespace
@@ -454,7 +453,8 @@ def generate(args,
              return_latent=False,
              return_sample=False,
              return_c=False):
-    seed_everything(args.seed)
+    # from pytorch_lightning import seed_everything
+    # seed_everything(args.seed)
     os.makedirs(args.outdir, exist_ok=True)
 
     sampler = PLMSSampler(model) if args.sampler == 'plms' else DDIMSampler(
@@ -739,12 +739,12 @@ def load_model(args,                         # args from astro.py
             'url': 'https://huggingface.co/lowlevelware/512x512_diffusion_unconditional_ImageNet/resolve/main/512x512_diffusion_uncond_finetune_008100.pt',
             'requires_login': False
         },
-        'portrait-diffusion-v1.pt': {
+        'portrait-diffusion.pt': {
             'sha256': 'b7e8c747af880d4480b6707006f1ace000b058dd0eac5bb13558ba3752d9b5b9',
             'url': 'https://huggingface.co/felipe3dartist/portrait_generator_v001/resolve/main/portrait_generator_v001_ema_0.9999_1MM.pt',
             'requires_login': False
         },
-        'pixelart-diffusion-v1-3.pt': {
+        'pixelart-diffusion-expanded.pt': {
             'sha256': 'a73b40556634034bf43b5a716b531b46fb1ab890634d854f5bcbbef56838739a',
             'url': 'https://huggingface.co/KaliYuga/PADexpanded/resolve/main/PADexpanded.pt',
             'requires_login': False
@@ -762,6 +762,10 @@ def load_model(args,                         # args from astro.py
         'pixelart-diffusion-4k.pt': {
             'sha256': 'a1ba4f13f6dabb72b1064f15d8ae504d98d6192ad343572cc416deda7cccac30',
             'url': 'https://huggingface.co/KaliYuga/pixelartdiffusion4k/resolve/main/pixelartdiffusion4k.pt',
+            'requires_login': False
+        },
+        'pixelart-diffusion-sprites.ckpt': {
+            'url': 'https://huggingface.co/Onodofthenorth/SD_PixelArt_SpriteSheet_Generator/resolve/main/PixelartSpritesheet_V.1.ckpt',
             'requires_login': False
         },
         'watercolor-diffusion-v2.pt': {
@@ -985,8 +989,8 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
             for image in init_array:
                 args.init_image = image
                 args.time = str(round(time.time()))
-                results = generate(args, model)
                 args.seed = next_seed(args)
+                results = generate(args, model)
                 for image in results:
                     if args.make_grid:
                         all_images.append(T.functional.pil_to_tensor(image))

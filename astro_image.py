@@ -6,7 +6,6 @@
 from types import SimpleNamespace
 import os, time, random, gc, torch
 from astro_diffusion import render_image_batch
-from util import get_optimized_prompts
 
 
 def get_output_folder(output_path, batch_folder):
@@ -18,28 +17,29 @@ def get_output_folder(output_path, batch_folder):
 
 
 """
-    Stable Diffusion Models
-     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general art, high VRAM)
-     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution, general art, medium VRAM)
-     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general art, high VRAM)
-     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, general art, medium VRAM)
+    Stable Diffusion Style
+     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general artwork, high VRAM)
+     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution, general artwork, medium VRAM)
+     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general artwork, high VRAM)
+     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, general artwork, medium VRAM)
 
-    Animated Diffusion Models
+    Animated Style
      anime-diffusion-v1-3.ckpt           (2.1 GB, high-quality anime male and female characters, low VRAM)
      disney-diffusion-v1.ckpt            (2.1 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
 
-    Robo Diffusion Models
+    Robo Style
      robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha, etc. images, medium VRAM)
 
-    Aesthetic Diffusion Models
+    Art Styles
      van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
-     scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, very low VRAM)
-     watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, very low VRAM)
-     portrait-diffusion-v1.pt            (0.5 GB, portraits generator, very low VRAM)
-     pixelart-diffusion-v1-3.pt          (0.4 GB, darker pixel art, very low VRAM)
-     pixelart-diffusion-4k.pt            (0.4 GB, brighter pixel art, very low VRAM)
+     scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, low VRAM)
+     watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, low VRAM)
+     portrait-diffusion.pt               (0.5 GB, portraits generator, low VRAM)
+     pixelart-diffusion-expanded.pt      (0.4 GB, high-quality pixel art by KaliYuga-ai, low VRAM)
+     pixelart-diffusion-4k.pt            (0.4 GB, high-quality pixel art by KaliYuga-ai, low VRAM)
+     pixelart-diffusion-sprites.ckpt     (4.0 GB, generate pixel art sprite sheets from four different angles, medium VRAM)
 
-    OpenAI Diffusion Models
+    OpenAI Style
      openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, low VRAM)
      openai-512x512-diffusion.pt         (2.1 GB, trained on 512x512 images, low VRAM)
 """
@@ -82,7 +82,7 @@ def AstroArgs():
     n_batch = 1                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
     batch_name = "StableFun"             # subfolder name to save images to
-    seed_behavior = "random"             # one of "iter", "fixed", "random"
+    seed_behavior = "iter"             # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
     filename_format = "{timestring}_{index}_{prompt}.png"
@@ -151,13 +151,17 @@ torch.cuda.empty_cache()
         steps = 50
         scale = 8
         sampler = "klms"
-        prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
+        from util import fandom_search, readLines
+        prompts = readLines("./anime_boys.txt")
+        for i, name in enumerate(prompts):
+            prompts[i] = fandom_search(name)
      2. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024
         steps = 50
         scale = 8
         sampler = "klms"
+        from util import get_optimized_prompts
         prompts = get_optimized_prompts(prompt_source='./nature.txt', theme='nature')
      3. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
         W = 512
@@ -175,7 +179,10 @@ torch.cuda.empty_cache()
 
 """
 
+
 def render_discord_image(prompts):
     return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
+
+# Uncomment the line below to generate an image from the prompts
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

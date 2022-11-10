@@ -1,6 +1,6 @@
 deforum-stable-diffusion
 anime-diffusion-v1-3.ckpt
-pixelart-diffusion-v1-3.pt
+pixelart-diffusion-expanded.pt
 pixelart-diffusion-4k.pt
 sd-v1-5.ckpt
 src

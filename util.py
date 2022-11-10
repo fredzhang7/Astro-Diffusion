@@ -4,6 +4,18 @@ from typing import Tuple
 import cv2, os, random, numpy
 
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
+
 def upscale_image(image: Image, scale: int) -> Image:
     """
     Upscale an image using OpenCV's EDSR model
@@ -46,9 +58,14 @@ def upscale_video(video_path: str, scale: int) -> None:
     out.release()
 
 
+def readLines(path):
+    with open(path, "r", encoding="utf8") as f:
+        return f.readlines()
+
+
 def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> list[str]:
     """
-    - Read a file with each prompt in a different line, or pass an array of prompts.
+    - Either read a file with each prompt in a different line, or pass an array of prompts.
     - Pass a theme from the themes list to get a prompt that fits the theme.
     - Returns a list of optimized prompts.
     """
@@ -57,8 +74,7 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
     if isinstance(prompt_source, list):
         prompt_source = prompt_source
     else:
-        with open(prompt_source, 'r', encoding="utf8") as f:
-            prompt_source = f.readlines()
+        prompt_source = readLines(prompt_source)
     for prompt in prompt_source:
         if len(prompt) > 100:
             prompt.append(prompt)
@@ -162,7 +178,7 @@ def fandom_search(full_name, incarnation=False):
         return f'{prefix}, {full_name}'
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
-    appearance = soup.find("span", id="Appearance").parent
+    appearance = soup.find("span", id=lambda x: x and (x.startswith("Appearance") or x.startswith("Physical"))).parent
     appearance = appearance.find_next_siblings(["p", "h2"])
     descriptions = []
     length = 0

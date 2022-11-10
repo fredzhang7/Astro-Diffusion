@@ -12,6 +12,9 @@
 <br>
 5. Image & Video Super Resolution v0.1
 
+### Examples
+1. [Astro-Anime Diffusion](/art-examples/anime.md)
+
 ### Setup for NVIDIA GPU Users
 <img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">
 1. <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">Download CUDA v11.2</a>
