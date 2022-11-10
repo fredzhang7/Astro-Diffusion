@@ -6,7 +6,7 @@
 from types import SimpleNamespace
 import os, time, random, gc, torch
 from astro_diffusion import render_image_batch
-from super_res import get_optimized_prompts
+from util import get_optimized_prompts
 
 
 def get_output_folder(output_path, batch_folder):
@@ -19,28 +19,29 @@ def get_output_folder(output_path, batch_folder):
 
 """
     Stable Diffusion Models
-     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution SD, high VRAM)
-     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution SD, medium VRAM)
-     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, medium VRAM)
-     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, medium VRAM)
+     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general art, high VRAM)
+     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution, general art, medium VRAM)
+     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general art, high VRAM)
+     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, general art, medium VRAM)
 
     Animated Diffusion Models
-     anime-diffusion-v1-3.ckpt           (2.0 GB, high-quality anime male and female characters, low VRAM)
-     disney-diffusion-v1.ckpt            (2.0 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
+     anime-diffusion-v1-3.ckpt           (2.1 GB, high-quality anime male and female characters, low VRAM)
+     disney-diffusion-v1.ckpt            (2.1 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
 
     Robo Diffusion Models
-     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot-like images, medium VRAM)
+     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha, etc. images, medium VRAM)
 
     Aesthetic Diffusion Models
+     van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
      scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, very low VRAM)
      watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, very low VRAM)
-     portrait-diffusion-v1-0.pt          (0.5 GB, portraits generator, very low VRAM)
+     portrait-diffusion-v1.pt            (0.5 GB, portraits generator, very low VRAM)
      pixelart-diffusion-v1-3.pt          (0.4 GB, darker pixel art, very low VRAM)
      pixelart-diffusion-4k.pt            (0.4 GB, brighter pixel art, very low VRAM)
 
     OpenAI Diffusion Models
-     openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, medium VRAM)
-     openai-512x512-diffusion.pt         (2.1 GB, trained on 512x512 images, medium VRAM)
+     openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, low VRAM)
+     openai-512x512-diffusion.pt         (2.1 GB, trained on 512x512 images, low VRAM)
 """
 
 def AstroArgs():
@@ -147,20 +148,34 @@ torch.cuda.empty_cache()
      1. model_checkpoint = "anime-diffusion-v1-3.ckpt"
         W = 640
         H = 640
-        ...
+        steps = 50
         scale = 8
-        ...
+        sampler = "klms"
         prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
      2. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024
-        ...
+        steps = 50
         scale = 8
-        ...
-        prompts = ['bear at a lake, magical energies emanating from it, god rays, wide angle, fantasy art, matte painting, sharp focus, vibrant colors, high contrast, illustration, art by justin gerard']
+        sampler = "klms"
+        prompts = get_optimized_prompts(prompt_source='./nature.txt', theme='nature')
+     3. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
+        W = 512
+        H = 512
+        scale = 6.5
+        steps = 25
+        sampler = "euler"
+        people = ['Armand Roulin', 'Vincent Van Gogh', 'Adeline Ravoux', 'Bruce Wayne', 'Steve Rogers', 'Gendarme Rigaumon', 'Louise Chevalier']
+        scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
+        prompts = []
+        for person in people:
+            prompts.append(f'lvngvncnt, {person}, highly detailed')
+        for scene in scenes:
+            prompts.append(f'lvngvncnt, {scene}, highly detailed')
 
 """
 
-prompts = get_optimized_prompts(prompt_source='./anime_boys.txt', theme='anime boy')
+def render_discord_image(prompts):
+    return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
-render_image_batch(args, prompts, upscale_ratio=2)
+# render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

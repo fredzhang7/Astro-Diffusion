@@ -16,3 +16,6 @@ k-diffusion
 AdaBins
 disco-to-do.txt
 models-to-do.txt
+anime-diffusion-light.ckpt
+van-gogh-diffusion-v2.ckpt
+.env

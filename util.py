@@ -54,13 +54,15 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
     """
     prompts = []
     theme = theme.lower()
-    if not os.path.isfile(prompt_source):
+    if isinstance(prompt_source, list):
         prompt_source = prompt_source
     else:
         with open(prompt_source, 'r', encoding="utf8") as f:
             prompt_source = f.readlines()
     for prompt in prompt_source:
-        if "anime girl" in theme or "waifu" in theme:
+        if len(prompt) > 100:
+            prompt.append(prompt)
+        elif "anime girl" in theme or "waifu" in theme:
             prompt = "correct body positions, " + prompt.strip() + ", sharp focus, beautiful, attractive, 4k, 8k ultra hd"
             if 'girls' in prompt:
                 prompts.append(prompt)
@@ -77,7 +79,7 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
             if not prompt.startswith("1boy"):
                 prompt = "1boy, " + prompt.strip()
             if not any(emotion in prompt for emotion in emotions):
-                prompt = ", feeling happy, anime incarnation"
+                prompt += ", feeling happy, anime incarnation"
             prompts.append(prompt)
         elif "nature" in theme:
             prompt = prompt.strip() + ", trending on artstation, hyperrealistic, trending, 4 k, 8 k, uhd"
@@ -97,3 +99,88 @@ def get_optimized_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> l
         else:
             prompts.append(prompt.strip())
     return prompts
+
+
+import requests
+from bs4 import BeautifulSoup
+headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+tokenizer, model = None, None
+
+
+def google_search(query, all=False):
+    """
+    Googles a query
+    """
+    query = (query + " fandom").replace(" ", "+")
+    url = f"https://www.google.com/search?q={query}"
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.text, "html.parser")
+    results = soup.find_all("div", class_="yuRUbf")
+    if all:
+        return [result.find("a")["href"] for result in results]
+    else:
+        return results[0].find("a")["href"]
+
+
+def load_summarizer():
+    """
+    Loads the summarizer tokenizer and model
+    """
+    from transformers import BartTokenizer, BartForConditionalGeneration
+    global tokenizer, model
+    tokenizer = BartTokenizer.from_pretrained("sshleifer/distilbart-cnn-12-6")
+    model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
+
+
+def fandom_search(full_name, incarnation=False):
+    """
+    Summarizes the appearance of a character
+    """
+    prefix = '1'
+    if 'boy' in full_name:
+        prefix = '1boy'
+        full_name = full_name.replace('boy', '').replace('boys', '')
+    elif 'male' in full_name:
+        prefix = '1man'
+        full_name = full_name.replace('male', '')
+    elif 'man' in full_name:
+        prefix = '1man'
+        full_name = full_name.replace('man', '')
+    elif 'girl' in full_name:
+        prefix = '1girl'
+        full_name = full_name.replace('girl', '').replace('girls', '')
+    elif 'female' in full_name:
+        prefix = '1woman'
+        full_name = full_name.replace('female', '')
+    elif 'woman' in full_name:
+        prefix = '1woman'
+        full_name = full_name.replace('woman', '')
+    if incarnation:
+        prefix += ', anime incarnation'
+    url = google_search(full_name)
+    if "fandom" not in url:
+        return f'{prefix}, {full_name}'
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.text, "html.parser")
+    appearance = soup.find("span", id="Appearance").parent
+    appearance = appearance.find_next_siblings(["p", "h2"])
+    descriptions = []
+    length = 0
+    for tag in appearance:
+        text = tag.text.strip()
+        length += len(text)
+        if length > 4096:
+            break
+        if tag.name == "p":
+            descriptions.append(text)
+        elif tag.name == "h2" and ["Plot", "Relationships", "Trivia", "Gallery", "Site Navigation"].count(text) > 0:
+            break
+    appearance = " ".join(descriptions)
+    if model is None or tokenizer is None:
+        load_summarizer()
+    inputs = tokenizer([appearance], max_length=2048, return_tensors="pt", truncation=True)
+    summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=240)
+    summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+    summary = summary[:-1]
+    summary = summary.replace(' , ', ', ').replace(' .', '.')
+    return f'{prefix}, {full_name}, {summary.strip()}'

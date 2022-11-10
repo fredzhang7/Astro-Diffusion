@@ -8,7 +8,7 @@
 <br>
 3. <a href="https://huggingface.co/nitrosocke/mo-di-diffusion" target="_blank" alt="Disney DF">Disney Diffusion</a>
 <br>
-4. Speed & Prompt Optimization v0.1
+4. Speed & Accuracy Optimization v0.2
 <br>
 5. Image & Video Super Resolution v0.1
 

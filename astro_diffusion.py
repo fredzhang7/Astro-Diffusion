@@ -20,7 +20,7 @@ from types import SimpleNamespace
 from torch import autocast
 import re
 from scipy.ndimage import gaussian_filter
-from super_res import upscale_image
+from util import upscale_image
 from typing import Tuple
 
 
@@ -739,7 +739,7 @@ def load_model(args,                         # args from astro.py
             'url': 'https://huggingface.co/lowlevelware/512x512_diffusion_unconditional_ImageNet/resolve/main/512x512_diffusion_uncond_finetune_008100.pt',
             'requires_login': False
         },
-        'portrait-diffusion-v1-0.pt': {
+        'portrait-diffusion-v1.pt': {
             'sha256': 'b7e8c747af880d4480b6707006f1ace000b058dd0eac5bb13558ba3752d9b5b9',
             'url': 'https://huggingface.co/felipe3dartist/portrait_generator_v001/resolve/main/portrait_generator_v001_ema_0.9999_1MM.pt',
             'requires_login': False
@@ -772,6 +772,14 @@ def load_model(args,                         # args from astro.py
         'scifipulp-diffusion.pt': {
             'sha256': 'b79e62613b9f50b8a3173e5f61f0320c7dbb16efad42a92ec94d014f6e17337f',
             'url': 'https://huggingface.co/KaliYuga/PulpSciFiDiffusion/resolve/main/PulpSciFiDiffusion.pt',
+            'requires_login': False
+        },
+        'van-gogh-diffusion-v2.ckpt': {
+            'url': 'https://huggingface.co/dallinmackay/Van-Gogh-diffusion/resolve/main/Van-Gogh-Style-lvngvncnt-v2.ckpt',
+            'requires_login': False
+        },
+        'dalle2-diffusion.pth': {
+            'url': 'https://huggingface.co/laion/DALLE2-PyTorch/resolve/main/best.pth',
             'requires_login': False
         }
     }
@@ -905,14 +913,17 @@ def load_model_from_config(config,
 def next_seed(args):
     if args.seed_behavior == 'iter':
         args.seed += 1
-    elif args.seed_behavior == 'fixed':
+    elif args.seed_behavior == 'fixed' and args.seed:
         pass
     else:
         args.seed = random.randint(0, 2**8 - 1)
     return args.seed
 
 
-def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1) -> None:
+model = None
+
+
+def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
     if args.H >= 1024 and args.W >= 1024:
@@ -954,7 +965,9 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
 
     # when doing large batches don't flood browser with images
     clear_between_batches = args.n_batch >= 32
-    model = load_model(args)
+    global model
+    if model is None:
+        model = load_model(args)
 
     for iprompt, prompt in enumerate(prompts):
         args.prompt = prompt
@@ -973,6 +986,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
                 args.init_image = image
                 args.time = str(round(time.time()))
                 results = generate(args, model)
+                args.seed = next_seed(args)
                 for image in results:
                     if args.make_grid:
                         all_images.append(T.functional.pil_to_tensor(image))
@@ -984,11 +998,13 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
                         if upscale_ratio > 1:
                             print(f"Upscaling {filename} by {upscale_ratio}")
                             image = upscale_image(image, upscale_ratio)
-                        image.save(os.path.join(args.outdir, filename))
+                        if save_image:
+                            image.save(os.path.join(args.outdir, filename))
+                        else:
+                            return image
                     if args.display_samples:
                         display.display(image)
                     index += 1
-                args.seed = next_seed(args)
 
         # make grid of all images, if applicable
         if args.make_grid:
