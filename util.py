@@ -123,19 +123,23 @@ headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 tokenizer, model = None, None
 
 
-def google_search(query, all=False):
+def google_search(query, result_format):
     """
     Googles a query
     """
-    query = (query + " fandom").replace(" ", "+")
+    query = query.replace(" ", "+")
     url = f"https://www.google.com/search?q={query}"
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
+    if result_format == 'soup':
+        return soup
     results = soup.find_all("div", class_="yuRUbf")
-    if all:
+    if result_format == 'all_links':
         return [result.find("a")["href"] for result in results]
-    else:
+    elif result_format == 'first_link':
         return results[0].find("a")["href"]
+    elif result_format == 'first_title':
+        return results[0].find("a").text
 
 
 def load_summarizer():
@@ -171,12 +175,37 @@ def fandom_search(full_name, incarnation=False):
     elif 'woman' in full_name:
         prefix = '1woman'
         full_name = full_name.replace('woman', '')
+    prefix += ', round iris, white pupil with well-defined outline'
     if incarnation:
         prefix += ', anime incarnation'
-    url = google_search(full_name)
-    if "fandom" not in url:
+    anime_name = None
+    if " in " in full_name:
+        anime_name = full_name.split(" in ")[1]
+    elif " from " in full_name:
+        anime_name = full_name.split(" from ")[1]
+    elif " of " in full_name:
+        anime_name = full_name.split(" of ")[1]
+    else:
+        try:
+            # get the first title ending in "Wikipedia" and is clickable
+            title = google_search(full_name + " anime name \"wikipedia\"", result_format='first_title')
+            if "(" in title:
+                anime_name = title.split("(")[0]
+            elif "-" in title:
+                anime_name = title.split("-")[0]
+        except:
+            pass
+    if anime_name:
+        soup = google_search(anime_name + ' anime artist name', result_format='soup')
+        artist_name = (soup.find("div", {"data-tts": "answers"})).get("data-tts-text")
+        if isinstance(artist_name, list):
+            artist_name = artist_name[0]
+        if artist_name:
+            prefix += ', art by ' + artist_name
+    character_page = google_search(full_name + ' fandom', result_format='first_link')
+    if "fandom" not in character_page:
         return f'{prefix}, {full_name}'
-    r = requests.get(url, headers=headers)
+    r = requests.get(character_page, headers=headers)
     soup = BeautifulSoup(r.text, "html.parser")
     appearance = soup.find("span", id=lambda x: x and (x.startswith("Appearance") or x.startswith("Physical"))).parent
     appearance = appearance.find_next_siblings(["p", "h2"])

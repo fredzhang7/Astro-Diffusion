@@ -25,7 +25,7 @@ def get_output_folder(output_path, batch_folder):
 
     Animated Style
      anime-diffusion-v1-3.ckpt           (2.1 GB, high-quality anime male and female characters, low VRAM)
-     disney-diffusion-v1.ckpt            (2.1 GB, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
+     disney-diffusion-v1.ckpt            (2.1 GB, pokemons, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
 
     Robo Style
      robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha, etc. images, medium VRAM)

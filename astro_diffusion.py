@@ -457,8 +457,7 @@ def generate(args,
     # seed_everything(args.seed)
     os.makedirs(args.outdir, exist_ok=True)
 
-    sampler = PLMSSampler(model) if args.sampler == 'plms' else DDIMSampler(
-        model)
+    sampler = PLMSSampler(model) if args.sampler == 'plms' else DDIMSampler(model)
     model_wrap = CompVisDenoiser(model)
     batch_size = args.n_samples
     prompt = args.prompt

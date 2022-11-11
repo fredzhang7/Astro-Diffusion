@@ -1,9 +1,14 @@
-# Astro-Anime Diffusion
+# Astro-Anime Diffusion (Recent)
 The random character names below corresponds to the prompts.
 
-`Suzune Horikita`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1040160722828673084/image.png)
+
+# Astro-Anime Diffusion (Outdated)
+
+
+`Kei Karuizawa`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1040160535234224169/image.png)
 
 
 `Ritsuka Uenoyama boy`
@@ -16,15 +21,14 @@ The random character names below corresponds to the prompts.
 ![](https://media.discordapp.net/attachments/884528247998664744/1040367247560032317/image.png)
 
 
-
 `Orihime Inoue girl`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1040377888911929344/image.png)
 
 
-`Kei Karuizawa`
+`Suzune Horikita girl`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1040160535234224169/image.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1040412504867749918/image.png)
 
 
 `Kiyotaka Ayanokouji boy`
