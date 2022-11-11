@@ -175,7 +175,7 @@ def fandom_search(full_name, incarnation=False):
     elif 'woman' in full_name:
         prefix = '1woman'
         full_name = full_name.replace('woman', '')
-    prefix += ', round iris, white pupil with well-defined outline'
+    prefix += ', highly detailed eyes, perfectly round iris' # , white pupils
     if incarnation:
         prefix += ', anime incarnation'
     anime_name = None
@@ -197,7 +197,13 @@ def fandom_search(full_name, incarnation=False):
             pass
     if anime_name:
         soup = google_search(anime_name + ' anime artist name', result_format='soup')
-        artist_name = (soup.find("div", {"data-tts": "answers"})).get("data-tts-text")
+        artist_name = (soup.find("div", {"data-tts": "answers"}))
+        # fallback
+        if artist_name == None:
+            soup = google_search(anime_name + ' anime artist name', result_format='soup')
+            artist_name = (soup.find("div", {"data-tts": "answer"}))
+        else:
+            artist_name = artist_name.get("data-tts-text")
         if isinstance(artist_name, list):
             artist_name = artist_name[0]
         if artist_name:
@@ -228,4 +234,4 @@ def fandom_search(full_name, incarnation=False):
     summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     summary = summary[:-1]
     summary = summary.replace(' , ', ', ').replace(' .', '.')
-    return f'{prefix}, {full_name}, {summary.strip()}'
+    return f'{prefix}, {full_name.strip()}, {summary.strip()}'
