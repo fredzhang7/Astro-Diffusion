@@ -152,7 +152,7 @@ def load_summarizer():
     model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
 
 
-def fandom_search(full_name, incarnation=False):
+def character_search(full_name, incarnation=False, seek_artist=False):
     """
     Summarizes the appearance of a character
     """
@@ -175,7 +175,8 @@ def fandom_search(full_name, incarnation=False):
     elif 'woman' in full_name:
         prefix = '1woman'
         full_name = full_name.replace('woman', '')
-    prefix += ', highly detailed eyes, perfectly round iris' # , white pupils
+    prefix += ', hyperrealistic human eyes, stylish smooth cloth, solid shapes, solid lines, 8k, uhd, hyperrealistic'
+    # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes, 
     if incarnation:
         prefix += ', anime incarnation'
     anime_name = None
@@ -185,7 +186,7 @@ def fandom_search(full_name, incarnation=False):
         anime_name = full_name.split(" from ")[1]
     elif " of " in full_name:
         anime_name = full_name.split(" of ")[1]
-    else:
+    elif seek_artist:
         try:
             # get the first title ending in "Wikipedia" and is clickable
             title = google_search(full_name + " anime name \"wikipedia\"", result_format='first_title')
@@ -195,19 +196,19 @@ def fandom_search(full_name, incarnation=False):
                 anime_name = title.split("-")[0]
         except:
             pass
-    if anime_name:
-        soup = google_search(anime_name + ' anime artist name', result_format='soup')
-        artist_name = (soup.find("div", {"data-tts": "answers"}))
-        # fallback
-        if artist_name == None:
+        if anime_name:
             soup = google_search(anime_name + ' anime artist name', result_format='soup')
-            artist_name = (soup.find("div", {"data-tts": "answer"}))
-        else:
-            artist_name = artist_name.get("data-tts-text")
-        if isinstance(artist_name, list):
-            artist_name = artist_name[0]
-        if artist_name:
-            prefix += ', art by ' + artist_name
+            artist_name = (soup.find("div", {"data-tts": "answers"}))
+            # fallback
+            if artist_name == None:
+                soup = google_search(anime_name + ' anime artist name', result_format='soup')
+                artist_name = (soup.find("div", {"data-tts": "answer"}))
+            else:
+                artist_name = artist_name.get("data-tts-text")
+            if isinstance(artist_name, list):
+                artist_name = artist_name[0]
+            if artist_name:
+                prefix += ', art by ' + artist_name
     character_page = google_search(full_name + ' fandom', result_format='first_link')
     if "fandom" not in character_page:
         return f'{prefix}, {full_name}'
@@ -233,5 +234,7 @@ def fandom_search(full_name, incarnation=False):
     summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=240)
     summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
     summary = summary[:-1]
-    summary = summary.replace(' , ', ', ').replace(' .', '.')
+    summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace(full_name.split(" ")[0] + ' ', '').replace('She ', '').replace('However ', '')
+    if not 'eyes' in summary:
+        summary = 'beautiful eyes, ' + summary
     return f'{prefix}, {full_name.strip()}, {summary.strip()}'

@@ -1,6 +1,6 @@
 import discord
 from astro_image import render_discord_image
-from util import fandom_search
+from util import character_search
 import io, os
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,10 +13,11 @@ class MyClient(discord.Client):
         if message.author == client.user:
             return
         if message.content.startswith('draw '):
-            raw_prompt = message.content[5:]
-            prompt = fandom_search(raw_prompt)
-            embed = discord.Embed(title="Prompt", description=prompt, color=0x00ff00)
-            await message.channel.send(embed=embed)
+            prompt = message.content[5:]
+            if len(prompt) < 80:
+                prompt = character_search(prompt)
+            # embed = discord.Embed(title="Prompt", description=prompt, color=0x00ff00)
+            # await message.channel.send(embed=embed)
             image = render_discord_image([prompt])
             with io.BytesIO() as image_binary:
                 image.save(image_binary, 'PNG')

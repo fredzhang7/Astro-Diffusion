@@ -60,7 +60,7 @@ def AstroArgs():
     # Sampling Settings
     seed = -1                            # random seed
     sampler = "klms"                     # one of "klms", "dpm2", "dpm2_ancestral", "heun", "euler", "euler_ancestral", "ddim"
-    steps = 50                           # number of steps to run
+    steps = 100                          # number of steps to run
     scale = 8                            # scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
     ddim_eta = 0.0                       # amount of ddim to use (0.0: no ddim, 1.0: full ddim)
     dynamic_threshold = None             # adaptive threshold for dpm2
@@ -90,7 +90,7 @@ def AstroArgs():
 
     # Init Settings
     use_init = False 
-    strength = 0                         # a float between 0 and 1
+    strength = 0.3                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
     init_image = ""                      # URL or local path to image
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
@@ -146,9 +146,10 @@ torch.cuda.empty_cache()
 
     Examples:
      1. model_checkpoint = "anime-diffusion-v1-3.ckpt"
+        # recommended to start an image gen with W=640 and H=640. then use this init_image and scale up to W=832 and H=896
         W = 640
         H = 640
-        steps = 50
+        steps = 100
         scale = 8
         sampler = "klms"
         from util import fandom_search, readLines
