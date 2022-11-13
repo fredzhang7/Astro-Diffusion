@@ -157,16 +157,7 @@ def character_search(full_name, incarnation=False, seek_artist=False):
     Summarizes the appearance of a character
     """
     prefix = '1'
-    if 'boy' in full_name:
-        prefix = '1boy'
-        full_name = full_name.replace('boy', '').replace('boys', '')
-    elif 'male' in full_name:
-        prefix = '1man'
-        full_name = full_name.replace('male', '')
-    elif 'man' in full_name:
-        prefix = '1man'
-        full_name = full_name.replace('man', '')
-    elif 'girl' in full_name:
+    if 'girl' in full_name:
         prefix = '1girl'
         full_name = full_name.replace('girl', '').replace('girls', '')
     elif 'female' in full_name:
@@ -175,7 +166,16 @@ def character_search(full_name, incarnation=False, seek_artist=False):
     elif 'woman' in full_name:
         prefix = '1woman'
         full_name = full_name.replace('woman', '')
-    prefix += ', hyperrealistic human eyes, stylish smooth cloth, solid shapes, solid lines, 8k, uhd, hyperrealistic'
+    elif 'boy' in full_name:
+        prefix = '1boy'
+        full_name = full_name.replace('boy', '').replace('boys', '')
+    elif 'male' in full_name:
+        prefix = '1man'
+        full_name = full_name.replace('male', '')
+    elif 'man' in full_name:
+        prefix = '1man'
+        full_name = full_name.replace('man', '')
+    prefix += ', hyperrealistic human eyes, solid shapes, solid lines, 8k, uhd, hyperrealistic'
     # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes, 
     if incarnation:
         prefix += ', anime incarnation'

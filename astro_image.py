@@ -52,8 +52,8 @@ def AstroArgs():
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
 
     # Image Settings
-    W = 640                             # image width
-    H = 640                             # image height
+    W = 832                             # image width
+    H = 896                             # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -68,7 +68,7 @@ def AstroArgs():
 
     # Save & Display Settings
     save_samples = True                  # whether to save samples to disk
-    save_settings = True                 # whether to save settings to a file
+    save_settings = False                 # whether to save settings to a file
     display_samples = True               # whether to display samples in Colab
     save_sample_per_step = False         # whether to save samples per step or only the last one (only for ddim)
     show_sample_per_step = False         # whether to show samples for each step
@@ -81,18 +81,18 @@ def AstroArgs():
     # Batch Settings
     n_batch = 1                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
-    batch_name = "StableFun"             # subfolder name to save images to
-    seed_behavior = "iter"             # one of "iter", "fixed", "random"
+    batch_name = "AnimeFun2"              # subfolder name to save images to
+    seed_behavior = "iter"               # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
     filename_format = "{timestring}_{index}_{prompt}.png"
     outdir = get_output_folder(output_path, batch_name)
 
     # Init Settings
-    use_init = False 
-    strength = 0.3                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
+    use_init = True 
+    strength = 0.7                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
-    init_image = ""                      # URL or local path to image
+    init_image = "./2022-11/AnimeFun/image2.png"                      # URL or local path to image
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
     use_alpha_as_mask = False            # use the alpha channel of the image as a mask
     mask_file = "https://www.filterforge.com/wiki/images/archive/b/b7/20080927223728%21Polygonal_gradient_thumb.jpg" 
@@ -152,10 +152,8 @@ torch.cuda.empty_cache()
         steps = 100
         scale = 8
         sampler = "klms"
-        from util import fandom_search, readLines
+        from util import readLines
         prompts = readLines("./anime_boys.txt")
-        for i, name in enumerate(prompts):
-            prompts[i] = fandom_search(name)
      2. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024
@@ -186,4 +184,8 @@ def render_discord_image(prompts):
 
 
 # Uncomment the line below to generate an image from the prompts
+prompts = ['Kotaro Bokuto from Haikyuu!!']
+prompts = prompts * 3
+render_image_batch(args, prompts, upscale_ratio=1, save_image=True)
+# args.init_image = './2022-11/AnimeFun/image3.png'
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

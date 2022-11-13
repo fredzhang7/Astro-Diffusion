@@ -21,6 +21,7 @@ import re
 from scipy.ndimage import gaussian_filter
 from util import upscale_image
 from typing import Tuple
+from util import character_search
 
 
 sys.path.extend([
@@ -927,6 +928,9 @@ model = None
 
 
 def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
+    if args.model_checkpoint.startswith("anime-diffusion-v"):
+        for i, name in enumerate(prompts):
+            prompts[i] = character_search(name)
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
     if args.H >= 1024 and args.W >= 1024:
