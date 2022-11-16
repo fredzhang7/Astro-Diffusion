@@ -8,12 +8,12 @@
 <br>
 3. <a href="https://huggingface.co/nitrosocke/mo-di-diffusion" target="_blank" alt="Disney DF">Disney Diffusion</a>
 <br>
-4. Speed & Accuracy Optimization v0.2
+4. Speed & Accuracy Optimization v0.3
 <br>
 5. Image & Video Super Resolution v0.1
 
 ### Examples
-1. [Astro-Anime Diffusion](/art-examples/anime.md)
+1. [Anime](/art-examples/anime.md)
 
 ### Setup for NVIDIA GPU Users
 <img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">

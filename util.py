@@ -175,7 +175,7 @@ def character_search(full_name, incarnation=False, seek_artist=False):
     elif 'man' in full_name:
         prefix = '1man'
         full_name = full_name.replace('man', '')
-    prefix += ', hyperrealistic human eyes, solid shapes, solid lines, 8k, uhd, hyperrealistic'
+    prefix += ', hyperrealistic human eyes, elliptical pupil, solid shapes, solid lines, 8k, uhd, hyperrealistic'
     # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes, 
     if incarnation:
         prefix += ', anime incarnation'
@@ -236,5 +236,14 @@ def character_search(full_name, incarnation=False, seek_artist=False):
     summary = summary[:-1]
     summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace(full_name.split(" ")[0] + ' ', '').replace('She ', '').replace('However ', '')
     if not 'eyes' in summary:
-        summary = 'beautiful eyes, ' + summary
+        findComma = summary.find(',')
+        if findComma == -1:
+            summary = 'beautiful eyes, ' + summary
+        else:
+            findComma = summary.find(',', findComma + 1)
+            chosen = random.randint(0, 1) == 0
+            if findComma == -1:
+                summary = summary + ', beautiful eyes, perfect face' if chosen else summary + ', beautiful eyes, body portrait'
+            else:
+                summary = summary[:findComma] + ', beautiful eyes, perfect face' + summary[findComma:] if chosen else summary[:findComma] + ', beautiful eyes, body portrait' + summary[findComma:]
     return f'{prefix}, {full_name.strip()}, {summary.strip()}'

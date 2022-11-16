@@ -52,8 +52,8 @@ def AstroArgs():
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
 
     # Image Settings
-    W = 832                             # image width
-    H = 896                             # image height
+    W = 640                              # image width
+    H = 640                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -68,7 +68,7 @@ def AstroArgs():
 
     # Save & Display Settings
     save_samples = True                  # whether to save samples to disk
-    save_settings = False                 # whether to save settings to a file
+    save_settings = False                # whether to save settings to a file
     display_samples = True               # whether to display samples in Colab
     save_sample_per_step = False         # whether to save samples per step or only the last one (only for ddim)
     show_sample_per_step = False         # whether to show samples for each step
@@ -79,9 +79,9 @@ def AstroArgs():
     log_weighted_subprompts = False      # whether to log the weighted subprompts
 
     # Batch Settings
-    n_batch = 3                          # number of samples to generate in parallel
+    n_batch = 5                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
-    batch_name = "AnimeFun2"              # subfolder name to save images to
+    batch_name = "AnimeFun"              # subfolder name to save images to
     seed_behavior = "iter"               # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
@@ -89,8 +89,8 @@ def AstroArgs():
     outdir = get_output_folder(output_path, batch_name)
 
     # Init Settings
-    use_init = True 
-    strength = 0.97                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
+    use_init = False 
+    strength = 0                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
     init_image = ""                      # URL or local path to image
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
@@ -139,6 +139,7 @@ torch.cuda.empty_cache()
      Default
      Anime Girl                          (anime girl, waifu)
      Anime Boy                           (anime boy, husbando)
+     Nature                              (nature, landscape, scenery)
      Disney                              (disney princess, disney character, disney villain, disney animal, animated car, animated landscape)
      Space                               (universe, supernova, black hole, planet, galaxy, nebula, star, astronaut, rocket, spaceship, alien, night sky)
      Robot                               (robot, android, cyborg, mecha)
@@ -183,6 +184,6 @@ def render_discord_image(prompts):
     return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
 
-# Uncomment the line below to generate an image from the prompts
-prompts = ['Suzune Horikita girl']
+# Uncomment the lines below to generate an image from the prompts
+# prompts = ['Hotarou Oreki from Hyouka man']
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)
