@@ -1,4 +1,4 @@
-# Astro-Anime Diffusion (Recent)
+# Astro-Anime Diffusion
 The random character names below corresponds to the prompts.
 
 
@@ -18,4 +18,4 @@ The random character names below corresponds to the prompts.
 
 `Suzune Horikita girl`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1040519124796854282/image.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1041616275350241340/image.png)

@@ -79,7 +79,7 @@ def AstroArgs():
     log_weighted_subprompts = False      # whether to log the weighted subprompts
 
     # Batch Settings
-    n_batch = 1                          # number of samples to generate in parallel
+    n_batch = 3                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
     batch_name = "AnimeFun2"              # subfolder name to save images to
     seed_behavior = "iter"               # one of "iter", "fixed", "random"
@@ -90,9 +90,9 @@ def AstroArgs():
 
     # Init Settings
     use_init = True 
-    strength = 0.7                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
+    strength = 0.97                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
-    init_image = "./2022-11/AnimeFun/image2.png"                      # URL or local path to image
+    init_image = ""                      # URL or local path to image
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
     use_alpha_as_mask = False            # use the alpha channel of the image as a mask
     mask_file = "https://www.filterforge.com/wiki/images/archive/b/b7/20080927223728%21Polygonal_gradient_thumb.jpg" 
@@ -184,8 +184,5 @@ def render_discord_image(prompts):
 
 
 # Uncomment the line below to generate an image from the prompts
-prompts = ['Kotaro Bokuto from Haikyuu!!']
-prompts = prompts * 3
-render_image_batch(args, prompts, upscale_ratio=1, save_image=True)
-# args.init_image = './2022-11/AnimeFun/image3.png'
+prompts = ['Suzune Horikita girl']
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

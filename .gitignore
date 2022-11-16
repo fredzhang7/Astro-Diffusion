@@ -19,3 +19,4 @@ models-to-do.txt
 anime-diffusion-light.ckpt
 van-gogh-diffusion-v2.ckpt
 .env
+edit_message.py
