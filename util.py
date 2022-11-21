@@ -114,6 +114,8 @@ def optimize_prompts(prompt_source: Tuple[str, list[str]], theme: str) -> list[s
                 p = 'safe, ' + p
             if not ' oc, ' in p:
                 p += ' oc, oc only'
+            if not ', high res' in p:
+                p += ', high res'
             if not 'artist' in p:
                 artists = ['fenwaru', 'rexyseven', 'kaylemi', 'zeepheru_pone', 'rrd-artist', 'kb-gamerartist', 'fenix-artist', 'gloriaartist', 'vensual99', 'stormcloud']
                 p += f', artist:{random.choice(artists)}'
@@ -315,7 +317,7 @@ def pony_search(name="", seek_artist=True) -> str:
             pages = ln(pages) * 120
         elif pages > 1000:
             pages = 1000
-        r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, pages)}&sd=desc&sf=upvotes&q=safe%2C+{name}%2C+score.gte%3A100', headers=headers)
+        r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, pages)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+{name}%2C+score.gte%3A100', headers=headers)
         summary = parsePony(r)
     if ' gif, ' in summary or summary.endswith('gif') or 'animated' in summary or 'vulgar' in summary:
         return pony_search(name)

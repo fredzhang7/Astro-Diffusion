@@ -6,31 +6,27 @@
 <br>
 2. <a href="https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb" target="_blank" alt="Disco DF">Disco Diffusion</a>
 <br>
-3. Other Styles: Disney, Pony
+3. Other Styles (Disney, Pony, Van Gogh, OpenAI)
 <br>
 4. Speed & Accuracy Optimization v0.4
 <br>
 5. Image & Video Super Resolution v0.1
 
 ### Examples
-1. [Anime](/art-examples/anime.md)
+1. [Van Gogh](/art-examples/van_gogh.md)
+2. [Anime](/art-examples/anime.md)
+3. [Pony](/art-examples/pony.md)
 
 ### Setup for NVIDIA GPU Users
-<img align="left" width="125" height="88" src="https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png" alt="CUDA Icon">
-1. <a href="https://developer.nvidia.com/cuda-downloads" target="_blank">Download CUDA v11.2</a>
-<br>
-2. <a href="https://developer.nvidia.com/rdp/cudnn-download" target="_blank">Join the NVIDIA Developer Program and download cuDNN</a>
-<br>
-3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
-<br>
-<img align="left" width="125" height="125" src="https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png" alt="Git Icon">
-4. <a href="https://git-scm.com/downloads" target="_blank">Install Git</a>
-<br>
-5. In a terminal, run &lt;git clone https://github.com/FredZhang7/Astro-Diffusion.git​​​&gt;
-<br>
-6. <a href="https://www.python.org/downloads/" target="_blank">Install Python >= 3.9 <= 3.10</a>, or &lt;pyenv install 3.10.4&gt; and &lt;pyenv global 3.10.4&gt;
-<br>
-7. Read the comments and instructions in &lt;astro_image.py&gt; to generate photos, pixelart, paintings, and more
+Icons  |  Steps
+:-------------------------|:-------------------------
+![](https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png =125x88)   | 1. [Download CUDA v11.2](https://developer.nvidia.com/cuda-downloads){:target="_blank"}
+                                                                            | 2. [Join the NVIDIA Developer Program and download cuDNN](https://developer.nvidia.com/rdp/cudnn-download){:target="_blank"}
+                                                                            | 3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
+![](https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png =125x125) | 4. [Install Git](https://git-scm.com/downloads){:target="_blank"}
+                                                                            | 5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git​​`
+                                                                            | 6. [Install Python >= 3.9 <= 3.10](https://www.python.org/downloads/){:target="_blank"}, or `pyenv install 3.10.4` and `pyenv global 3.10.4`
+                                                                            | 7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
 
 ### To-do
 1. Disco DF config
