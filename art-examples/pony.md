@@ -28,10 +28,12 @@ The random pony names below corresponds to the prompts.
 
 
 `pinkie pie solo`
+
 ![](https://media.discordapp.net/attachments/884528247998664744/1044177028884209715/pinkie_pie_solo.png)
 
 
 `rainbow dash solo`
+
 ![](https://media.discordapp.net/attachments/884528247998664744/1044177026929655838/rainbow_dash_solo.png)
 
 
@@ -41,4 +43,5 @@ The random pony names below corresponds to the prompts.
 
 
 `twilight sparkle duo`
+
 ![](https://media.discordapp.net/attachments/884528247998664744/1044179839189528627/twilight_sparkle_duo.png)
