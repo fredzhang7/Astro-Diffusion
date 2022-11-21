@@ -1,8 +1,4 @@
 deforum-stable-diffusion
-anime-diffusion-v1-3.ckpt
-pixelart-diffusion-expanded.pt
-pixelart-diffusion-4k.pt
-sd-v1-5.ckpt
 src
 .vscode
 settings.json
@@ -16,7 +12,14 @@ k-diffusion
 AdaBins
 disco-to-do.txt
 models-to-do.txt
-anime-diffusion-light.ckpt
-van-gogh-diffusion-v2.ckpt
 .env
 edit_message.py
+anime-diffusion-light.ckpt
+van-gogh-diffusion-v2.ckpt
+pony-diffusion.ckpt
+pony-diffusion-v2.ckpt
+anime-diffusion-v1-3.ckpt
+pixelart-diffusion-expanded.pt
+pixelart-diffusion-4k.pt
+sd-v1-5.ckpt
+astro_image.py

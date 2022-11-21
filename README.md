@@ -1,4 +1,4 @@
-# Astro Diffusion v0.1
+# Astro Diffusion v0.2
 
 ### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
@@ -6,9 +6,9 @@
 <br>
 2. <a href="https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb" target="_blank" alt="Disco DF">Disco Diffusion</a>
 <br>
-3. <a href="https://huggingface.co/nitrosocke/mo-di-diffusion" target="_blank" alt="Disney DF">Disney Diffusion</a>
+3. Other Styles: Disney, Pony
 <br>
-4. Speed & Accuracy Optimization v0.3
+4. Speed & Accuracy Optimization v0.4
 <br>
 5. Image & Video Super Resolution v0.1
 

@@ -21,7 +21,7 @@ import re
 from scipy.ndimage import gaussian_filter
 from util import upscale_image
 from typing import Tuple
-from util import character_search
+from util import anime_search, pony_search
 
 
 sys.path.extend([
@@ -718,73 +718,61 @@ def load_model(args,                         # args from astro.py
         "robo-diffusion-v1.ckpt": {
             'sha256': '244dbe0dcb55c761bde9c2ac0e9b46cc9705ebfe5f1f3a7cc46251573ea14e16',
             'url': 'https://huggingface.co/nousr/robo-diffusion/resolve/main/models/robo-diffusion-v1.ckpt',
-            'requires_login': False,
         },
         "anime-diffusion-v1-3.ckpt": {
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
-            'requires_login': False,
         },
         "disney-diffusion-v1.ckpt": {
             'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/blob/main/moDi-v1-pruned.ckpt',
-            'requires_login': False,
         },
         'openai-256x256-diffusion.pt': {
 		    'sha256': 'a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1',
 		    'url': 'https://openaipublic.blob.core.windows.net/diffusion/jul-2021/256x256_diffusion_uncond.pt',
-            'requires_login': False
 	    },
         'openai-512x512-diffusion.pt': {
             'sha256': '9c111ab89e214862b76e1fa6a1b3f1d329b1a88281885943d2cdbe357ad57648',
             'url': 'https://huggingface.co/lowlevelware/512x512_diffusion_unconditional_ImageNet/resolve/main/512x512_diffusion_uncond_finetune_008100.pt',
-            'requires_login': False
         },
         'portrait-diffusion.pt': {
             'sha256': 'b7e8c747af880d4480b6707006f1ace000b058dd0eac5bb13558ba3752d9b5b9',
             'url': 'https://huggingface.co/felipe3dartist/portrait_generator_v001/resolve/main/portrait_generator_v001_ema_0.9999_1MM.pt',
-            'requires_login': False
         },
         'pixelart-diffusion-expanded.pt': {
             'sha256': 'a73b40556634034bf43b5a716b531b46fb1ab890634d854f5bcbbef56838739a',
             'url': 'https://huggingface.co/KaliYuga/PADexpanded/resolve/main/PADexpanded.pt',
-            'requires_login': False
         },
         'pixel-art-diffusion-hard-256.pt': {
             'sha256': 'be4a9de943ec06eef32c65a1008c60ad017723a4d35dc13169c66bb322234161',
             'url': 'https://huggingface.co/KaliYuga/pixel_art_diffusion_hard_256/resolve/main/pixel_art_diffusion_hard_256.pt',
-            'requires_login': False
         },
         'pixelart-diffusion-soft-256.pt': {
             'sha256': 'd321590e46b679bf6def1f1914b47c89e762c76f19ab3e3392c8ca07c791039c',
             'url': 'https://huggingface.co/KaliYuga/pixel_art_diffusion_soft_256/resolve/main/pixel_art_diffusion_soft_256.pt',
-            'requires_login': False
         },
         'pixelart-diffusion-4k.pt': {
             'sha256': 'a1ba4f13f6dabb72b1064f15d8ae504d98d6192ad343572cc416deda7cccac30',
             'url': 'https://huggingface.co/KaliYuga/pixelartdiffusion4k/resolve/main/pixelartdiffusion4k.pt',
-            'requires_login': False
         },
         'pixelart-diffusion-sprites.ckpt': {
             'url': 'https://huggingface.co/Onodofthenorth/SD_PixelArt_SpriteSheet_Generator/resolve/main/PixelartSpritesheet_V.1.ckpt',
-            'requires_login': False
         },
         'watercolor-diffusion-v2.pt': {
             'sha256': '49c281b6092c61c49b0f1f8da93af9b94be7e0c20c71e662e2aa26fee0e4b1a9',
             'url': 'https://huggingface.co/KaliYuga/watercolordiffusion_2/resolve/main/watercolordiffusion_2.pt',
-            'requires_login': False
         },
         'scifipulp-diffusion.pt': {
             'sha256': 'b79e62613b9f50b8a3173e5f61f0320c7dbb16efad42a92ec94d014f6e17337f',
             'url': 'https://huggingface.co/KaliYuga/PulpSciFiDiffusion/resolve/main/PulpSciFiDiffusion.pt',
-            'requires_login': False
         },
         'van-gogh-diffusion-v2.ckpt': {
             'url': 'https://huggingface.co/dallinmackay/Van-Gogh-diffusion/resolve/main/Van-Gogh-Style-lvngvncnt-v2.ckpt',
-            'requires_login': False
+        },
+        'pony-diffusion-v2.ckpt': {
+            'url': 'https://huggingface.co/VitchenZhang/astraliteheart-pony-diffusion/resolve/main/pony_furry_sfw_nsfw_450k_safe_and_suggestive_and_explicit_250rating_plus-pruned.ckpt',
         },
         'dalle2-diffusion.pth': {
             'url': 'https://huggingface.co/laion/DALLE2-PyTorch/resolve/main/best.pth',
-            'requires_login': False
         }
     }
 
@@ -807,7 +795,7 @@ def load_model(args,                         # args from astro.py
         url = model_map[args.model_checkpoint]['url']
 
         # CLI dialogue to authenticate download
-        if model_map[args.model_checkpoint]['requires_login']:
+        if 'requires_login' in model_map[args.model_checkpoint] and model_map[args.model_checkpoint]['requires_login']:
             print("This model requires an authentication token")
             print(
                 "Please ensure you have accepted its terms of service before continuing."
@@ -928,10 +916,14 @@ model = None
 
 
 def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
-    if args.model_checkpoint.startswith("anime-diffusion-v"):
+    if args.model_checkpoint.startswith("anime-diffusion"):
         for i, name in enumerate(prompts):
-            if len(name) < 100:
-                prompts[i] = character_search(name)
+            if len(name) < 80:
+                prompts[i] = anime_search(name)
+    elif args.model_checkpoint.startswith("pony-diffusion"):
+        for i, name in enumerate(prompts):
+            if len(name) < 80:
+                prompts[i] = pony_search(name)
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
     if args.H >= 1024 and args.W >= 1024:
