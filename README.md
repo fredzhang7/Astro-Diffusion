@@ -18,15 +18,13 @@
 3. [Pony](/art-examples/pony.md)
 
 ### Setup for NVIDIA GPU Users
-Icons  |  Steps
-:-------------------------|:-------------------------
-![](https://miro.medium.com/max/394/1*Z_vXwV0SPudOAdlZnoAkWA.png =125x88)   | 1. [Download CUDA v11.2](https://developer.nvidia.com/cuda-downloads){:target="_blank"}
-                                                                            | 2. [Join the NVIDIA Developer Program and download cuDNN](https://developer.nvidia.com/rdp/cudnn-download){:target="_blank"}
-                                                                            | 3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
-![](https://git-scm.com/images/logos/downloads/Git-Icon-1788C.png =125x125) | 4. [Install Git](https://git-scm.com/downloads){:target="_blank"}
-                                                                            | 5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git​​`
-                                                                            | 6. [Install Python >= 3.9 <= 3.10](https://www.python.org/downloads/){:target="_blank"}, or `pyenv install 3.10.4` and `pyenv global 3.10.4`
-                                                                            | 7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
+1. [Download CUDA v11.2](https://developer.nvidia.com/cuda-downloads){:target="_blank"}
+2. [Join the NVIDIA Developer Program and download cuDNN](https://developer.nvidia.com/rdp/cudnn-download){:target="_blank"}
+3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
+4. [Install Git](https://git-scm.com/downloads){:target="_blank"}
+5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git​​`
+6. [Install Python >= 3.9 <= 3.10](https://www.python.org/downloads/){:target="_blank"}, or `pyenv install 3.10.4` and `pyenv global 3.10.4`
+7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
 
 ### To-do
 1. Disco DF config
