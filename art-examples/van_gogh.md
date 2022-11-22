@@ -68,5 +68,4 @@
 
 `lvngvncnt, lake, highly detailed`
 
-![](https://media.discordapp.net/attachments/953704627826753536/1040439715964387409/1668041740_lvngvncnt_lake_highly_detailed.png)
-
+![](https://media.discordapp.net/attachments/884528247998664744/1044405916793049118/unknown.png)
