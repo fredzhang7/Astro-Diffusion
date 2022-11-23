@@ -27,7 +27,7 @@
 7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
 
 ### To-do
-1. Support and uses all publicaly available AI Art models and techniques
+1. Support (and improve, whenever possible) all publicaly available AI Art models, algorithms, and techniques
 2. General Stable DF prompt engineering AI
 3. Disco DF config
 4. Other GPU compatibility
