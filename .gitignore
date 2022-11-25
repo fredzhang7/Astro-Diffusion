@@ -14,11 +14,12 @@ disco-to-do.txt
 models-to-do.txt
 .env
 edit_message.py
-anime-diffusion-light.ckpt
+anime-sd.ckpt
 van-gogh-diffusion-v2.ckpt
 pony-diffusion.ckpt
 pony-diffusion-v2.ckpt
-anime-diffusion-v1-3.ckpt
+anime-trinart.ckpt
 pixelart-diffusion-expanded.pt
 pixelart-diffusion-4k.pt
+scifipulp-diffusion.pt
 sd-v1-5.ckpt

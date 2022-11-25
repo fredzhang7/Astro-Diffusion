@@ -542,6 +542,7 @@ def generate(args,
                                verbose=False).callback
 
     results = []
+    nprompts = args.nprompts
     with torch.no_grad():
         with precision_scope("cuda"):
             with model.ema_scope():
@@ -551,7 +552,7 @@ def generate(args,
                     if args.prompt_weighting:
                         uc, c = get_uc_and_c(prompts, model, args, frame)
                     else:
-                        uc = model.get_learned_conditioning(batch_size * [""])
+                        uc = model.get_learned_conditioning(nprompts if nprompts else batch_size * [""])
                         c = model.get_learned_conditioning(prompts)
 
                     if args.scale == 1.0:
@@ -719,12 +720,15 @@ def load_model(args,                         # args from astro.py
             'sha256': '244dbe0dcb55c761bde9c2ac0e9b46cc9705ebfe5f1f3a7cc46251573ea14e16',
             'url': 'https://huggingface.co/nousr/robo-diffusion/resolve/main/models/robo-diffusion-v1.ckpt',
         },
-        "anime-diffusion-v1-3.ckpt": {
+        "anime-sd.ckpt": {
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
         },
-        "disney-diffusion-v1.ckpt": {
-            'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/blob/main/moDi-v1-pruned.ckpt',
+        "anime-trinart.ckpt": {
+            'url': 'https://huggingface.co/naclbit/trinart_characters_19.2m_stable_diffusion_v1/resolve/main/trinart_characters_it4_v1.ckpt'
+        },
+        "disney-diffusion.ckpt": {
+            'url': 'https://huggingface.co/nitrosocke/mo-di-diffusion/resolve/main/moDi-v1-pruned.ckpt',
         },
         'openai-256x256-diffusion.pt': {
 		    'sha256': 'a37c32fffd316cd494cf3f35b339936debdc1576dad13fe57c42399a5dbc78b1',
@@ -916,11 +920,17 @@ model = None
 
 
 def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
-    if args.model_checkpoint.startswith("anime-diffusion"):
+    ckpt = args.model_checkpoint
+    if ckpt.startswith("anime-"):
         for i, name in enumerate(prompts):
             if len(name) < 80:
                 prompts[i] = anime_search(name)
-    elif args.model_checkpoint.startswith("pony-diffusion"):
+        from util import readLines
+        if 'sd.' in ckpt:
+            args.nprompts = readLines('./negative-prompts/anime_sd.txt')
+        else:
+            args.nprompts = readLines('./negative-prompts/anime_trinart.txt')
+    elif ckpt.startswith("pony-"):
         for i, name in enumerate(prompts):
             if len(name) < 80:
                 prompts[i] = pony_search(name)

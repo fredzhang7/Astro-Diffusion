@@ -1,3 +1,8 @@
+def readLines(path):
+    with open(path, "r", encoding="utf8") as f:
+        return f.readlines()
+
+
 from PIL import Image
 from cv2 import dnn_superres
 from typing import Tuple
@@ -56,11 +61,6 @@ def upscale_video(video_path: str, scale: int) -> None:
         out.write(frame)
     cap.release()
     out.release()
-
-
-def readLines(path):
-    with open(path, "r", encoding="utf8") as f:
-        return f.readlines()
 
 
 def containEmotions(prompt):
@@ -160,7 +160,7 @@ def load_summarizer():
     model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
 
 
-def anime_search(name, incarnation=False, seek_artist=False) -> str:
+def anime_search(name, seek_artist=False) -> str:
     """
     Summarizes the appearance of an anime character
     """
@@ -187,80 +187,80 @@ def anime_search(name, incarnation=False, seek_artist=False) -> str:
     character_page = google_search(name + ' fandom', result_format='first_link')
     if "fandom" not in character_page:
         return f'{prefix}, {name}'
-    r = requests.get(character_page, headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")
-    appearance = soup.find("span", id=lambda x: x and (x.startswith("Appearance") or x.startswith("Physical"))).parent
-    appearance = appearance.find_next_siblings(["p", "h2"])
-    header = appearance[0].text.strip()
-    if not header.startswith('Appearance') and not header.startswith('Physical'):
-        appearance = soup.find("span", id=lambda x: x and x.startswith("Depiction")).parent
+    try:
+        r = requests.get(character_page, headers=headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+        appearance = soup.find("span", id=lambda x: x and (x.startswith("Appearance") or x.startswith("Physical"))).parent
         appearance = appearance.find_next_siblings(["p", "h2"])
-    descriptions = []
-    length = 0
-    for tag in appearance:
-        text = tag.text.strip()
-        length += len(text)
-        if length > 4096:
-            break
-        if tag.name == "p":
-            descriptions.append(text)
-        elif tag.name == "h2" and ["Plot", "Relationships", "Trivia", "Gallery", "Site Navigation"].count(text) > 0:
-            break
-    appearance = " ".join(descriptions)
-    if model is None or tokenizer is None:
-        load_summarizer()
-    inputs = tokenizer([appearance], max_length=2048, return_tensors="pt", truncation=True)
-    summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=260)
-    summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
-    summary = summary[:-1]
-    summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace(name.split(" ")[0] + ' ', '').replace('She ', '').replace('However ', '')
+        if not appearance or len(appearance) == 0:
+            appearance = soup.find("span", id=lambda x: x and x.startswith("Depiction")).parent
+            appearance = appearance.find_next_siblings(["p", "h2"])
+        descriptions = []
+        length = 0
+        for tag in appearance:
+            text = tag.text.strip()
+            length += len(text)
+            if length > 4096:
+                break
+            if tag.name == "p":
+                descriptions.append(text)
+            elif tag.name == "h2" and ["Plot", "Relationships", "Trivia", "Gallery", "Site Navigation"].count(text) > 0:
+                break
+        appearance = " ".join(descriptions)
+        if model is None or tokenizer is None:
+            load_summarizer()
+        inputs = tokenizer([appearance], max_length=2048, return_tensors="pt", truncation=True)
+        summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=260)
+        summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
+        summary = summary[:-1]
+        summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace(name.split(" ")[0] + ' ', '').replace('She ', '').replace('However ', '')
 
-    prefix += ', hyperrealistic human eyes, elliptical pupil, solid shapes, solid lines, 8k, uhd, hyperrealistic' # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes 
-    if incarnation:
-        prefix += ', anime incarnation'
-    anime_name = None
-    if " in " in name:
-        anime_name = name.split(" in ")[1]
-    elif " from " in name:
-        anime_name = name.split(" from ")[1]
-    elif " of " in name:
-        anime_name = name.split(" of ")[1]
-    elif seek_artist:
-        try:
-            # get the first title ending in "Wikipedia" and is clickable
-            title = google_search(name + " anime name \"wikipedia\"", result_format='first_title')
-            if "(" in title:
-                anime_name = title.split("(")[0]
-            elif "-" in title:
-                anime_name = title.split("-")[0]
-        except:
-            pass
-        if anime_name:
-            soup = google_search(anime_name + ' anime artist name', result_format='soup')
-            artist = (soup.find("div", {"data-tts": "answers"}))
-            # fallback
-            if artist == None:
+        prefix += ', solid shapes, solid lines, 8k, uhd, hyperrealistic, hyperrealistic anime eyes, elliptical pupil, smooth brush strokes' # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes 
+        anime_name = None
+        if " in " in name:
+            anime_name = name.split(" in ")[1]
+        elif " from " in name:
+            anime_name = name.split(" from ")[1]
+        elif " of " in name:
+            anime_name = name.split(" of ")[1]
+        elif seek_artist:
+            try:
+                # get the first title ending in "Wikipedia" and is clickable
+                title = google_search(name + " anime name \"wikipedia\"", result_format='first_title')
+                if "(" in title:
+                    anime_name = title.split("(")[0]
+                elif "-" in title:
+                    anime_name = title.split("-")[0]
+            except:
+                pass
+            if anime_name:
                 soup = google_search(anime_name + ' anime artist name', result_format='soup')
-                artist = (soup.find("div", {"data-tts": "answer"}))
-            else:
-                artist = artist.get("data-tts-text")
-            if isinstance(artist, list):
-                artist = artist[0]
-            if artist:
-                prefix += ', art by ' + artist
-    if not 'eyes' in summary:
-        c = summary.find(',')
-        if c == -1:
-            summary = 'beautiful eyes, ' + summary
-        else:
-            c = summary.find(',', c + 1)
-            chosen = random.randint(0, 1) == 0
+                artist = (soup.find("div", {"data-tts": "answers"}))
+                # fallback
+                if artist == None:
+                    soup = google_search(anime_name + ' anime artist name', result_format='soup')
+                    artist = (soup.find("div", {"data-tts": "answer"}))
+                else:
+                    artist = artist.get("data-tts-text")
+                if isinstance(artist, list):
+                    artist = artist[0]
+                if artist:
+                    prefix += ', art by ' + artist
+        if not 'eyes' in summary:
+            c = summary.find(',')
             if c == -1:
-                summary = summary + ', beautiful eyes, perfect face' if chosen else summary + ', beautiful eyes, body portrait'
+                summary = 'beautiful eyes, ' + summary
             else:
-                summary = summary[:c] + ', beautiful eyes, perfect face' + summary[c:] if chosen else summary[:c] + ', beautiful eyes, body portrait' + summary[c:]
+                c = summary.find(',', c + 1)
+                if c == -1:
+                    summary = summary + ', beautiful eyes, perfect, body portrait'
+                else:
+                    summary = summary[:c] + ', beautiful eyes, perfect, body portrait' + summary[c:]
 
-    return f'{prefix}, {name.strip()}, {summary.strip()}'
+        return f'{prefix}, {name.strip()}, {summary.strip()}'
+    except:
+        print(bcolors.FAIL + f'Failed to summarize the appearance of {name}... Using the given prompt without prompt engineering...' + bcolors.ENDC)
+        return f'{prefix}, {name}'
 
 
 def parsePony(res) -> str:

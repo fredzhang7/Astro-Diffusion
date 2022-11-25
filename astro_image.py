@@ -21,23 +21,23 @@ def get_output_folder(output_path, batch_folder):
      sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general artwork, high VRAM)
      sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution, general artwork, medium VRAM)
      sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general artwork, high VRAM)
-     sd-v1-1.ckpt                        (4.0 GB, lowest resolution, general artwork, medium VRAM)
+     sd-v1-1.ckpt                        (4.0 GB, lowest accuracy, general artwork, medium VRAM)
 
     Animated Style
-     anime-diffusion-v1-3.ckpt           (2.1 GB, high res anime-style male and female anime/manga characters, low VRAM)
-     disney-diffusion-v1.ckpt            (2.1 GB, pokemons, high-quality Disney characters, animals, cars, & landscapes, low VRAM)
+     anime-sd.ckpt                       (2.1 GB, high-quality anime-style characters, low VRAM)
+     anime-trinart.ckpt                  (2.1 GB, most accurate, super high res anime-style characters, low VRAM)
+     disney-diffusion.ckpt               (2.1 GB, high res Disney-style characters, animals, cars, & landscapes, low VRAM)
      pony-diffusion-v2.ckpt              (3.7 GB, high res pony characters, medium VRAM)
 
     Robo Style
-     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha, etc. images, medium VRAM)
+     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha images, medium VRAM)
 
-    Art Styles
+    Drawing Styles
      van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
-     scifipulp-diffusion.pt              (0.4 GB, high-quality sci-fi & pulp art, low VRAM)
-     watercolor-diffusion-v2.pt          (0.4 GB, high-quality watercolor art, low VRAM)
+     scifipulp-diffusion.pt              (0.4 GB, sci-fi & pulp art, low VRAM)
+     watercolor-diffusion-v2.pt          (0.4 GB, watercolor art, low VRAM)
      portrait-diffusion.pt               (0.5 GB, portraits generator, low VRAM)
-     pixelart-diffusion-expanded.pt      (0.4 GB, high-quality pixel art by KaliYuga-ai, low VRAM)
-     pixelart-diffusion-4k.pt            (0.4 GB, high-quality pixel art by KaliYuga-ai, low VRAM)
+     pixelart-diffusion-expanded.pt      (0.4 GB, pixel art scribbles by KaliYuga-ai, low VRAM)
      pixelart-diffusion-sprites.ckpt     (4.0 GB, generate pixel art sprite sheets from four different angles, medium VRAM)
 
     OpenAI Style
@@ -45,9 +45,10 @@ def get_output_folder(output_path, batch_folder):
      openai-512x512-diffusion.pt         (2.1 GB, trained on 512x512 images, low VRAM)
 """
 
+
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "anime-diffusion-v1-3.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
+    model_checkpoint = "anime-trinart.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
@@ -80,9 +81,9 @@ def AstroArgs():
     log_weighted_subprompts = False      # whether to log the weighted subprompts
 
     # Batch Settings
-    n_batch = 5                          # number of samples to generate in parallel
+    n_batch = 4                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
-    batch_name = "AnimeFun"              # subfolder name to save images to
+    batch_name = "AnimFun"              # subfolder name to save images to
     seed_behavior = "iter"               # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
@@ -90,7 +91,7 @@ def AstroArgs():
     outdir = get_output_folder(output_path, batch_name)
 
     # Init Settings
-    use_init = False 
+    use_init = False                     # whether to use an init image
     strength = 0                         # a float between 0 and 1. 1 means the image is initialized to the prompt, 0 means the image is initialized to noise
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
     init_image = ""                      # URL or local path to image
@@ -147,15 +148,15 @@ torch.cuda.empty_cache()
      Anime Boy                           (anime boy, husbando)
 
     Examples:
-     1. model_checkpoint = "anime-diffusion-v1-3.ckpt"
-        # recommended to start an image gen with W=640 and H=640. then use this init_image and scale up to W=832 and H=896
+     1. model_checkpoint = "anime-trinart.ckpt"
+        # I recommend starting an image gen with 640x640 or 704x704. then use this as init_image and scale up to 896x896
         W = 640
         H = 640
         steps = 100
         scale = 8
         sampler = "klms"
         from util import readLines
-        prompts = readLines("./anime_boys.txt")
+        prompts = readLines("./prompt-examples/anime_boys.txt")
      2. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024
@@ -163,7 +164,7 @@ torch.cuda.empty_cache()
         scale = 8
         sampler = "klms"
         from util import get_optimized_prompts
-        prompts = get_optimized_prompts(prompt_source='./nature.txt', theme='nature')
+        prompts = get_optimized_prompts(prompt_source='./prompt-examples/nature.txt', theme='nature')
      3. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
         W = 512
         H = 512
@@ -177,6 +178,10 @@ torch.cuda.empty_cache()
             prompts.append(f'lvngvncnt, {person}, highly detailed')
         for scene in scenes:
             prompts.append(f'lvngvncnt, {scene}, highly detailed')
+     4. model_checkpoint = "robot-diffusion-v1.ckpt"
+        # use "nousr robot" near the beginning of your prompt
+     5. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
+        # use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
 
 """
 
@@ -185,6 +190,7 @@ def return_image_gen(prompts):
     return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
 
+# See examples of args and prompts in `examples.py` and the `/art-examples` folder
 # Uncomment the lines below to generate an image from the prompts
-# prompts = ['Hotarou Oreki from Hyouka man']
+# prompts = ['Hotarou Oreki']
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

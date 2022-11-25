@@ -2,34 +2,40 @@
 The random character names below corresponds to the prompts.
 
 
-`Kotaro Bokuto from Haikyuu!!`
-![](https://media.discordapp.net/attachments/884528247998664744/1041255242588766279/image.png)
+`Asada Shino`
+![](https://media.discordapp.net/attachments/884528247998664744/1045643925320368158/Asada_Shino_2.png?width=832&height=832)
 
 
-`Sinbad from Magi`
+`Asada Shino`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1041236124200357948/image.png)
-
-
-`Hotarou Oreki from Hyouka man`
-
-![](https://cdn.discordapp.com/attachments/884528247998664744/1042385419364487168/image.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1045643924775120906/Asada_Shino_1.png?width=832&height=832)
 
 
-`Kei Karuizawa`
+`Loid Forger`
 
-![](https://cdn.discordapp.com/attachments/884528247998664744/1042346361321959444/Kei_Karuizawa.png)
-
-
-`Suzune Horikita girl`
-
-![](https://media.discordapp.net/attachments/884528247998664744/1041616275350241340/image.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1045643927933423657/Loid_Forger_3.png?width=832&height=832)
 
 
-`Tohha Yatogami from Date A Live`
-![](https://cdn.discordapp.com/attachments/884528247998664744/1042377283278741555/image.png)
+`Loid Forger`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1045643927555932231/Loid_Forger_2.png?width=832&height=832)
 
 
-`Suzune Horikita girl`
+`Loid Forger`
 
-![](https://cdn.discordapp.com/attachments/884528247998664744/1042381011381669938/image.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1045643926792581140/Loid_Forger_1.png?width=832&height=832)
+
+
+`Honami Ichinose`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1045643925735616582/Honami_Ichinose_1.png?width=832&height=832)
+
+
+`Honami Ichinose`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1045643926134063125/Honami_Ichinose_2.png?width=832&height=832)
+
+
+`Honami Ichinose`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1045643926469611520/Honami_Ichinose_3.png?width=832&height=832)
