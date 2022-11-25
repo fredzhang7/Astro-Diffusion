@@ -28,8 +28,10 @@
 8. In a terminal, run `git pull https://github.com/FredZhang7/Astro-Diffusion.git​​` to update to the latest version
 
 ### To-do
-1. Disco DF config
-2. Other GPU compatibility
-3. Deforum SDF video generation
-4. Disco DF video generation
-5. Space Diffusion - train on 50,000+ high res images of galaxies, stars, universe, nebula, planets, etc.
+1. Support (and improve, whenever possible) all publicaly available AI Art models, algorithms, and techniques
+2. General Stable DF prompt engineering AI
+3. Disco DF config
+4. Other GPU compatibility
+5. Deforum SDF video generation
+6. Disco DF video generation
+7. Space Diffusion - train on 50,000+ high res images of galaxies, stars, universe, nebula, planets, etc.
