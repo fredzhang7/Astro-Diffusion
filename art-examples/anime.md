@@ -4,7 +4,7 @@ The random character names below corresponds to the prompts.
 
 `Asada Shino`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1045643925320368158/Asada_Shino_2.png?width=832&height=832)
+![](https://media.discordapp.net/attachments/884528247998664744/1046294179921277019/Asada_Shino_21.png?width=832&height=832)
 
 
 `Asada Shino`

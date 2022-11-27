@@ -19,18 +19,20 @@ def get_output_folder(output_path, batch_folder):
 """
     Stable Diffusion Style
      sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general artwork, high VRAM)
-     sd-v1-5.ckpt                        (4.0 GB, latest, higher resolution, general artwork, medium VRAM)
+     sd-v1-5.ckpt                        (4.2 GB, latest, higher resolution, general artwork, medium VRAM)
      sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general artwork, high VRAM)
-     sd-v1-1.ckpt                        (4.0 GB, lowest accuracy, general artwork, medium VRAM)
+     sd-v1-1.ckpt                        (4.2 GB, lowest accuracy, general artwork, medium VRAM)
 
     Animated Style
-     anime-sd.ckpt                       (2.1 GB, high-quality anime-style characters, low VRAM)
-     anime-trinart.ckpt                  (2.1 GB, most accurate, super high res anime-style characters, low VRAM)
+     anime-sd.ckpt                       (2.1 GB, fewer details, anime-style characters, low VRAM)
+     anime-trinart.ckpt                  (2.1 GB, accurate, detailed, high res, anime-style characters, low VRAM)
+     anime-cyberpunk.ckpt                (2.1 GB, accurate, clean-cut, high res, cyberpunk anime drawings, low VRAM)
      disney-diffusion.ckpt               (2.1 GB, high res Disney-style characters, animals, cars, & landscapes, low VRAM)
      pony-diffusion-v2.ckpt              (3.7 GB, high res pony characters, medium VRAM)
+     pokemon-diffusion.ckpt              (4.2 GB, new pokedex pokemons, medium VRAM)
 
     Robo Style
-     robo-diffusion-v1.ckpt              (4.0 GB, high-quality robot, android, mecha images, medium VRAM)
+     robo-diffusion-v1.ckpt              (4.2 GB, high-quality robot, android, mecha images, medium VRAM)
 
     Drawing Styles
      van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
@@ -38,7 +40,7 @@ def get_output_folder(output_path, batch_folder):
      watercolor-diffusion-v2.pt          (0.4 GB, watercolor art, low VRAM)
      portrait-diffusion.pt               (0.5 GB, portraits generator, low VRAM)
      pixelart-diffusion-expanded.pt      (0.4 GB, pixel art scribbles by KaliYuga-ai, low VRAM)
-     pixelart-diffusion-sprites.ckpt     (4.0 GB, generate pixel art sprite sheets from four different angles, medium VRAM)
+     pixelart-diffusion-sprites.ckpt     (4.2 GB, generate pixel art sprite sheets from four different angles, medium VRAM)
 
     OpenAI Style
      openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, low VRAM)
@@ -149,7 +151,7 @@ torch.cuda.empty_cache()
 
     Examples:
      1. model_checkpoint = "anime-trinart.ckpt"
-        # I recommend starting an image gen with 640x640 or 704x704. then use this as init_image and scale up to 896x896
+        # I recommend starting an image gen with 640x640 or 704x704. Then use the generated image as next init_image and scale up to 896x896
         W = 640
         H = 640
         steps = 100
@@ -173,11 +175,7 @@ torch.cuda.empty_cache()
         sampler = "euler"
         people = ['Armand Roulin', 'Vincent Van Gogh', 'Adeline Ravoux', 'Bruce Wayne', 'Steve Rogers', 'Gendarme Rigaumon', 'Louise Chevalier']
         scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
-        prompts = []
-        for person in people:
-            prompts.append(f'lvngvncnt, {person}, highly detailed')
-        for scene in scenes:
-            prompts.append(f'lvngvncnt, {scene}, highly detailed')
+        prompts = people + scenes
      4. model_checkpoint = "robot-diffusion-v1.ckpt"
         # use "nousr robot" near the beginning of your prompt
      5. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
@@ -190,7 +188,7 @@ def return_image_gen(prompts):
     return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
 
-# See examples of args and prompts in `examples.py` and the `/art-examples` folder
-# Uncomment the lines below to generate an image from the prompts
+# See examples of prompts in the `/art-examples` folder
+# Uncomment the lines below to generate image(s) from the prompts
 # prompts = ['Hotarou Oreki']
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

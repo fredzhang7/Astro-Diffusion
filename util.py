@@ -215,7 +215,7 @@ def anime_search(name, seek_artist=False) -> str:
         summary = summary[:-1]
         summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace(name.split(" ")[0] + ' ', '').replace('She ', '').replace('However ', '')
 
-        prefix += ', solid shapes, solid lines, 8k, uhd, hyperrealistic, hyperrealistic anime eyes, elliptical pupil, smooth brush strokes' # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes 
+        prefix += ', highres, solid shapes, solid lines, 8k, uhd, hyperrealistic, hyperrealistic anime eyes, elliptical pupil, smooth brush strokes' # perfectly round iris, perfectly circular solid colored and centered pupil, pupil centered in eyes, gradient from pupil to iris, dreamy eyes 
         anime_name = None
         if " in " in name:
             anime_name = name.split(" in ")[1]

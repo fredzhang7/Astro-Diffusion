@@ -542,7 +542,7 @@ def generate(args,
                                verbose=False).callback
 
     results = []
-    nprompts = args.nprompts
+    nprompts = args.nprompts if hasattr(args, 'nprompts') else batch_size * [""]
     with torch.no_grad():
         with precision_scope("cuda"):
             with model.ema_scope():
@@ -552,7 +552,7 @@ def generate(args,
                     if args.prompt_weighting:
                         uc, c = get_uc_and_c(prompts, model, args, frame)
                     else:
-                        uc = model.get_learned_conditioning(nprompts if nprompts else batch_size * [""])
+                        uc = model.get_learned_conditioning(nprompts)
                         c = model.get_learned_conditioning(prompts)
 
                     if args.scale == 1.0:
@@ -777,6 +777,12 @@ def load_model(args,                         # args from astro.py
         },
         'dalle2-diffusion.pth': {
             'url': 'https://huggingface.co/laion/DALLE2-PyTorch/resolve/main/best.pth',
+        },
+        'pokemon-diffusion.ckpt': {
+            'url': 'https://huggingface.co/justinpinkney/pokemon-stable-diffusion/resolve/main/ema-only-epoch%3D000142.ckpt'
+        },
+        'anime-cyberpunk.ckpt': {
+            'url': 'https://huggingface.co/DGSpitzer/Cyberpunk-Anime-Diffusion/resolve/main/Cyberpunk-Anime-Diffusion.ckpt'
         }
     }
 
@@ -923,17 +929,26 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
         for i, name in enumerate(prompts):
-            if len(name) < 80:
+            if len(name) < 75:
                 prompts[i] = anime_search(name)
         from util import readLines
+        folder = './negative-prompts/'
         if 'sd.' in ckpt:
-            args.nprompts = readLines('./negative-prompts/anime_sd.txt')
-        else:
-            args.nprompts = readLines('./negative-prompts/anime_trinart.txt')
+            args.nprompts = readLines(f'{folder}anime_sd.txt')
+        elif 'trinart.' in ckpt:
+            args.nprompts = readLines(f'{folder}anime_trinart.txt')
+        elif 'cyberpunk.' in ckpt:
+            args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
     elif ckpt.startswith("pony-"):
         for i, name in enumerate(prompts):
-            if len(name) < 80:
+            if len(name) < 75:
                 prompts[i] = pony_search(name)
+    elif ckpt.startswith("van-gogh-"):
+        for i, prompt in enumerate(prompts):
+            if not prompt.endswith("highly detailed"):
+                prompts[i] = prompt + ", highly detailed"
+            if not prompt.startswith("lvngvncnt"):
+                prompts[i] = "lvngvncnt, " + prompt
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
 
     if args.H >= 1024 and args.W >= 1024:
