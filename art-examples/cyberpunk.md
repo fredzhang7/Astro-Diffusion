@@ -1,17 +1,17 @@
 # Astro Diffusion
 
 
-`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect femine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
+`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495727234330727/1669574332_body_portrait_of_a_girl_in_dgs_illustration_style_Anime_girl_female_soldier_working_in_a_cyberpunk_city_cleavage_perfect_femine_face_intricate_k_highly_detailed.png?width=768&height=768)
 
 
-`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect femine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
+`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495722951954513/1669538694_body_portrait_of_a_girl_in_dgs_illustration_style_Anime_girl_female_soldier_working_in_a_cyberpunk_city_cleavage_perfect_femine_face_intricate_k_highly_detailed.png)
 
 
-`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect femine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
+`body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495723467845783/1669538732_body_portrait_of_a_girl_in_dgs_illustration_style_Anime_girl_female_soldier_working_in_a_cyberpunk_city_cleavage_perfect_femine_face_intricate_k_highly_detailed.png)
 
@@ -36,7 +36,7 @@
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495725002952825/1669544971_body_portrait_of_muscular_beard_soldier_male_in_dgs_illustration_style_halfbody_holding_robot_arms_strong_chest_perfect_musculine_face_k_highly_detailed_intense.png)
 
 
-`body portrait of a girl in dgs illustration style, hyperrealistic perfect anime eyes, wearing a blue dress, perfect femine face, intricate, 8k, highly detailed, intense, sharp focus`
+`body portrait of a girl in dgs illustration style, hyperrealistic perfect anime eyes, wearing a blue dress, perfect feminine face, intricate, 8k, highly detailed, intense, sharp focus`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495726798114836/1669574030_body_portrait_of_a_girl_in_dgs_illustration_style_hyperrealistic_perfect_anime_eyes_wearing_a_blue_dress_perfect_femine_face_intricate_k_highly_detailed_intense.png?width=768&height=768)
 
