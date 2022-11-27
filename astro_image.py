@@ -149,7 +149,7 @@ torch.cuda.empty_cache()
      Anime Girl                          (anime girl, waifu)
      Anime Boy                           (anime boy, husbando)
 
-    Examples:
+    Example Args & Prompts Usage:
      1. model_checkpoint = "anime-trinart.ckpt"
         # I recommend starting an image gen with 640x640 or 704x704. Then use the generated image as next init_image and scale up to 896x896
         W = 640
@@ -159,7 +159,14 @@ torch.cuda.empty_cache()
         sampler = "klms"
         from util import readLines
         prompts = readLines("./prompt-examples/anime_boys.txt")
-     2. model_checkpoint = "sd-v1-5.ckpt"
+     2. model_checkpoint = "anime-cyberpunk.ckpt"
+        # I recommend generating 704x704 or 768x768 image(s) first.
+        W = 768
+        H = 768
+        steps = 60
+        scale = 8
+        sampler = "euler"
+     3. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024
         steps = 50
@@ -167,7 +174,7 @@ torch.cuda.empty_cache()
         sampler = "klms"
         from util import get_optimized_prompts
         prompts = get_optimized_prompts(prompt_source='./prompt-examples/nature.txt', theme='nature')
-     3. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
+     4. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
         W = 512
         H = 512
         scale = 6.5
@@ -176,9 +183,9 @@ torch.cuda.empty_cache()
         people = ['Armand Roulin', 'Vincent Van Gogh', 'Adeline Ravoux', 'Bruce Wayne', 'Steve Rogers', 'Gendarme Rigaumon', 'Louise Chevalier']
         scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
         prompts = people + scenes
-     4. model_checkpoint = "robot-diffusion-v1.ckpt"
+     5. model_checkpoint = "robot-diffusion-v1.ckpt"
         # use "nousr robot" near the beginning of your prompt
-     5. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
+     6. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
         # use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
 
 """
