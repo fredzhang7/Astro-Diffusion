@@ -160,11 +160,12 @@ def load_summarizer():
     model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
 
 
-def anime_search(name, seek_artist=False) -> str:
+def anime_search(prompt, seek_artist=False) -> str:
     """
     Summarizes the appearance of an anime character
     """
     prefix = '1'
+    name = prompt
     if 'girl' in name:
         prefix = '1girl'
         name = name.replace('girl', '').replace('girls', '')
@@ -259,8 +260,8 @@ def anime_search(name, seek_artist=False) -> str:
 
         return f'{prefix}, {name.strip()}, {summary.strip()}'
     except:
-        print(bcolors.FAIL + f'Failed to summarize the appearance of {name}... Using the given prompt without prompt engineering...' + bcolors.ENDC)
-        return f'{prefix}, {name}'
+        print(bcolors.FAIL + f'Failed to summarize the appearance of \"{prompt}\"... Using the given prompt without prompt engineering...' + bcolors.ENDC)
+        return prompt
 
 
 def parsePony(res) -> str:

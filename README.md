@@ -1,4 +1,4 @@
-# Astro Diffusion v0.4
+# Astro Diffusion v0.5
 
 ### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
@@ -8,12 +8,13 @@
 <br>
 3. Other Styles (Disney, Pony, Anime, Van Gogh, OpenAI)
 <br>
-4. Speed & Accuracy Optimization v0.5
+4. Speed & Accuracy Optimization v0.6
 <br>
 5. Image & Video Super Resolution v0.1
 
 ### Examples
 1. [Anime](/art-examples/anime.md)
+2. [Cyberpunk](/art-examples/cyberpunk.md)
 2. [Van Gogh](/art-examples/van_gogh.md)
 3. [Pony](/art-examples/pony.md)
 

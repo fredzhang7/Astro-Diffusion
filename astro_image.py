@@ -50,7 +50,7 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "anime-trinart.ckpt"    # one of "custom", a model checkpoint listed above. if have no clue, use "sd-v1-5.ckpt"
+    model_checkpoint = "anime-trinart.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
@@ -85,7 +85,7 @@ def AstroArgs():
     # Batch Settings
     n_batch = 4                          # number of samples to generate in parallel
     output_path = "./"                   # folder path to save images to
-    batch_name = "AnimFun"              # subfolder name to save images to
+    batch_name = "AnimFun"               # subfolder name to save images to
     seed_behavior = "iter"               # one of "iter", "fixed", "random"
     make_grid = False                    # whether to make a grid of images
     grid_rows = 2                        # number of rows in grid
@@ -160,12 +160,13 @@ torch.cuda.empty_cache()
         from util import readLines
         prompts = readLines("./prompt-examples/anime_boys.txt")
      2. model_checkpoint = "anime-cyberpunk.ckpt"
-        # I recommend generating 704x704 or 768x768 image(s) first.
+        # I recommend generating 704x704 or 768x768 image(s) first. 768x768 images are either more detailed & accurate or more random & chaotic.
         W = 768
         H = 768
         steps = 60
         scale = 8
         sampler = "euler"
+        prompts = readLines("./prompt-examples/anime_cyberpunk.txt")
      3. model_checkpoint = "sd-v1-5.ckpt"
         W = 1024
         H = 1024

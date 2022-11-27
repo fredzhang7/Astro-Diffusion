@@ -866,8 +866,7 @@ def load_model(args,                         # args from astro.py
 
     if load_on_run_all and ckpt_valid:
         local_config = OmegaConf.load(f"{ckpt_config_path}")
-        device = torch.device(
-            "cuda") if torch.cuda.is_available() else torch.device("cpu")
+        device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
         model = load_model_from_config(local_config,
                                        f"{ckpt_path}",
                                        device=device,
@@ -929,7 +928,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
         for i, name in enumerate(prompts):
-            if len(name) < 75:
+            if len(name) < 80:
                 prompts[i] = anime_search(name)
         from util import readLines
         folder = './negative-prompts/'
@@ -941,7 +940,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
             args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
     elif ckpt.startswith("pony-"):
         for i, name in enumerate(prompts):
-            if len(name) < 75:
+            if len(name) < 80:
                 prompts[i] = pony_search(name)
     elif ckpt.startswith("van-gogh-"):
         for i, prompt in enumerate(prompts):
