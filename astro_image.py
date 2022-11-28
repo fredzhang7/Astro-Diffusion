@@ -18,9 +18,8 @@ def get_output_folder(output_path, batch_folder):
 
 """
     Stable Diffusion Style
-     sd-v1-5-full-ema.ckpt               (7.2 GB, latest, highest resolution, general artwork, high VRAM)
-     sd-v1-5.ckpt                        (4.2 GB, latest, higher resolution, general artwork, medium VRAM)
-     sd-v1-1-full-ema.ckpt               (7.2 GB, lower resolution, general artwork, high VRAM)
+     sd-v2-0.ckpt                        (5.2 GB, latest, family-friendly, highest resolution, general artwork, medium VRAM)
+     sd-v1-5.ckpt                        (4.2 GB, higher resolution, general artwork, medium VRAM)
      sd-v1-1.ckpt                        (4.2 GB, lowest accuracy, general artwork, medium VRAM)
 
     Animated Style
@@ -32,15 +31,22 @@ def get_output_folder(output_path, batch_folder):
      pokemon-diffusion.ckpt              (4.2 GB, new pokedex pokemons, medium VRAM)
 
     Robo Style
-     robo-diffusion-v1.ckpt              (4.2 GB, high-quality robot, android, mecha images, medium VRAM)
+     robo-diffusion-v1.ckpt              (4.2 GB, high-quality robot, cyborg, android drawings, medium VRAM)
 
     Drawing Styles
-     van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
-     scifipulp-diffusion.pt              (0.4 GB, sci-fi & pulp art, low VRAM)
-     watercolor-diffusion-v2.pt          (0.4 GB, watercolor art, low VRAM)
+     vector-art.ckpt                     (2.1 GB, high-quality vector art, medium VRAM)
+     nitro-diffusion.ckpt                (2.1 GB, mix of archer, arcane or modern disney styles, medium VRAM)
+     scifipulp-diffusion.pt              (0.4 GB, sci-fi pulp art by KaliYuga-ai, low VRAM)
      portrait-diffusion.pt               (0.5 GB, portraits generator, low VRAM)
-     pixelart-diffusion-expanded.pt      (0.4 GB, pixel art scribbles by KaliYuga-ai, low VRAM)
+     pixelart-diffusion-expanded.pt      (0.4 GB, pixel art by KaliYuga-ai, low VRAM)
      pixelart-diffusion-sprites.ckpt     (4.2 GB, generate pixel art sprite sheets from four different angles, medium VRAM)
+
+    Painting Styles
+     van-gogh-diffusion-v2.ckpt          (2.1 GB, high-quality Van Gogh paintings, Loving Vincent, low VRAM)
+     watercolor-diffusion-v2.pt          (0.4 GB, watercolor art by KaliYuga-ai, low VRAM)
+
+    Craft Style
+     popup-book.ckpt                     (4.2 GB, pop-up book illustrations, medium VRAM)
 
     OpenAI Style
      openai-256x256-diffusion.pt         (2.1 GB, trained on 256x256 images, low VRAM)
@@ -184,10 +190,12 @@ torch.cuda.empty_cache()
         people = ['Armand Roulin', 'Vincent Van Gogh', 'Adeline Ravoux', 'Bruce Wayne', 'Steve Rogers', 'Gendarme Rigaumon', 'Louise Chevalier']
         scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
         prompts = people + scenes
-     5. model_checkpoint = "robot-diffusion-v1.ckpt"
+     5. model_checkpoint = "robo-diffusion-v1.ckpt"
         # use "nousr robot" near the beginning of your prompt
      6. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
         # use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
+     7. model_checkpoint = "popup-book.ckpt"
+        # include "popupBook" in your prompt to get a popup book effect
 
 """
 

@@ -14,9 +14,9 @@
 
 ### Examples
 1. [Anime](/art-examples/anime.md)
-2. [Cyberpunk](/art-examples/cyberpunk.md)
-2. [Van Gogh](/art-examples/van_gogh.md)
+2. [Cyberpunk Anime](/art-examples/cyberpunk.md)
 3. [Pony](/art-examples/pony.md)
+4. [Van Gogh](/art-examples/van_gogh.md)
 
 ### Setup for NVIDIA GPU Users
 1. [Download CUDA v11.2](https://developer.nvidia.com/cuda-downloads)

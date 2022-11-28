@@ -668,6 +668,9 @@ def load_model(args,                         # args from astro.py
               load_on_run_all=True,          # whether to load the model when running all cells
               half_precision=True):          # whether to use half precision
     model_map = {
+        "sd-v2-0.ckpt": {
+            'url': 'https://huggingface.co/stabilityai/stable-diffusion-2/resolve/main/768-v-ema.ckpt',
+        },
         "sd-v1-5-full-ema.ckpt": {
             'url': 'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt',
             'requires_login': True
@@ -783,6 +786,15 @@ def load_model(args,                         # args from astro.py
         },
         'anime-cyberpunk.ckpt': {
             'url': 'https://huggingface.co/DGSpitzer/Cyberpunk-Anime-Diffusion/resolve/main/Cyberpunk-Anime-Diffusion.ckpt'
+        },
+        'vector-art.ckpt': {
+            'url': 'https://huggingface.co/coder119/Vectorartz_Diffusion/resolve/main/Vectorartz.ckpt'
+        },
+        'popup-book.ckpt': {
+            'url': 'https://huggingface.co/RayHell/popupBook-diffusion/resolve/main/popupBook-diffusion-v1.ckpt'
+        },
+        'nitro-diffusion.ckpt': {
+            'url': 'https://huggingface.co/nitrosocke/Nitro-Diffusion/resolve/main/nitroDiffusion-v1.ckpt'
         }
     }
 

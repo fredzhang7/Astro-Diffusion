@@ -2,6 +2,7 @@ deforum-stable-diffusion
 MiDaS
 pytorch3d-lite
 stable-diffusion
+stable-diffusion-webui
 k-diffusion
 src
 .vscode
