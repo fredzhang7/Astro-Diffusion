@@ -260,7 +260,7 @@ def anime_search(prompt, seek_artist=False) -> str:
 
         return f'{prefix}, {name.strip()}, {summary.strip()}'
     except:
-        print(bcolors.FAIL + f'Failed to summarize the appearance of \"{prompt}\"... Using the given prompt without prompt engineering...' + bcolors.ENDC)
+        # print(bcolors.FAIL + f'Failed to summarize the appearance of \"{prompt}\"... Using the given prompt without prompt engineering...' + bcolors.ENDC)
         return prompt
 
 
@@ -329,7 +329,7 @@ def pony_search(name="", seek_artist=True) -> str:
 
 def random_value(obj: object) -> str:
     if isinstance(obj, dict):
-        key = random.choice(list(obj.values()))
+        key = random.choice(random.choice(list(obj.values())))
         return obj[key] if key in obj else key
     raise TypeError(f'Expected dict, got {type(obj)}')
 
@@ -416,7 +416,7 @@ def danbooru_search(tags="") -> str:
         'swimsuits': ["print swimsuit","black one-piece swimsuit","brown one-piece swimsuit","red one-piece swimsuit","purple one-piece swimsuit","gold one-piece swimsuit","orange one-piece swimsuit","yellow one-piece swimsuit","green one-piece swimsuit","white one-piece swimsuit","grey one-piece swimsuit","blue one-piece swimsuit","aqua one-piece swimsuit","pink one-piece swimsuit","silver one-piece swimsuit","swimsuit","jumpsuit","playboy bunny","legskin","criss-cross halter","bathrobe","sports bikini","strapless leotard","romper","tunic","bodystocking","short jumpsuit","kesa","bikesuit","robe","unitard","leotard","competition swimsuit","sarong","jammers","racing suit","rash guard","swim briefs","tankini","bodysuit"],
         'tradition': ["hakama short skirt","yukata","chinese clothes","geta","china dress","changpao","korean clothes","midriff sarashi","hanbok","straw cape","happi","tasuki","short kimono","hakama skirt","budget sarashi","hakama pants","kimono skirt","vietnamese dress","fengguan","hakama","sarashi","hanfu","chest sarashi","nontraditional miko","tangzhuang","dotera","haori","chanchanko","japanese clothes","layered kimono","furisode","uchikake","fundoshi","undone sarashi","kimono","dirndl","hanten","miko","tabi","yamakasa","longpao","mino boushi"],
         'hat': ["hijab","frilled hat","okosozukin","shower cap","head scarf","jester cap","veil","keffiyeh","aviator cap","shufa guan","habit","visor cap","bandana","bonnet","balaclava","dalachi"],
-        'sleeves': getattr(male, 'sleeves') + ["single detached sleeve","raglan sleeves","wide sleeves","lace-up sleeves","puffy sleeves","compression sleeve","mismatched sleeves","long sleeves","short sleeves","elbow sleeve","puff and slash sleeves","layered sleeves","puffy detached sleeves","puffy short sleeves","ribbed sleeves","torn sleeves","short over long sleeves","bell sleeves","see-through sleeves","detached sleeves","puffy long sleeves"]
+        'sleeves': male["sleeves"] + ["single detached sleeve","raglan sleeves","wide sleeves","lace-up sleeves","puffy sleeves","compression sleeve","mismatched sleeves","long sleeves","short sleeves","elbow sleeve","puff and slash sleeves","layered sleeves","puffy detached sleeves","puffy short sleeves","ribbed sleeves","torn sleeves","short over long sleeves","bell sleeves","see-through sleeves","detached sleeves","puffy long sleeves"]
     }
     tech = {
         'aircraft': ["aircraft","helicopter","airplane","airship","taking off","spacecraft"],

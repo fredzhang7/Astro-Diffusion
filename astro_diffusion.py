@@ -21,7 +21,7 @@ import re
 from scipy.ndimage import gaussian_filter
 from util import upscale_image
 from typing import Tuple
-from util import anime_search, pony_search
+from util import anime_search, pony_search, danbooru_search
 
 
 sys.path.extend([
@@ -939,13 +939,13 @@ model = None
 def parse_args(args, prompts=[], nprompts=[]):
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
-        for i, name in enumerate(prompts):
-            if len(name) < 75:
-                prompts[i] = anime_search(name)
+        for i, p in enumerate(prompts):
+            prompts[i] = danbooru_search(p)
+            prompts[i] = anime_search(prompts[i]) if len(p) < 75 else prompts[i]
     elif ckpt.startswith("pony-"):
-        for i, name in enumerate(prompts):
-            if len(name) < 60:
-                prompts[i] = pony_search(name)
+        for i, p in enumerate(prompts):
+            if len(p) < 60:
+                prompts[i] = pony_search(p)
     elif ckpt.startswith("van-gogh-"):
         for i, prompt in enumerate(prompts):
             if not prompt.endswith("highly detailed"):
