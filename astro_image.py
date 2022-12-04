@@ -63,7 +63,7 @@ def AstroArgs():
 
     # Image Settings
     W = 832                              # image width
-    H = 896                              # image height
+    H = 960                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -193,7 +193,14 @@ def return_image_gen(prompts):
 
 
 # See prompt examples in the /prompt-examples and /art-examples folder
-# Uncomment the lines below to generate image(s) from the prompts
+# Use commas (,), pipes (|), or double colons (::) as hard separators
+# ❗Uncomment one of the two sections below to generate image(s) from the prompts
+
 # prompts = ['1boy, medium hair, blonde hair, blue eyes, bishounen, colorful, autumn, cumulonimbus clouds, lighting, blue sky, falling leaves, garden, highres']
 # nprompts = []  # don't change this unless the output image is of poor quality
+# render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)
+
+# from util import random_anime_tags
+# prompts = random_anime_tags()
+# nprompts = []
 # render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)

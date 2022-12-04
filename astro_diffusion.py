@@ -940,8 +940,9 @@ def parse_args(args, prompts=[], nprompts=[]):
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
         for i, p in enumerate(prompts):
-            prompts[i] = danbooru_search(p)
-            prompts[i] = anime_search(prompts[i]) if len(p) < 75 else prompts[i]
+            init_len = len(p)
+            p = danbooru_search(p)
+            prompts[i] = anime_search(p, 'anything' in ckpt) if len(p) < 75 and init_len == len(p) else p
     elif ckpt.startswith("pony-"):
         for i, p in enumerate(prompts):
             if len(p) < 60:

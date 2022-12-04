@@ -160,7 +160,7 @@ def load_summarizer():
     model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
 
 
-def anime_search(prompt, seek_artist=False) -> str:
+def anime_search(prompt, seek_artist=False, latest=False) -> str:
     """
     Summarizes the appearance of an anime character
     """
@@ -211,12 +211,13 @@ def anime_search(prompt, seek_artist=False) -> str:
         if model is None or tokenizer is None:
             load_summarizer()
         inputs = tokenizer([appearance], max_length=2048, return_tensors="pt", truncation=True)
-        summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=260)
+        summary_ids = model.generate(inputs["input_ids"], num_beams=2, min_length=40, max_length=240)
         summary = tokenizer.batch_decode(summary_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)[0]
         summary = summary[:-1]
         summary = summary.replace(', ', ' ').replace('\"', '').replace(' .', ',').replace('When ', ' ').replace(' He ', ' ').replace(name.split(" ")[0] + ' ', '').replace(name.split(" ")[1] + ' ', '').replace('She ', '').replace('However ', '')
 
-        prefix += ', highres, solid shapes, solid lines, 8k, uhd, hyperrealistic, hyperrealistic anime eyes, elliptical pupil, smooth brush strokes'
+        if not latest:
+            prefix += ', highres, solid shapes, solid lines, 8k, uhd, hyperrealistic, hyperrealistic anime eyes, elliptical pupil, smooth brush strokes'
         anime_name = None
         if " in " in name:
             anime_name = name.split(" in ")[1]
@@ -330,7 +331,7 @@ def pony_search(name="", seek_artist=True) -> str:
 def random_value(obj: object) -> str:
     if isinstance(obj, dict):
         key = random.choice(random.choice(list(obj.values())))
-        return obj[key] if key in obj else key
+        return random.choice(obj[key]) if key in obj else key
     raise TypeError(f'Expected dict, got {type(obj)}')
 
 
@@ -357,15 +358,16 @@ def danbooru_search(tags="") -> str:
         'simple background': ["simple background","starry background","transparent background","zoom layer","mosaic background","paneled background","photo background","backlighting","blurry background","card background","chibi inset","drama layer","fiery background","flag background","floral background","fruit background","heart background","argyle background","checkered background","food-themed background","halftone background","honeycomb background","paw print background","plaid background","polka dot background","simple background","snowflake background","spiral background","strawberry background","striped background","sunburst background","gradient background","multicolored background","rainbow background","heaven condition","two-tone background","aqua background","beige background","black background","blue background","brown background","green background","grey background","lavender background","orange background","pink background","purple background","red background","sepia background","tan background","white background","yellow background"],
         'emotion': ["angry","anger vein","annoyed","clenched teeth","scowl","annoyed","blush","blush stickers","embarrassed","full-face blush","nose blush","bored","closed eyes","confused","crazy","determined","disappointed","disdain","disgust","despair","drunk","envy","expressionless","evil","facepalm","flustered","frustrated","furrowed brow","grimace","guilt","happy","kubrick stare","lonely","nervous","one eye closed","open mouth","parted lips","pain","pout","raised eyebrow","rape face","rolling eyes","sad","depressed","frown","gloom (expression)","tears","scared","panicking","worried","serious","sigh","sleepy","tired","sulking","surprised","thinking","pensive","v-shaped eyebrows","wince","upset","^^^","color drain","depressed","despair","gloom (expression)","horrified","screaming","sobbing","turn pale","trembling","wavy mouth"],
         'emote': [";)",":d",";d","xd","d:",":3",";3","x3","3:","uwu",":p",";p",":q",";q",">:)",">:(",":t",":i",":/",":|",":x",":c","c:",":<",";<",":<>",":>",":>=",":o",";o","o3o","(-3-)",">3<","o_o","0_0","|_|","._.","solid circle eyes","heart-shaped eyes","^_^","^o^","\(^o^)/","^q^",">_<","xd","x3",">o<","@_@",">_@","+_+","+_-","=_=","=^=","=v=","<o>_<o>","<|>_<|>"],
-        'smile': ["crazy smile","evil smile","fingersmile","forced smile","glasgow smile","grin","evil grin","light smile","sad smile","seductive smile","stifled laugh","doyagao","smirk","smug"],
-        'eye color': ["aqua eyes","black eyes","blue eyes","brown eyes","green eyes","grey eyes","orange eyes","purple eyes","pink eyes","red eyes","white eyes","yellow eyes","amber eyes","heterochromia","multicolored eyes","@ @","dashed eyes","Pac-man eyes","ringed eyes"],
+        'smile': ["crazy smile","evil smile","fingersmile","forced smile","glasgow smile","grin","light smile","sad smile","seductive smile","stifled laugh","doyagao","smirk","smug"],
+        'pupil': ["slit pupils", "symbol-shaped pupils", "heart-shaped pupils", "flower-shaped pupils", "star-shaped_pupils", "diamond-shaped pupils", "bunny-shaped pupils"],
+        'eye color': ["aqua eyes","black eyes","blue eyes","brown eyes","green eyes","grey eyes","orange eyes","purple eyes","pink eyes","red eyes","yellow eyes","amber eyes","heterochromia","multicolored eyes","@ @","dashed eyes","Pac-man eyes","ringed eyes"],
         'eye style': ["print eyepatch","bags under eyes","aegyo sal","bruised eye","flaming eyes","glowing eyes","glowing eye","mako eyes","blinking","closed eyes","wince","one eye closed",";<",";>",";p","> <","X3","XD","DX","O o","0 0","3 3","6 9","@ @","^ ^","^o^","|_|","||_||","= =","+ +",". .","<o> <o>","covering eyes","hair over eyes","hair over one eye","bandage over one eye","blindfold","hat over eyes","eyepatch","eyelashes","colored eyelashes","fake eyelashes","eyes visible through hair","glasses","makeup","eyeliner","eyeshadow","mascara"],
         'eye gaze': ["eye contact","looking afar","looking at another","looking at breasts","looking at hand","looking at mirror","looking at phone","looking at viewer","looking away","looking back","looking down","looking outside","looking over eyewear","looking through legs","looking to the side","looking up"],
         'pattern': ["yagasuri","houndstooth","goshoguruma","horizontal stripes","tiger stripes","shippou (pattern)","kikumon","multicolored stripes","igeta (pattern)","invasion stripes","camouflage","diagonal stripes","sakuramon","argyle","double vertical stripe","gingham","striped","asa no ha (pattern)","kojitsunagi (pattern)","polka dot","patterned clothing","patterned background","patterned","uroko (pattern)","pinstripe pattern","colored stripes","uchiwa design","honeycomb","shima (pattern)","patterned hair","karakusa (pattern)","kanoko (pattern)","vertical stripes","seigaiha","sayagata","checkered","egasumi","kikkoumon","kagome (pattern)","plaid","genjiguruma"],
         'print': ["animal print","bat print","bear print","bird print","cow print","leopard print","tiger print","snake print","zebra print","flag print","floral print","cherry blossom print","game controller print","moon print","crescent print","hand print","leaf print","musical note print","piano print","watermelon print","print umbrella"],
         'coloring': ["inverted colors","colorized","black theme","spot color","grey theme","green theme","color drain","neon palette","greyscale with colored background","color connection","high contrast","ff gradient","orange theme","cel shading","flat color","sepia","yellow theme","brown theme","white theme","purple theme","pink theme","colorful","aqua theme","rainbow","colored with greyscale background","gradient","greyscale","multiple monochrome","red theme","pale color","muted color","rainbow order","pastel colors","blue theme","anime coloring","limited palette","monochrome"],
         'art style': ["pinup","style parody","ukiyo-e","friday night funkin'","faux traditional media","realistic","flame painter","fine art parody","nihonga","2000s","1980s","unfinished","sketch","abstract","1970s","traditional media","sumi-e","pokemon rgby","1920s","animification","bikkuriman","1940s","granblue fantasy","*_(medium)","photorealistic","ligne claire","retro artstyle","1960s","minimalism","1950s","impressionism","art nouveau","art deco","1990s","cartoonized","surreal","toon","1930s","western comics"],
-        'hair style': ["whipping hair","hair slicked back","messy hair","afro","hair rings","front braid","buzz cut","sidecut","hime cut","heart ahoge","curly hair","asymmetrical bangs","sidelocks","ahoge","wavy hair","bowl cut","pixie cut","heart hair bun","hair intakes","pompadour","huge ahoge","parted bangs","split ponytail","side ponytail","shouten pegasus mix mori","two side up","swept bangs","quad tails","low twintails","hair between eyes","asymmetrical hair","multiple braids","uneven twintails","crew cut","half updo","double bun","dreadlocks","bow-shaped hair","low-braided long hair","blunt ends","braided bun","quiff","huge afro","undercut","single hair ring","folded ponytail","short ponytail","widow's peak","braided bangs","blunt bangs","mullet","topknot","multi-tied hair","hair scarf","quad braids","low-tied long hair","chonmage","triple bun","bangs","nihongami","crown braid","doughnut hair bun","hair up","ponytail","single hair intake","drill hair","flattop","spiked hair","quin tails","side braid","beehive hairdo","single braid","one side up","ringlets","hair flaps","single hair bun","tri braids","hair over one eye","lone nape hair","tri tails","hair down","comb over","mizura","mohawk","cornrows","front ponytail","antenna hair","twin braids","short twintails","french braid","twintails","okappa","braid","hair over eyes","pointy hair","flipped hair","high ponytail","hair over shoulder","low twin braids","hair bun","oseledets","bob cut","twin drills","cone hair bun","hair pulled back","alternate hairstyle"],
+        'hair style': ["whipping hair","hair slicked back","messy hair","afro","hair rings","front braid","buzz cut","sidecut","hime cut","heart ahoge","curly hair","asymmetrical bangs","sidelocks","ahoge","wavy hair","bowl cut","pixie cut","heart hair bun","hair intakes","pompadour","huge ahoge","parted bangs","split ponytail","side ponytail","shouten pegasus mix mori","two side up","swept bangs","quad tails","low twintails","hair between eyes","asymmetrical hair","multiple braids","uneven twintails","crew cut","half updo","double bun","dreadlocks","bow-shaped hair","low-braided long hair","blunt ends","braided bun","quiff","huge afro","undercut","single hair ring","folded ponytail","short ponytail","widow's peak","braided bangs","blunt bangs","mullet","topknot","multi-tied hair","hair scarf","quad braids","low-tied long hair","chonmage","triple bun","bangs","nihongami","crown braid","hair up","ponytail","single hair intake","drill hair","flattop","spiked hair","quin tails","side braid","beehive hairdo","single braid","one side up","ringlets","hair flaps","single hair bun","tri braids","hair over one eye","lone nape hair","tri tails","hair down","comb over","mizura","mohawk","cornrows","front ponytail","antenna hair","twin braids","short twintails","french braid","twintails","okappa","braid","hair over eyes","pointy hair","flipped hair","high ponytail","hair over shoulder","low twin braids","hair bun","oseledets","bob cut","twin drills","cone hair bun","hair pulled back","alternate hairstyle"],
         'hair color': ["streaked hair","gradient hair","brown hair","rainbow hair","light purple hair","two-tone hair","red hair","aqua hair","split-color hair","colored inner hair","light blue hair","purple hair","blue hair","black hair","dark green hair","light brown hair","blonde hair","green hair","multicolored hair","orange hair","dark blue hair","colored tips","grey hair","white hair","light green hair","pink hair"],
         'ear style': ["pig ears","tiger ears","horse ears","ear protection","bat ears","pikachu ears","bear ears","fox ears","behind ear","monkey ears","wolf ears","animal ears","cat ears","lion ears","squirrel ears","panda ears","dog ears","raccoon ears","fake animal ears","sheep ears","cow ears","kemonomimi mode","ferret ears","robot ears","deer ears","hair ears","rabbit ears","mouse ears","pointy ears","ear piercing","goat ears"],
         'headphones': ["headphones","headphones for animal ears","earpiece","bunny headphones","animal ear headphones","cat ear headphones","behind-the-head headphones","headset"],
@@ -449,13 +451,15 @@ def danbooru_search(tags="") -> str:
         'dessert': ["chewing gum","churro","nerunerunerune","opera cake","stollen","brownie","mooncake","chitose ame","cream","yule log","creme egg","birthday cake","imagawayaki","m&m's","marble chocolate","pudding","chocolate chip cookie","chocolate fountain","mochi","thumbprint cookie","white chocolate","pastry box","doughnut","kitkat","cake slice","charlotte cake","cinnamon roll","chocolate syrup","cotton candy","pound cake","christmas cake","muffin","anmitsu","gelatin","taiyaki","marshmallow","chocolate bar","wedding cake","sandwich cookie","takenoko no sato","crepe","tart","dough","mont blanc","red velvet cake","warabimochi","toppo","tanghulu","tootsweets","uirou (food)","cheesecake","cigarette candy","candy apple","baumkuchen","pocky","pastry","strawberry shortcake","batter","checkerboard cookie","pinata","madeleine","jelly bean","black forest cake","chocolate cake","wafer","cupcake","tiramisu","baozi","youkan (food)","kinoko no yama","shaved ice","lollipop","popsicle","chocolate marquise","gingerbread cookie","dorayaki","ice cream","fondant au chocolat","swiss roll","caramel","apollo chocolate","layer cake","mille-feuille","konpeitou","candy cane","heart-shaped chocolate","pie"],
         'meal': ["gunkanmaki","tofu","tamagokake gohan","jiaozi","zongzi","curry rice","twice cooked pork","curry","pizza delivery","stinky tofu","lunch","fish and chips","party","takuan","fondue","pizza slice","sushi","tempura","salt","mapo tofu","konnyaku","bento","shumai","dim sum","holding pizza","ribs (food)","sandwich","katsu","canned food","feast","burger","hot dog","narutomaki","dumpling","inarizushi","corn dog","sukiyaki","makizushi","shrimp tempura","croquette","nigirizushi","zouni soup","nabe","tang yuan","birthday party","oden","salt shaker","omelet","unadon (food)","flour","crumbs","french fries","soup","tea party","pizza box","miso soup","conveyor belt sushi","okosama lunch","sushi geta","katsudon","breakfast","salad","pizza","meal","baozi","dinner","okonomiyaki","megamac","takoyaki","taco","aburaage","cooking oil","french toast"]
     }
-    location = {
+    scene = {
         'indoor': ["bedroom","dungeon","stage","dressing room","pool","living room","office","gym","library","storage room","kitchen","staff room","infirmary","conservatory","changing room","courtroom","classroom","laboratory","bathroom","workshop","cafeteria","fitting room","dining room"],
         'nature': ["garden of the sun","forest of magic","mountain","seascape","ocean bottom","island","parking lot","water","cliff","cave","desert","jungle","pond","nature","river","glacier","beach","ocean","stream","hill","canyon","park","lake","wetland","plain","waterfall","forest","meadow"],
         'man-made': ["phone booth","bridge","graveyard","highway","amusement park","city","canal","pier","jetty","railroad tracks","tunnel","market","running track","dam","stone walkway","zoo","harbor","dock","aqueduct","fountain","street","trench","well","field","soccer field","dirt road","sidewalk","pool","garden","alley","path","crosswalk"],
         'building': ["hakugyokurou","moriya shrine","makai (touhou)","shining needle castle","voile","palanquin ship","hakurei shrine","chireiden","scarlet devil mansion","kourindou","architecture","hut","restaurant","onsen","supermarket","ruins","aquarium","convention","office","skating rink","apartment","temple","military base","planetarium","industrial","mall","bowling alley","hospital","windmill","prison","barn","gazebo","airport","hotel","observatory","tower","garage","gas station","megastructure","mosque","bookstore","skyscraper","bar","rooftop","bunker","train station","arcade","museum","shack","gym","house","castle","bakery","library","nightclub","shop","flower shop","stadium","theater","treehouse","bus stop","pagoda","greenhouse","school","lighthouse","convenience store","shrine","construction site","cafe","casino","church"],
         'interior': ["cockpit","train interior","bus interior","spacecraft interior","vehicle interior","airplane interior","car interior","tank interior"],
         'space': ["space","space station","planet","asteroid","moon"],
+        'sky': ["gradient sky","cloudy sky","cloud","sunset","orange sky","rainbow, cloud","horizon","day","twilight","sky, light rays","blue sky","evening","sunlight","night sky","aurora","stars (sky)","outdoors","sun rise","sun","night, moonlight"],
+        'weather': ["rain", "storm, dark clouds", "rain, storm, lightning", "fog"],
         'country': ["mexico","chile","france","japan","united states","korea, south korea","malaysia","greece","netherlands","korea, north korea","russia","turkey","brazil","algeria","poland","china","canada","spain","philippines","ukraine","australia","portugal","indonesia","finland","germany","india","united kingdom","italy","israel","egypt","taiwan","vietnam","thailand","afghanistan","argentina","austria","sweden","hungary"],
         'landmarks': ["st basil's cathedral","mount fuji","statue of liberty","times square","eiffel tower","fushimi inari taisha","tokyo big sight","elizabeth tower","moai","tokyo sky tree","empire state building","tokyo city hall","tokyo tower","golden gate bridge","colosseum"],
         'restaurant': ["krispy kreme","anna miller's","matsuya foods","dairy queen","pizza hut","coco ichibanya","kfc","cold stone creamery","wendy's","lotteria","hooters","domino's pizza","papa john's","mister donut","starbucks","mcdonald's","black star burger","burger king","little caesar's","baskin-robbins","coco's","dunkin' donuts","pizza-la","subway","jollibee","sukiya","mos burger","yoshinoya","chick-fil-a"],
@@ -467,19 +471,37 @@ def danbooru_search(tags="") -> str:
     if not 'highres' in tags:
         tags += ', highres'
     tags = generate_tags('neutral', tags, neutral)
-    tags = generate_tags('female', tags, female)
-    tags = generate_tags('male', tags, male)
+    isGirl = 'girl' in tags or 'female' in tags
+    isBoy = 'boy' in tags or '1male' in tags or ' male' in tags
     tags = generate_tags('tech', tags, tech)
     tags = generate_tags('pet', tags, pet)
     tags = generate_tags('food', tags, food)
-    tags = generate_tags('location', tags, location)
+    tags = generate_tags('scene', tags, scene)
     tags = generate_tags('season', tags, season)
     tags = subgroup_tags(tags, neutral)
-    tags = subgroup_tags(tags, female)
-    tags = subgroup_tags(tags, male)
+    if isGirl:
+        tags = generate_tags('female', tags, female)
+        tags = subgroup_tags(tags, female)
+    elif isBoy:
+        tags = generate_tags('male', tags, male)
+        tags = subgroup_tags(tags, male)
     tags = subgroup_tags(tags, tech)
     tags = subgroup_tags(tags, pet)
     tags = subgroup_tags(tags, food)
-    tags = subgroup_tags(tags, location)
+    tags = subgroup_tags(tags, scene)
     tags = subgroup_tags(tags, season)
     return tags
+
+
+def random_anime_tags() -> list[str]:
+    gnames = ['1boy, ((slit pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, light smile, <job>, <sky>, <nature>, [season], looking at viewer',
+              '1boy, ((slit pupils)), <eye color>, <hair style>, <hair color>, <hat>, <man-made>, [season], looking at viewer',
+              '1boy, ((diamond-shaped pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, basketball, [scene], [season]',
+              '1boy, ((diamond-shaped pupils)), <eye color>, <hair style>, <hair color>, [neutral], [tech], <building>, [season]',
+              '1girl, ((slit pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, [neutral], <sky>, <nature>, looking at viewer',
+              '1girl, ((slit pupils)), <eye color>, <hair style>, <hair color>, [neutral], [female], [scene], looking at viewer',
+              '1girl, ((heart-shaped pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, [female], [scene], [season], <pov>',
+              '1girl, ((bunny-shaped pupils)), <eye color>, <hair style>, <hair color>, [female], [female], [scene], [season], <pov>'
+              '[pet]',
+              '[food]']
+    return gnames

@@ -1,12 +1,12 @@
 # Feature Highlight
 
 
-### Astro Anything Duffusion
+## Astro Anything Duffusion
 
 
 
 
-### Astro Trinart Diffusion
+## Astro Trinart Diffusion
 
 
 `Asada Shino`
@@ -50,7 +50,7 @@
 
 
 
-### Astro Cyberpunk Diffusion
+## Astro Cyberpunk Diffusion
 
 
 `body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
