@@ -9,6 +9,7 @@ src
 settings.json
 __pycache__
 2022-11
+2022-12
 video_sd.py
 AdaBins
 disco-to-do.txt
@@ -18,6 +19,7 @@ edit_message.py
 anime-sd.ckpt
 anime-trinart.ckpt
 anime-cyberpunk.ckpt
+anime-anything-v3.ckpt
 van-gogh-diffusion-v2.ckpt
 pony-diffusion.ckpt
 pony-diffusion-v2.ckpt

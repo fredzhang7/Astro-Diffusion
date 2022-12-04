@@ -1,4 +1,4 @@
-# Astro Diffusion
+# Astro Pony Diffusion
 The random pony names below corresponds to the prompts.
 
 

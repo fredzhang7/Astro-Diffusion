@@ -1,4 +1,4 @@
-# Astro Diffusion v0.5
+# Astro Diffusion v0.6
 
 ### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
@@ -6,17 +6,16 @@
 <br>
 2. <a href="https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb" target="_blank" alt="Disco DF">Disco Diffusion</a>
 <br>
-3. Other Styles (Disney, Pony, Anime, Van Gogh, OpenAI)
+3. Other Styles
 <br>
-4. Speed & Accuracy Optimization v0.6
+4. Speed & Style Optimization v0.7
 <br>
 5. Image & Video Super Resolution v0.1
 
 ### Examples
 1. [Anime](/art-examples/anime.md)
-2. [Cyberpunk Anime](/art-examples/cyberpunk.md)
-3. [Pony](/art-examples/pony.md)
-4. [Van Gogh](/art-examples/van_gogh.md)
+2. [Pony](/art-examples/pony.md)
+3. [Van Gogh](/art-examples/van_gogh.md)
 
 ### Setup for NVIDIA GPU Users
 1. [Download CUDA v11.2](https://developer.nvidia.com/cuda-downloads)

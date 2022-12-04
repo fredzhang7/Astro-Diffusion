@@ -1,5 +1,5 @@
 import discord
-from astro_image import render_discord_image
+from astro_image import return_image_gen
 from util import anime_search
 import io, os
 from dotenv import load_dotenv
@@ -16,9 +16,9 @@ class MyClient(discord.Client):
             prompt = message.content[5:]
             if len(prompt) < 80:
                 prompt = anime_search(prompt)
-            # embed = discord.Embed(title="Prompt", description=prompt, color=0x00ff00)
-            # await message.channel.send(embed=embed)
-            image = render_discord_image([prompt])
+            embed = discord.Embed(title="Prompt", description=prompt, color=0x00ff00)
+            await message.channel.send(embed=embed)
+            image = return_image_gen([prompt])
             with io.BytesIO() as image_binary:
                 image.save(image_binary, 'PNG')
                 image_binary.seek(0)

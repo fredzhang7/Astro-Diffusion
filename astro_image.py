@@ -18,12 +18,12 @@ def get_output_folder(output_path, batch_folder):
 
 """
     Stable Diffusion Style
-     sd-v2-0.ckpt                        (5.2 GB, latest, family-friendly, highest resolution, general artwork, medium VRAM)
+     sd-v2-0.ckpt                        (5.2 GB, latest, family-friendly, highest resolution, uses negative prompts, general artwork, medium VRAM)
      sd-v1-5.ckpt                        (4.2 GB, higher resolution, general artwork, medium VRAM)
      sd-v1-1.ckpt                        (4.2 GB, lowest accuracy, general artwork, medium VRAM)
 
     Animated Style
-     anime-sd.ckpt                       (2.1 GB, fewer details, anime-style characters, low VRAM)
+     anime-anything-v3.ckpt              (3.8 GB, highest accuracy & resolution, anime-style characters & sceneries, medium VRAM)
      anime-trinart.ckpt                  (2.1 GB, accurate, detailed, high res, anime-style characters, low VRAM)
      anime-cyberpunk.ckpt                (2.1 GB, accurate, clean-cut, high res, cyberpunk anime drawings, low VRAM)
      disney-diffusion.ckpt               (2.1 GB, high res Disney-style characters, animals, cars, & landscapes, low VRAM)
@@ -56,25 +56,25 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "anime-trinart.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
+    model_checkpoint = "anime-anything-v3.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
 
     # Image Settings
-    W = 640                              # image width
-    H = 640                              # image height
+    W = 832                              # image width
+    H = 896                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
     # Sampling Settings
     seed = -1                            # random seed
-    sampler = "klms"                     # one of "klms", "dpm2", "dpm2_ancestral", "heun", "euler", "euler_ancestral", "ddim"
-    steps = 100                          # number of steps to run
-    scale = 8                            # scale (0: 4x4, 1: 8x8, ..., 7: 512x512, 8: 1024x1024)
+    sampler = "ddim"                     # one of "klms", "dpm2", "dpm2_ancestral", "euler", "euler_ancestral", "ddim", "heun"
+    steps = 50                           # number of steps to run
+    scale = 12                           # classifier-free guidance scale, which determines how much prompts are followed in image generation
     ddim_eta = 0.0                       # amount of ddim to use (0.0: no ddim, 1.0: full ddim)
-    dynamic_threshold = None             # adaptive threshold for dpm2
-    static_threshold = None              # static threshold for dpm2
+    dynamic_threshold = None             # adaptive threshold for ddim. None: no adaptive threshold, 0.0: adaptive threshold, 0.0 < x < 1.0: adaptive threshold with x as initial threshold
+    static_threshold = None              # static threshold for ddim. None: no static threshold, 0.0: static threshold, 0.0 < x < 1.0: static threshold with x as initial threshold
 
     # Save & Display Settings
     save_samples = True                  # whether to save samples to disk
@@ -89,7 +89,7 @@ def AstroArgs():
     log_weighted_subprompts = False      # whether to log the weighted subprompts
 
     # Batch Settings
-    n_batch = 4                          # number of samples to generate in parallel
+    n_batch = 6                          # number of samples to generate per prompt
     output_path = "./"                   # folder path to save images to
     batch_name = "AnimFun"               # subfolder name to save images to
     seed_behavior = "iter"               # one of "iter", "fixed", "random"
@@ -143,19 +143,8 @@ torch.cuda.empty_cache()
 
 
 """
-    If a theme doesn't appear in the list, pass "default" to get_optimized_prompts(). Lowercase works too.
-
-    Themes:
-     Default
-     Nature                              (nature, landscape, scenery)
-     Disney                              (disney princess, disney character, disney villain, disney animal, animated car, animated landscape)
-     Space                               (universe, supernova, black hole, planet, galaxy, nebula, star, astronaut, rocket, spaceship, alien, night sky)
-     Robot                               (robot, android, cyborg, mecha)
-     Low Res                             (low resolution, pixel art)
-     Anime Girl                          (anime girl, waifu)
-     Anime Boy                           (anime boy, husbando)
-
     Example Args & Prompts Usage:
+
      1. model_checkpoint = "anime-trinart.ckpt"
         # I recommend starting an image gen with 640x640 or 704x704. Then use the generated image as next init_image and scale up to 896x896
         W = 640
@@ -165,6 +154,7 @@ torch.cuda.empty_cache()
         sampler = "klms"
         from util import readLines
         prompts = readLines("./prompt-examples/anime_boys.txt")
+
      2. model_checkpoint = "anime-cyberpunk.ckpt"
         # I recommend generating 704x704 or 768x768 image(s) first. 768x768 images are either more detailed & accurate or more random & chaotic.
         W = 768
@@ -173,15 +163,8 @@ torch.cuda.empty_cache()
         scale = 8
         sampler = "euler"
         prompts = readLines("./prompt-examples/anime_cyberpunk.txt")
-     3. model_checkpoint = "sd-v1-5.ckpt"
-        W = 1024
-        H = 1024
-        steps = 50
-        scale = 8
-        sampler = "klms"
-        from util import get_optimized_prompts
-        prompts = get_optimized_prompts(prompt_source='./prompt-examples/nature.txt', theme='nature')
-     4. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
+
+     3. model_checkpoint = "van-gogh-diffusion-v2.ckpt"
         W = 512
         H = 512
         scale = 6.5
@@ -190,12 +173,14 @@ torch.cuda.empty_cache()
         people = ['Armand Roulin', 'Vincent Van Gogh', 'Adeline Ravoux', 'Bruce Wayne', 'Steve Rogers', 'Gendarme Rigaumon', 'Louise Chevalier']
         scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
         prompts = people + scenes
-     5. model_checkpoint = "robo-diffusion-v1.ckpt"
-        # use "nousr robot" near the beginning of your prompt
-     6. model_checkpoint = "pixelart-diffusion-sprites.ckpt"
-        # use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
-     7. model_checkpoint = "popup-book.ckpt"
-        # include "popupBook" in your prompt to get a popup book effect
+
+     4. # for robo-diffusion-v1.ckpt, use "nousr robot" near the beginning of your prompt
+
+     5. # for pixelart-diffusion-sprites.ckpt, use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
+
+     6. # for popup-book.ckpt, include "popupBook" in your prompt to get a popup book effect
+
+     7. # for sd-v2-0.ckpt, use negative prompts
 
 """
 
@@ -206,5 +191,5 @@ def return_image_gen(prompts):
 
 # See examples of prompts in the `/art-examples` folder
 # Uncomment the lines below to generate image(s) from the prompts
-# prompts = ['Hotarou Oreki']
+# prompts = ['1boy, medium hair, blonde hair, blue eyes, bishounen, colorful, autumn, cumulonimbus clouds, lighting, blue sky, falling leaves, garden, highres']
 # render_image_batch(args, prompts, upscale_ratio=1, save_image=True)

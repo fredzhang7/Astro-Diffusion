@@ -1,4 +1,4 @@
-# Astro-Anime Diffusion
+# Astro Anime Diffusion
 The random character names below corresponds to the prompts.
 
 

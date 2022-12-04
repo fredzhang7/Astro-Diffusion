@@ -727,6 +727,9 @@ def load_model(args,                         # args from astro.py
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
         },
+        'anime-anything-v3.ckpt': {
+            'url': 'https://huggingface.co/Linaqruf/anything-v3.0/resolve/main/Anything-V3.0-pruned.ckpt'
+        },
         "anime-trinart.ckpt": {
             'url': 'https://huggingface.co/naclbit/trinart_characters_19.2m_stable_diffusion_v1/resolve/main/trinart_characters_it4_v1.ckpt'
         },
@@ -940,19 +943,19 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
         for i, name in enumerate(prompts):
-            if len(name) < 80:
+            if len(name) < 75:
                 prompts[i] = anime_search(name)
         from util import readLines
         folder = './negative-prompts/'
         if 'sd.' in ckpt:
             args.nprompts = readLines(f'{folder}anime_sd.txt')
-        elif 'trinart.' in ckpt:
+        elif 'trinart.' in ckpt or 'anything' in ckpt:
             args.nprompts = readLines(f'{folder}anime_trinart.txt')
         elif 'cyberpunk.' in ckpt:
             args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
     elif ckpt.startswith("pony-"):
         for i, name in enumerate(prompts):
-            if len(name) < 80:
+            if len(name) < 60:
                 prompts[i] = pony_search(name)
     elif ckpt.startswith("van-gogh-"):
         for i, prompt in enumerate(prompts):
@@ -1022,6 +1025,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
                 args.init_image = image
                 args.time = str(round(time.time()))
                 args.seed = next_seed(args)
+                print(f"Seed: {args.seed}")
                 results = generate(args, model)
                 for image in results:
                     if args.make_grid:
