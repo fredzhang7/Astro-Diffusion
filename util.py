@@ -329,7 +329,8 @@ def pony_search(name="", seek_artist=True) -> str:
 
 def random_value(obj: object) -> str:
     if isinstance(obj, dict):
-        return obj[random.choice(list(obj.values()))]
+        key = random.choice(list(obj.values()))
+        return obj[key] if key in obj else key
     raise TypeError(f'Expected dict, got {type(obj)}')
 
 
@@ -463,6 +464,8 @@ def danbooru_search(tags="") -> str:
     season = {
         'setting': ["winter","autumn leaves","falling leaves","pink flower","snow","autumn","spring (season)","snow, cold","summer","maple leaf","snowing","cherry blossoms"]
     }
+    if not 'highres' in tags:
+        tags += ', highres'
     tags = generate_tags('neutral', tags, neutral)
     tags = generate_tags('female', tags, female)
     tags = generate_tags('male', tags, male)

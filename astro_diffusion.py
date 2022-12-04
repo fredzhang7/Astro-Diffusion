@@ -339,8 +339,7 @@ def get_learned_conditioning(model, weighted_subprompts, text, args, sign=1):
                 c = model.get_learned_conditioning(args.n_samples * [subtext])
                 c *= subweight
             else:
-                c.add_(model.get_learned_conditioning(args.n_samples *
-                                                      [subtext]),
+                c.add_(model.get_learned_conditioning(args.n_samples * [subtext]),
                        alpha=subweight)
 
     return c
@@ -406,11 +405,9 @@ def split_weighted_subprompts(text, frame=0, skip_normalize=False):
         w = parse_weight(match, frame)
         if w < 0:
             # negating the sign as we'll feed this to uc
-            negative_prompts.append((match.group("prompt").replace("\\:",
-                                                                   ":"), -w))
+            negative_prompts.append((match.group("prompt").replace("\\:", ":"), -w))
         elif w > 0:
-            positive_prompts.append((match.group("prompt").replace("\\:",
-                                                                   ":"), w))
+            positive_prompts.append((match.group("prompt").replace("\\:", ":"), w))
 
     if skip_normalize:
         return (negative_prompts, positive_prompts)
@@ -963,7 +960,7 @@ def parse_args(args, prompts=[], nprompts=[]):
         from util import readLines
         folder = './negative-prompts/'
         if 'anything' in ckpt:
-            args.nprompts = readLines(f'{folder}anime_sd.txt')
+            args.nprompts = readLines(f'{folder}anime_anything.txt')
         elif 'trinart.' in ckpt or 'anything' in ckpt:
             args.nprompts = readLines(f'{folder}anime_trinart.txt')
         elif 'cyberpunk.' in ckpt:

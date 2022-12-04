@@ -13,8 +13,8 @@
 5. Image & Video Super Resolution v0.1
 
 ### Examples
-1. [Anime](/art-examples/anime.md)
-2. [Pony](/art-examples/pony.md)
+1. [Anime](/art-examples/astro_anime.md)
+2. [Pony](/art-examples/astro_pony.md)
 3. [Van Gogh](/art-examples/van_gogh.md)
 
 ### Setup for NVIDIA GPU Users
