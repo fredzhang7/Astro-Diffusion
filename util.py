@@ -494,10 +494,10 @@ def danbooru_search(tags="") -> str:
 
 
 def random_anime_tags() -> list[str]:
-    gnames = ['1boy, ((slit pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, light smile, <job>, <sky>, <nature>, [season], looking at viewer',
-              '1boy, ((slit pupils)), <eye color>, <hair style>, <hair color>, <hat>, <man-made>, [season], looking at viewer',
-              '1boy, ((diamond-shaped pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, basketball, [scene], [season]',
-              '1boy, ((diamond-shaped pupils)), <eye color>, <hair style>, <hair color>, [neutral], [tech], <building>, [season]',
+    gnames = ['1boy, ((slit pupils)), (bright pupil:-999), medium hair, <eye color>, bishounen, <hair color>, light smile, <job>, <sky>, <nature>, [season], looking at viewer',
+              '1boy, ((slit pupils)), <eye color>, <hair color>, short hair, bishounen, <hat>, <man-made>, [season], looking at viewer',
+              '1boy, ((diamond-shaped pupils)), (bright pupil:-999), medium hair, bishounen, <eye color>, <hair color>, national basketball association, [scene], [season]',
+              '1boy, ((diamond-shaped pupils)), <eye color>, <hair color>, short hair, bishounen, [neutral], [tech], <building>, [season]',
               '1girl, ((slit pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, [neutral], <sky>, <nature>, looking at viewer',
               '1girl, ((slit pupils)), <eye color>, <hair style>, <hair color>, [neutral], [female], [scene], looking at viewer',
               '1girl, ((heart-shaped pupils)), (bright pupil:-999), <eye color>, <hair style>, <hair color>, [female], [scene], [season], <pov>',
