@@ -23,7 +23,7 @@ def get_output_folder(output_path, batch_folder):
      sd-v1-1.ckpt                        (4.2 GB, lowest accuracy, general artwork, medium VRAM)
 
     Animated Style
-     anime-anything-v3.ckpt              (3.8 GB, highest accuracy & resolution, anime-style characters & sceneries, medium VRAM)
+     anime-anything-v3.ckpt              (3.8 GB, highest accuracy & resolution, anime-style characters, food, animals, scenaries, etc., medium VRAM)
      anime-trinart.ckpt                  (2.1 GB, accurate, detailed, high res, anime-style characters, low VRAM)
      anime-cyberpunk.ckpt                (2.1 GB, accurate, clean-cut, high res, cyberpunk anime drawings, low VRAM)
      disney-diffusion.ckpt               (2.1 GB, high res Disney-style characters, animals, cars, & landscapes, low VRAM)
@@ -143,7 +143,8 @@ torch.cuda.empty_cache()
 
 
 """
-    Example Args & Prompts Usage:
+
+    Example Args & Prompts:
 
      1. model_checkpoint = "anime-trinart.ckpt"
         # I recommend starting an image gen with 640x640 or 704x704. Then use the generated image as next init_image and scale up to 896x896
@@ -174,13 +175,15 @@ torch.cuda.empty_cache()
         scenes = ['catholic church', 'lake', 'mountain', 'ocean', 'river in between grass fields', 'road', 'sky', 'tree', 'waterfall', 'windmill', 'winter', 'woodland']
         prompts = people + scenes
 
-     4. # for robo-diffusion-v1.ckpt, use "nousr robot" near the beginning of your prompt
+     4. # for "robo-diffusion-v1.ckpt", use "nousr robot" near the beginning of your prompt
 
-     5. # for pixelart-diffusion-sprites.ckpt, use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
+     5. # for "pixelart-diffusion-sprites.ckpt", use one of: PixelartFSS, PixelartRSS, PixelartBSS, or PixelartLSS to signal the direction the sprite should be facing
 
-     6. # for popup-book.ckpt, include "popupBook" in your prompt to get a popup book effect
+     6. # for "popup-book.ckpt", include "popupBook" in your prompt to get a popup book effect
 
-     7. # for sd-v2-0.ckpt, use negative prompts
+
+    Example Negative Prompt:
+     1. nprompts = ['oversaturated, ugly, 3d, render, cartoon, grain low-res, kitsch']   # good for photos
 
 """
 
@@ -189,7 +192,8 @@ def return_image_gen(prompts):
     return render_image_batch(args, prompts, upscale_ratio=1, save_image=False)
 
 
-# See examples of prompts in the `/art-examples` folder
+# See prompt examples in the /prompt-examples and /art-examples folder
 # Uncomment the lines below to generate image(s) from the prompts
 # prompts = ['1boy, medium hair, blonde hair, blue eyes, bishounen, colorful, autumn, cumulonimbus clouds, lighting, blue sky, falling leaves, garden, highres']
-# render_image_batch(args, prompts, upscale_ratio=1, save_image=True)
+# nprompts = []  # don't change this unless the output image is of poor quality
+# render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)

@@ -2,11 +2,11 @@
 
 ### Optimized, Customizable AI Artists
 <img align="left" width="125" height="120" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
-1. <a href="https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb" target="_blank" alt="Deforum SDF">Deforum Stable Diffusion</a>
+1. <a href="https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb" alt="Deforum SDF">Deforum Stable Diffusion</a>
 <br>
-2. <a href="https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb" target="_blank" alt="Disco DF">Disco Diffusion</a>
+2. <a href="https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb" alt="Disco DF">Disco Diffusion</a>
 <br>
-3. Other Styles
+3. 7+ more diffusion models
 <br>
 4. Speed & Style Optimization v0.7
 <br>

@@ -542,7 +542,7 @@ def generate(args,
                                verbose=False).callback
 
     results = []
-    nprompts = args.nprompts if hasattr(args, 'nprompts') else batch_size * [""]
+    nprompts = args.nprompts if len(args.nprompts) > 0 else batch_size * [""]
     with torch.no_grad():
         with precision_scope("cuda"):
             with model.ema_scope():
@@ -939,20 +939,12 @@ def next_seed(args):
 model = None
 
 
-def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
+def parse_args(args, prompts=[], nprompts=[]):
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
         for i, name in enumerate(prompts):
             if len(name) < 75:
                 prompts[i] = anime_search(name)
-        from util import readLines
-        folder = './negative-prompts/'
-        if 'sd.' in ckpt:
-            args.nprompts = readLines(f'{folder}anime_sd.txt')
-        elif 'trinart.' in ckpt or 'anything' in ckpt:
-            args.nprompts = readLines(f'{folder}anime_trinart.txt')
-        elif 'cyberpunk.' in ckpt:
-            args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
     elif ckpt.startswith("pony-"):
         for i, name in enumerate(prompts):
             if len(name) < 60:
@@ -963,7 +955,27 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], upscale_r
                 prompts[i] = prompt + ", highly detailed"
             if not prompt.startswith("lvngvncnt"):
                 prompts[i] = "lvngvncnt, " + prompt
+
+    args.nprompts = nprompts
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
+
+    if len(nprompts) == 0:
+        from util import readLines
+        folder = './negative-prompts/'
+        if 'anything' in ckpt:
+            args.nprompts = readLines(f'{folder}anime_sd.txt')
+        elif 'trinart.' in ckpt or 'anything' in ckpt:
+            args.nprompts = readLines(f'{folder}anime_trinart.txt')
+        elif 'cyberpunk.' in ckpt:
+            args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
+        elif 'sd-v2-0' in ckpt:
+            args.nprompts = readLines(f'{folder}sd_v2_0.txt')
+    
+    return args
+
+
+def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], nprompts: list[str] = [], upscale_ratio: int = 1, save_image: bool = True) -> Tuple[None, Image.Image]:
+    args = parse_args(args, prompts, nprompts)
 
     if args.H >= 1024 and args.W >= 1024:
         torch.backends.cuda.matmul.allow_tf32 = True

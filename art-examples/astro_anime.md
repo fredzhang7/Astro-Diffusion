@@ -1,9 +1,12 @@
+# Feature Highlight
+
+
+### Astro Anything Duffusion
 
 
 
 
-## Astro Trinart Diffusion
-The random character names below corresponds to the prompts.
+### Astro Trinart Diffusion
 
 
 `Asada Shino`
@@ -47,7 +50,7 @@ The random character names below corresponds to the prompts.
 
 
 
-## Astro Cyberpunk Diffusion
+### Astro Cyberpunk Diffusion
 
 
 `body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
