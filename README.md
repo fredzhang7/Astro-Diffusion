@@ -39,6 +39,10 @@
 6. [Install Python >= 3.9 <= 3.10](https://www.python.org/downloads/), or `pyenv install 3.10.4` and `pyenv global 3.10.4`
 7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
 8. In a terminal, run `git pull https://github.com/FredZhang7/Astro-Diffusion.git​​` to update to the latest version
+
+
+### Setup for No GPU Computers
+1. Start from step #4 (Install Git) in the NVIDIA section
  
  
 ### To-do
