@@ -1,8 +1,8 @@
 <p align="center">
   <img width="100" height="96" src="https://cdn.discordapp.com/attachments/999941428052500632/1000242308177993748/vitchen2.png" alt="Astro Diffusion">
 </p>
+<h1 align="center">Astro Diffusion v0.7</h1>
 
-# Astro Diffusion v0.7
  
  
 ### Optimized, Customizable AI Artists
@@ -13,15 +13,15 @@
 3. 15+ more diffusion models
 4. EDSR image and video super resolution
 5. [DistilGPT2-powered stable diffusion prompt generator](https://huggingface.co/FredZhang7/distilgpt2-stable-diffusion)
-  - safe for work
-  - finetuned on 2.03M prompts for stable diffusion v1.0 through v1.4
-  - 50% faster forwardproporgation, 40% less RAM usage than other HuggingFace prompt generators
+   * safe for work
+   * finetuned on 2.03M prompts for stable diffusion v1.0 through v1.4
+   * 50% faster forwardproporgation, 40% less RAM usage than other HuggingFace prompt generators
 6. DistilBART-powered animation prompt generator
-  - safe for work
-  - given a name, describes the appearance or story of the pony, fiction, manga, or anime character
+   * safe for work
+   * given a name, describes the appearance or story of the pony, fiction, manga, or anime character
 7. Fast Danbooru search engine
-  - filtered, safe for work
-  - allows users to fully customize anime characters: gestures, postures, scenaries, objects, etc.
+   * filtered, safe for work
+   * allows users to fully customize anime characters: gestures, postures, scenaries, objects, etc.
  
  
 ### Text2Img Examples
