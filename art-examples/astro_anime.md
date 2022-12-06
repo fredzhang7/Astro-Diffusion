@@ -6,6 +6,7 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ## Astro Anything Duffusion
 
+---
  
 `1boy, slit pupils, <eye color>, <hair style>, <hair color>, <man-made>, [season], looking at viewer`
 
@@ -15,13 +16,7 @@ On average, images shown below are cherrypicked from batches of 6.
 
 `1boy, <pupil>, (bright pupil:-99), medium hair, <eye color>, bishounen, <hair color>, suit jacket, light smile, night sky, <nature>, [season], from behind`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1049181045368565770/1670172163_boy_slit_pupils_bright_pupil_medium_hair_amber_eyes_bishounen_grey_hair_suit_jacket_light_smile_night_sky_seascape_maple_leaf_from_behind_highres.png)
-
-<br>
-
-`1boy, diamond-shaped pupils, (bright pupil:-99), <hair style>, bishounen, <eye color>, <hair color>, t-shirt, national basketball association, [season]`
-
-![](https://media.discordapp.net/attachments/884528247998664744/1049181045767032892/1670172563_boy_diamondshaped_pupils_bright_pupil_medium_hair_bishounen_heterochromia_grey_hair_tshirt_national_basketball_association_spring_season_highres.png)
+![](https://media.discordapp.net/attachments/884528247998664744/1049602803028467782/1670314927_2741349632_boy_slit_pupils_bright_pupil_medium_hair_amber_eyes_bishounen_grey_hair_suit_jacket_light_smile_night_sky_seascape_maple_leaf_from_behind_highres.png)
 
 <br>
 
@@ -79,12 +74,6 @@ On average, images shown below are cherrypicked from batches of 6.
 
 <br>
 
-`1girl, slit pupils, (bright pupil:-99), <hair style>, <hair color>, <sky>, <nature>, looking at viewer`
-
-![](https://media.discordapp.net/attachments/884528247998664744/1049181081527648276/1670145095_girl_slit_pupils_bright_pupil___hair_flaps_red_hair_s_stars_sky_cliff_looking_at_viewer_highres.png)
-
-<br>
-
 `1girl, diamond-shaped pupils, (bright pupil:-99), <eye color>, <hair style>, <hair color>, <sports>, <landmarks>, [season], fox shadow puppet`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1049594297525207131/1670308035_girl_diamondshaped_pupils_bright_pupil_yellow_eyes_chonmage_splitcolor_hair_boxing_st_basils_cathedral_snow_cold_fox_shadow_puppet_highres.png)
@@ -107,7 +96,145 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1049181044911394826/1670170616_girl_slit_pupils_bright_pupil_red_eyes_spiked_hair_light_purple_hair_looking_for_glasses_night_sky_moonlight_canyon_looking_at_viewer_highres.png)
 
+<br>
 
+`<dessert>`
+
+![](https://cdn.discordapp.com/attachments/884528247998664744/1049604183575253022/1670174901_tootsweets_highres.png)
+
+<br>
+
+`<fruit>`
+
+![](https://cdn.discordapp.com/attachments/884528247998664744/1049603933942857728/1670143693_pear_highres.png)
+
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615047749550122/1670317570_2932721968_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_white_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615048164769812/1670315522_2167784186_boy_slit_pupils_bright_pupil_medium_hair_black_eyes_bishounen_green_hair_league_of_legends_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615048491941888/1670315730_822911028_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_dark_green_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615048844259338/1670315761_822911029_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_dark_green_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615049183985704/1670315984_822911037_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_dark_green_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615049502769152/1670316965_3683111218_boy_slit_pupils_bright_pupil_medium_hair_dashed_eyes_apex_legends_pink_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615049892835368/1670317153_2997500145_boy_slit_pupils_bright_pupil_medium_hair_amber_eyes_apex_legends_red_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615050295476285/1670317181_2997500146_boy_slit_pupils_bright_pupil_medium_hair_amber_eyes_apex_legends_red_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615050710728715/1670317237_2997500148_boy_slit_pupils_bright_pupil_medium_hair_amber_eyes_apex_legends_red_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615053072105472/1670317431_2932721963_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_white_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615313622290432/1670317626_2932721970_boy_slit_pupils_bright_pupil_medium_hair_green_eyes_apex_legends_white_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615313949425704/1670317990_1089254208_boy_slit_pupils_bright_pupil_short_hair_pink_eyes_apex_legends_blue_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049615314289180743/1670318018_1089254209_boy_slit_pupils_bright_pupil_short_hair_pink_eyes_apex_legends_blue_hair_league_of_legends_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624141873041430/1670318415_2914754824_boy_slit_pupils_bright_pupil_short_hair_Pacman_eyes_genshin_impact_multicolored_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624142284075038/1670318471_2914754826_boy_slit_pupils_bright_pupil_short_hair_Pacman_eyes_genshin_impact_multicolored_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624143320064051/1670319180_2914754852_boy_slit_pupils_bright_pupil_short_hair_amber_eyes_genshin_impact_grey_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624144104411136/1670319583_2782355903_boy_slit_pupils_bright_pupil_short_hair_red_eyes_genshin_impact_dark_blue_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624144544804945/1670319718_2782355908_boy_slit_pupils_bright_pupil_short_hair_blue_eyes_genshin_impact_light_blue_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624147778621480/1670319933_2782355916_boy_slit_pupils_bright_pupil_short_hair_blue_eyes_genshin_impact_light_blue_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624148319678514/1670320066_2782355921_boy_slit_pupils_bright_pupil_short_hair_Pacman_eyes_genshin_impact_light_purple_hair_azur_lane_perspective_highres.png)
+
+<br>
+
+`1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1049624148869128222/1670320147_2782355924_boy_slit_pupils_bright_pupil_short_hair_Pacman_eyes_genshin_impact_light_purple_hair_azur_lane_perspective_highres.png)
+
+<br>
+<br>
 <br>
 <br>
  
@@ -162,6 +289,8 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1046495725485314048/1669571719_Anime_girl_cyberpunk_hyperrealistic_perfect_anime_eyes_yuri_wide_shot_bangs_hair_ornament_hair_ribbon_hood_long_hair_k_highly_detailed_intense_sharp_focus.png)
 
+<br>
+<br>
 <br>
 <br>
 

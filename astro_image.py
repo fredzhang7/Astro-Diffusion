@@ -192,6 +192,11 @@ torch.cuda.empty_cache()
     Example Negative Prompt:
      1. nprompts = ['oversaturated, ugly, 3d, render, cartoon, grain low-res, kitsch']   # good for stable diffusion photos
 
+     
+    Example GPT2 Prompt Generation:
+     1. from util import generate_prompts
+        prompts = generate_prompts('a beautiful city')
+
 """
 
 
@@ -203,7 +208,7 @@ def return_image_gen(prompts):
 # Use commas (,), pipes (|), or double colons (::) as hard separators
 # ❗Uncomment one of the two sections below to generate image(s) from the prompts
 
-# prompts = ['1boy, medium hair, blonde hair, blue eyes, bishounen, colorful, autumn, cumulonimbus clouds, lighting, blue sky, falling leaves, garden, highres']
+# prompts = ['1boy, medium hair, <hair color>, <eye color>, bishounen, colorful, <sky>, lighting, [season], garden']
 # nprompts = []  # don't change this unless the output image is of poor quality
 # render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)
 

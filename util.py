@@ -322,6 +322,36 @@ def pony_search(name="", seek_artist=True) -> str:
     return nPony.replace('+', '').replace('%2C', '') + ', ' + summary.replace(' 3d,', ' hyperrealistic,')
 
 
+def generate_prompts(ins="", max_tokens=80, samples=10) -> list[str]:
+    if len(ins).replace(' ', '') == 0:
+        return []
+    
+    import os
+    if not os.path.exists('./distil-sd-gpt2.pt'):
+        import urllib.request
+        print('Downloading DistilGPT2 Stable Diffusion model...')
+        urllib.request.urlretrieve('https://huggingface.co/FredZhang7/distilgpt2-stable-diffusion/resolve/main/distil-sd-gpt2.pt', './distil-sd-gpt2.pt')
+        print('Model downloaded.')
+    
+    from transformers import GPT2Tokenizer, GPT2LMHeadModel
+
+    tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    tokenizer.max_len = 512
+
+    import torch
+    model = GPT2LMHeadModel.from_pretrained('distilgpt2')
+    model.load_state_dict(torch.load('distil-sd-gpt2.pt'))
+
+    from transformers import pipeline
+    nlp = pipeline('text-generation', model=model, tokenizer=tokenizer)
+    ins = "a beautiful city"
+    outs = nlp(ins, max_length=max_tokens, num_return_sequences=samples)
+
+    for i in range(len(outs)):
+        outs[i] = str(outs[i]['generated_text']).replace('  ', '')
+
+    return outs
 
 
 def random_value(obj: object) -> str:
