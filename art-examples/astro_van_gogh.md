@@ -1,4 +1,4 @@
-# Van Gogh Diffusion
+# Astro Van Gogh Diffusion
 
 
 `Louise Chevalier`

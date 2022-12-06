@@ -1,8 +1,7 @@
 import subprocess, time
 from util import bcolors
 
-def setup_environment(setup_environment: bool, print_subprocess: bool):
-    if (not setup_environment): return
+def setup_environment(cpu_only=False, print_subprocess=True):
     print(bcolors.HEADER + "Setting up environment... This may take a few minutes..." + bcolors.ENDC)
     start_time = time.time()
     all_process = [
@@ -41,6 +40,11 @@ def setup_environment(setup_environment: bool, print_subprocess: bool):
         "git clone https://github.com/isl-org/MiDaS.git".split(),
         "git clone https://github.com/MSFTserver/pytorch3d-lite.git".split(),
     ]
+    if cpu_only:
+        all_process[1] = [
+            *"pip install".split(), 'torch==1.12.1',
+            'torchvision==0.13.1'
+        ]
     for process in all_process:
         running = subprocess.run(process,
                                  stdout=subprocess.PIPE).stdout.decode('utf-8')

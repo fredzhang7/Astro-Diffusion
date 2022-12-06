@@ -667,6 +667,7 @@ def load_model(args,                         # args from astro.py
     model_map = {
         "sd-v2-0.ckpt": {
             'url': 'https://huggingface.co/stabilityai/stable-diffusion-2/resolve/main/768-v-ema.ckpt',
+            'requires_login': True
         },
         "sd-v1-5-full-ema.ckpt": {
             'url': 'https://huggingface.co/runwayml/stable-diffusion-v1-5/resolve/main/v1-5-pruned.ckpt',
@@ -776,10 +777,25 @@ def load_model(args,                         # args from astro.py
             'url': 'https://huggingface.co/dallinmackay/Van-Gogh-diffusion/resolve/main/Van-Gogh-Style-lvngvncnt-v2.ckpt',
         },
         'pony-diffusion-v2.ckpt': {
-            'url': 'https://huggingface.co/VitchenZhang/astraliteheart-pony-diffusion/resolve/main/pony_furry_sfw_nsfw_450k_safe_and_suggestive_and_explicit_250rating_plus-pruned.ckpt',
+            'url': 'https://huggingface.co/FredZhang7/astraliteheart-pony-diffusion/resolve/main/pony_furry_sfw_nsfw_450k_safe_and_suggestive_and_explicit_250rating_plus-pruned.ckpt',
         },
-        'dalle2-diffusion.pth': {
-            'url': 'https://huggingface.co/laion/DALLE2-PyTorch/resolve/main/best.pth',
+        'comic-diffusion.ckpt': {
+            'url': 'https://huggingface.co/ogkalu/Comic-Diffusion/resolve/main/comic-diffusion-V2.ckpt',
+        },
+        'redshift-diffusion.ckpt': {
+            'url': 'https://huggingface.co/nitrosocke/redshift-diffusion/resolve/main/redshift-diffusion-v1.ckpt'
+        },
+        'sjh-artist.ckpt': {
+            'url': 'https://huggingface.co/ProGamerGov/Min-Illust-Background-Diffusion/resolve/main/sjh_style_v1_iter2250.ckpt'
+        },
+        'voxel-art.ckpt': {
+            'url': 'https://huggingface.co/Fictiverse/Stable_Diffusion_VoxelArt_Model/resolve/main/VoxelArt_v1.ckpt'
+        },
+        'papercut-diffusion.ckpt': {
+            'url': 'https://huggingface.co/Fictiverse/Stable_Diffusion_PaperCut_Model/resolve/main/PaperCut_v1.ckpt'
+        },
+        'spiderverse-diffusion.ckpt': {
+            'url': 'https://huggingface.co/nitrosocke/spider-verse-diffusion/resolve/main/spiderverse-v1-pruned.ckpt'
         },
         'pokemon-diffusion.ckpt': {
             'url': 'https://huggingface.co/justinpinkney/pokemon-stable-diffusion/resolve/main/ema-only-epoch%3D000142.ckpt'
@@ -795,7 +811,10 @@ def load_model(args,                         # args from astro.py
         },
         'nitro-diffusion.ckpt': {
             'url': 'https://huggingface.co/nitrosocke/Nitro-Diffusion/resolve/main/nitroDiffusion-v1.ckpt'
-        }
+        },
+        'dalle2-diffusion.pth': {
+            'url': 'https://huggingface.co/laion/DALLE2-PyTorch/resolve/main/best.pth',
+        },
     }
 
     # config path
@@ -1041,8 +1060,8 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], nprompts:
                     if args.make_grid:
                         all_images.append(T.functional.pil_to_tensor(image))
                     if args.save_samples:
-                        if args.filename_format == "{timestring}_{index}_{prompt}.png":
-                            filename = f"{args.time}_{sanitize(prompt)[:160]}.png"
+                        if args.filename_format == "{timestring}_{seed}_{prompt}.png":
+                            filename = f"{args.time}_{args.seed}_{sanitize(prompt)[:160]}.png"
                         else:
                             filename = f"{args.time}_{args.seed}.png"
                         if upscale_ratio > 1:

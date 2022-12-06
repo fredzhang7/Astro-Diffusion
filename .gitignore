@@ -26,4 +26,5 @@ pony-diffusion-v2.ckpt
 pixelart-diffusion-expanded.pt
 pixelart-diffusion-4k.pt
 scifipulp-diffusion.pt
+distil-sd-gpt2.pt
 sd-v1-5.ckpt
