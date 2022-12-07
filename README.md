@@ -58,4 +58,4 @@
 ### Fun Facts
 1. This repo is quite new - only googleable since Nov 16th, 2022. I will constantly improve this repo for at least a few months.
 2. Model checkpoints or embeddings ending in .pt aren't compatible atm, but will soon.
-3. The logo for this repo was drawn by hand, pixel by pixel.
+3. The logo for this repo was drawn manually.
