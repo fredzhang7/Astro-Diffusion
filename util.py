@@ -326,22 +326,19 @@ def generate_prompts(ins="", max_tokens=80, samples=10) -> list[str]:
     if len(ins).replace(' ', '') == 0:
         return []
     
+    model = None
     import os
-    if not os.path.exists('./distil-sd-gpt2.pt'):
-        import urllib.request
-        print('Downloading DistilGPT2 Stable Diffusion model...')
-        urllib.request.urlretrieve('https://huggingface.co/FredZhang7/distilgpt2-stable-diffusion/resolve/main/distil-sd-gpt2.pt', './distil-sd-gpt2.pt')
-        print('Model downloaded.')
-    
     from transformers import GPT2Tokenizer, GPT2LMHeadModel
+    if os.path.exists('./distil-sd-gpt2.pt'):
+        from torch import load
+        model = GPT2LMHeadModel.from_pretrained('distilgpt2')
+        model.load_state_dict(load('distil-sd-gpt2.pt'))
+    else:
+        model = GPT2LMHeadModel.from_pretrained('FredZhang7/distilgpt2-stable-diffusion')
 
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     tokenizer.max_len = 512
-
-    import torch
-    model = GPT2LMHeadModel.from_pretrained('distilgpt2')
-    model.load_state_dict(torch.load('distil-sd-gpt2.pt'))
 
     from transformers import pipeline
     nlp = pipeline('text-generation', model=model, tokenizer=tokenizer)
