@@ -36,12 +36,12 @@
 3. Move all files in cuDNN to the CUDA folder (C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin)
 4. [Install Git](https://git-scm.com/downloads)
 5. In a terminal, run `git clone https://github.com/FredZhang7/Astro-Diffusion.git​​` to save this repo to local
-6. [Install Python >= 3.9 <= 3.10](https://www.python.org/downloads/), or `pyenv install 3.10.4` and `pyenv global 3.10.4`
+6. [Install Python ≥3.9, ≤3.10](https://www.python.org/downloads/), or `pyenv install 3.10.4` and `pyenv global 3.10.4`
 7. Read the comments and instructions in `astro_image.py` to generate photos, pixelart, paintings, and more
 8. In a terminal, run `git pull https://github.com/FredZhang7/Astro-Diffusion.git​​` to update to the latest version
 
 
-### Setup for No GPU Computers
+### Setup for CPU-only
 1. Start from step #4 (Install Git) in the NVIDIA section
  
  
@@ -58,4 +58,4 @@
 ### Fun Facts
 1. This repo is quite new - only googleable since Nov 16th, 2022. I will constantly improve this repo for at least a few months.
 2. Model checkpoints or embeddings ending in .pt aren't compatible atm, but will soon.
-3. The logo for this repo was drawn manually.
+3. The logo for this repo was drawn by hand.
