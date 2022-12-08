@@ -14,7 +14,7 @@
 4. EDSR image and video super resolution
 5. [DistilGPT2-powered stable diffusion prompt generator](https://huggingface.co/FredZhang7/distilgpt2-stable-diffusion)
    * safe for work
-   * finetuned on 2.03M prompts for stable diffusion v1.0 through v1.4
+   * finetuned on 2.03M prompts for stable diffusion v1.1 through v1.4
    * 50% faster forwardproporgation, 40% less RAM usage than other HuggingFace prompt generators
 6. DistilBART-powered animation prompt generator
    * safe for work

@@ -1,5 +1,16 @@
 # Feature Highlight
-On average, images shown below are cherrypicked from batches of 6.
+<!-- table of contents -->
+- Easy theme switch
+  * <a href="#default">Default</a>
+  * <a href="#cyberpunk">Cyberpunk</a>
+  * <a href="#league">League and Apex Legends Mix</a>
+  * <a href="#genshin">Genshin Impact and Azur Lane Mix</a>
+  * <a href="#painting">Drawing Painting Mix</a>
+  * <a href="#artifacts">Random Artifacts</a>
+- DistilBART
+  * <a href="#artifacts">Character Summary</a>
+ 
+These are just some examples cherrypicked from batches of 6. There're many more customizations available.
 
 <br>
 <br>
@@ -7,6 +18,8 @@ On average, images shown below are cherrypicked from batches of 6.
 ## Astro Anything Duffusion
 
 ---
+
+<div id="default"></div>
  
 `1boy, slit pupils, <eye color>, <hair style>, <hair color>, <man-made>, [season], looking at viewer`
 
@@ -108,6 +121,67 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ![](https://cdn.discordapp.com/attachments/884528247998664744/1049603933942857728/1670143693_pear_highres.png)
 
+<br>
+
+<div id="cyberpunk"></div>
+
+<br>
+
+`1boy, (((slit pupils))), buzz cut, <hair color>, <eye color>, male focus, colorful, cyberpunk, city lights, full body, <hand position>`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330351119118346/1670487194_953887301_boy_slit_pupils_buzz_cut_brown_hair_brown_eyes_male_focus_colorful_cyberpunk_city_lights_full_body_hands_in_pocket_highres.png)
+
+<br>
+
+`1boy, (((slit pupils))), buzz cut, <hair color>, <eye color>, male focus, colorful, cyberpunk, city lights, full body, <hand position>`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330351412707398/1670487349_21_boy_slit_pupils_buzz_cut_brown_hair_brown_eyes_male_focus_colorful_cyberpunk_city_lights_full_body_hands_in_pocket_highres.png)
+
+<br>
+
+`1boy, (((slit pupils))), buzz cut, <hair color>, <eye color>, male focus, colorful, cyberpunk, city lights, full body, <hand position>`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330351815376896/1670487452_23_boy_slit_pupils_buzz_cut_brown_hair_brown_eyes_male_focus_colorful_cyberpunk_city_lights_full_body_hands_in_pocket_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330352171888670/1670481238_82054835_boy_slit_pupils_buzz_cut_blonde_hair_red_eyes_bishounen_colorful_cyberpunk_city_lights_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330348556398603/1670481377_24_boy_slit_pupils_buzz_cut_blonde_hair_red_eyes_bishounen_colorful_cyberpunk_city_lights_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330348241829888/1670481266_20_boy_slit_pupils_buzz_cut_blonde_hair_red_eyes_bishounen_colorful_cyberpunk_city_lights_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights, from above`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330349990854708/1670482663_23_boy_slit_pupils_buzz_cut_green_hair_pink_eyes_bishounen_colorful_cyberpunk_city_lights_from_above_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights, from above`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330350389309460/1670482719_25_boy_slit_pupils_buzz_cut_green_hair_pink_eyes_bishounen_colorful_cyberpunk_city_lights_from_above_highres.png)
+
+<br>
+
+`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights, portrait`
+
+![](https://media.discordapp.net/attachments/884528247998664744/1050330350691303474/1670482830_112_boy_slit_pupils_buzz_cut_colored_inner_hair_ringed_eyes_bishounen_colorful_cyberpunk_city_lights_portrait_highres.png)
+
+<br>
+
+<div id="league"></div>
 
 `1boy, slit pupils, (bright pupil:-99), medium hair, <eye color>, apex legends, <hair color>, league of legends, perspective`
 
@@ -187,6 +261,8 @@ On average, images shown below are cherrypicked from batches of 6.
 
 <br>
 
+<div id="genshin"></div>
+
 `1boy, slit pupils, (bright pupil:-99), short hair, <eye color>, genshin impact, <hair color>, azur lane, perspective`
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1049624141873041430/1670318415_2914754824_boy_slit_pupils_bright_pupil_short_hair_Pacman_eyes_genshin_impact_multicolored_hair_azur_lane_perspective_highres.png)
@@ -242,6 +318,7 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ---
 
+<div id="painting"></div>
 
 `body portrait of a girl in dgs illustration style, Anime girl, female soldier working in a cyberpunk city, cleavage, ((perfect feminine face)), intricate, 8k, highly detailed, shy, digital painting, intense, sharp focus`
 
@@ -298,6 +375,7 @@ On average, images shown below are cherrypicked from batches of 6.
 
 ---
 
+<div id="artifacts"></div>
  
 `Asada Shino`
 

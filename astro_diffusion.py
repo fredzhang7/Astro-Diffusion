@@ -665,8 +665,8 @@ def load_model(args,                         # args from astro.py
               load_on_run_all=True,          # whether to load the model when running all cells
               half_precision=True):          # whether to use half precision
     model_map = {
-        "sd-v2-0.ckpt": {
-            'url': 'https://huggingface.co/stabilityai/stable-diffusion-2/resolve/main/768-v-ema.ckpt',
+        "sd-v2-1.ckpt": {
+            'url': 'https://huggingface.co/stabilityai/stable-diffusion-2-1/resolve/main/v2-1_768-ema-pruned.ckpt',
             'requires_login': True
         },
         "sd-v1-5-full-ema.ckpt": {
@@ -943,12 +943,12 @@ def load_model_from_config(config,
 
 
 def next_seed(args):
-    if args.seed_behavior == 'iter':
-        args.seed += 1
-    elif args.seed_behavior == 'fixed' and args.seed:
-        pass
-    else:
+    if args.seed is None or args.seed == -1:
         args.seed = random.randint(0, 2**8 - 1)
+    elif args.seed_behavior == 'fixed':
+        pass
+    elif args.seed_behavior == 'iter':
+        args.seed += 1
     return args.seed
 
 
@@ -985,7 +985,7 @@ def parse_args(args, prompts=[], nprompts=[]):
             args.nprompts = readLines(f'{folder}anime_trinart.txt')
         elif 'cyberpunk.' in ckpt:
             args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
-        elif 'sd-v2-0' in ckpt:
+        elif 'sd-v2' in ckpt:
             args.nprompts = readLines(f'{folder}sd_v2_0.txt')
     
     return args

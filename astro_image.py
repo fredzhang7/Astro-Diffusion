@@ -1,5 +1,5 @@
 # If you don't have a GPU, set cpu_only to True
-# Uncomment the following lines to automatically install the required libraries
+# Uncomment the following two lines to automatically install the required libraries
 # from setup import setup_environment
 # setup_environment(cpu_only=False)
 
@@ -20,7 +20,7 @@ def get_output_folder(output_path, batch_folder):
 """
     
     Stable Diffusion Style
-     sd-v2-0.ckpt                        (5.2 GB, latest, family-friendly, highest resolution, uses negative prompts, general artwork, medium RAM)
+     sd-v2-1.ckpt                        (5.2 GB, latest, family-friendly, highest resolution, uses negative prompts, general artwork, medium RAM)
      sd-v1-5.ckpt                        (4.2 GB, higher resolution, general artwork, medium RAM)
      sd-v1-1.ckpt                        (4.2 GB, lowest accuracy, general artwork, medium RAM)
 
@@ -208,7 +208,7 @@ def return_image_gen(prompts):
 # Use commas (,), pipes (|), or double colons (::) as hard separators
 # ❗Uncomment one of the two sections below to generate image(s) from the prompts
 
-# prompts = ['1boy, medium hair, <hair color>, <eye color>, bishounen, colorful, <sky>, lighting, [season], garden']
+# prompts = ['1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, male focus, colorful, cyberpunk, city lights, <pov>']
 # nprompts = []  # don't change this unless the output image is of poor quality
 # render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)
 

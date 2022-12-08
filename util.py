@@ -270,12 +270,12 @@ def parsePony(res) -> str:
     return tags
 
 
-def pony_search(name="", seek_artist=True) -> str:
+def pony_search(prompt="", seek_artist=True) -> str:
     """
     Summarizes the appearance of a pony
     """
     nPony = ''
-    name = name.lower()
+    name = prompt.lower()
     if 'solo' in name:
         nPony = '+solo%2C'
         name = name.replace('solo', '')
@@ -291,36 +291,55 @@ def pony_search(name="", seek_artist=True) -> str:
                 break
         if len(name.split(' ')) <= 2:
             nPony = '+solo%2C'
-    if name == "":
+    if name.replace(' ', '') == '' or name == 'random':
         r = requests.get('https://mlp.fandom.com/wiki/Special:Random', headers=headers)
         soup = BeautifulSoup(r.text, "html.parser")
         name = soup.find("h1", class_="page-header__title").text.strip().replace(' ', '_')
-    r = requests.get(f'https://derpibooru.org/search?q=safe%2C+{name}%2C+score.gte%3A100&sf=score&sd=desc', headers=headers)
-    soup = BeautifulSoup(r.text, "html.parser")
-    resultText = soup.find("span", class_="block__header__title page__info")
-    summary = name
-    if not resultText:
-        r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, 1000)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+score.gte%3A100', headers=headers)
-        tags = parsePony(r)
-        summary = tags if name == "" else name + ", " + tags
-    else:
-        resultText = resultText.text.strip()
-        import math
-        total = int(resultText.split("of ")[1].split(" ")[0])
-        pages = math.ceil(total / 15)
-        if pages > 10000:
-            from numpy import log as ln
-            pages = ln(pages) * 120
-        elif pages > 1000:
-            pages = 1000
-        r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, pages)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+{name}%2C+score.gte%3A100', headers=headers)
-        summary = parsePony(r)
-    if ' gif, ' in summary or summary.endswith('gif') or 'animated' in summary or 'vulgar' in summary:
-        return pony_search(name)
-    if seek_artist:
-        summary = optimize_prompts([summary], theme='pony')[0]
-    return nPony.replace('+', '').replace('%2C', '') + ', ' + summary.replace(' 3d,', ' hyperrealistic,')
+    try:
+        r = requests.get(f'https://derpibooru.org/search?q=safe%2C+{name}%2C+score.gte%3A100&sf=score&sd=desc', headers=headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+        resultText = soup.find("span", class_="block__header__title page__info")
+        summary = name
+        if not resultText:
+            r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, 1000)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+score.gte%3A100', headers=headers)
+            tags = parsePony(r)
+            summary = tags if name == "" else name + ", " + tags
+        else:
+            resultText = resultText.text.strip()
+            import math
+            total = int(resultText.split("of ")[1].split(" ")[0])
+            pages = math.ceil(total / 15)
+            if pages > 10000:
+                from numpy import log as ln
+                pages = ln(pages) * 120
+            elif pages > 1000:
+                pages = 1000
+            r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, pages)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+{name}%2C+score.gte%3A100', headers=headers)
+            summary = parsePony(r)
+        if ' gif, ' in summary or summary.endswith('gif') or 'animated' in summary or 'vulgar' in summary:
+            return pony_search(name)
+        if seek_artist:
+            summary = optimize_prompts([summary], theme='pony')[0]
+        return nPony.replace('+', '').replace('%2C', '') + ', ' + summary.replace(' 3d,', ' hyperrealistic,')
+    except:
+        return prompt
 
+
+def translate_to_english(prompt: str) -> str:
+    """
+    Translates the prompt to English
+    """
+    try:
+        import googletrans
+    except:
+        import subprocess
+        import sys
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "googletrans"])
+    from googletrans import Translator
+    translator = Translator()
+    prompt = translator.translate(prompt, dest='en').text
+    return prompt
+        
 
 def generate_prompts(ins="", max_tokens=80, samples=10) -> list[str]:
     if len(ins).replace(' ', '') == 0:
@@ -390,7 +409,7 @@ def danbooru_search(tags="") -> str:
         'print': ["animal print","bat print","bear print","bird print","cow print","leopard print","tiger print","snake print","zebra print","flag print","floral print","cherry blossom print","game controller print","moon print","crescent print","hand print","leaf print","musical note print","piano print","watermelon print","print umbrella"],
         'coloring': ["inverted colors","colorized","black theme","spot color","grey theme","green theme","color drain","neon palette","greyscale with colored background","color connection","high contrast","ff gradient","orange theme","cel shading","flat color","sepia","yellow theme","brown theme","white theme","purple theme","pink theme","colorful","aqua theme","rainbow","colored with greyscale background","gradient","greyscale","multiple monochrome","red theme","pale color","muted color","rainbow order","pastel colors","blue theme","anime coloring","limited palette","monochrome"],
         'art style': ["pinup","style parody","ukiyo-e","friday night funkin'","faux traditional media","realistic","flame painter","fine art parody","nihonga","2000s","1980s","unfinished","sketch","abstract","1970s","traditional media","sumi-e","pokemon rgby","1920s","animification","bikkuriman","1940s","granblue fantasy","*_(medium)","photorealistic","ligne claire","retro artstyle","1960s","minimalism","1950s","impressionism","art nouveau","art deco","1990s","cartoonized","surreal","toon","1930s","western comics"],
-        'hair style': ["whipping hair","hair slicked back","messy hair","afro","hair rings","front braid","buzz cut","sidecut","hime cut","heart ahoge","curly hair","asymmetrical bangs","sidelocks","ahoge","wavy hair","bowl cut","pixie cut","heart hair bun","hair intakes","pompadour","huge ahoge","parted bangs","split ponytail","side ponytail","shouten pegasus mix mori","two side up","swept bangs","quad tails","low twintails","hair between eyes","asymmetrical hair","multiple braids","uneven twintails","crew cut","half updo","double bun","dreadlocks","bow-shaped hair","low-braided long hair","blunt ends","braided bun","quiff","huge afro","undercut","single hair ring","folded ponytail","short ponytail","widow's peak","braided bangs","blunt bangs","mullet","topknot","multi-tied hair","hair scarf","quad braids","low-tied long hair","chonmage","triple bun","bangs","nihongami","crown braid","hair up","ponytail","single hair intake","drill hair","flattop","spiked hair","quin tails","side braid","beehive hairdo","single braid","one side up","ringlets","hair flaps","single hair bun","tri braids","hair over one eye","lone nape hair","tri tails","hair down","comb over","mizura","mohawk","cornrows","front ponytail","antenna hair","twin braids","short twintails","french braid","twintails","okappa","braid","hair over eyes","pointy hair","flipped hair","high ponytail","hair over shoulder","low twin braids","hair bun","oseledets","bob cut","twin drills","cone hair bun","hair pulled back","alternate hairstyle"],
+        'hair style': ["whipping hair","hair slicked back","messy hair","afro","hair rings","front braid","buzz cut","hime cut","heart ahoge","curly hair","asymmetrical bangs","sidelocks","ahoge","wavy hair","bowl cut","pixie cut","heart hair bun","hair intakes","pompadour","huge ahoge","parted bangs","split ponytail","side ponytail","shouten pegasus mix mori","two side up","swept bangs","quad tails","low twintails","hair between eyes","asymmetrical hair","multiple braids","uneven twintails","crew cut","half updo","double bun","dreadlocks","bow-shaped hair","low-braided long hair","blunt ends","braided bun","quiff","huge afro","undercut","single hair ring","folded ponytail","short ponytail","widow's peak","braided bangs","blunt bangs","mullet","topknot","multi-tied hair","hair scarf","quad braids","low-tied long hair","chonmage","triple bun","bangs","nihongami","crown braid","hair up","ponytail","single hair intake","drill hair","flattop","spiked hair","quin tails","side braid","beehive hairdo","single braid","one side up","ringlets","hair flaps","single hair bun","tri braids","hair over one eye","lone nape hair","tri tails","hair down","comb over","mizura","mohawk","cornrows","front ponytail","antenna hair","twin braids","short twintails","french braid","twintails","okappa","braid","hair over eyes","pointy hair","flipped hair","high ponytail","hair over shoulder","low twin braids","hair bun","oseledets","bob cut","twin drills","cone hair bun","hair pulled back","alternate hairstyle"],
         'hair color': ["streaked hair","gradient hair","brown hair","rainbow hair","light purple hair","two-tone hair","red hair","aqua hair","split-color hair","colored inner hair","light blue hair","purple hair","blue hair","black hair","dark green hair","light brown hair","blonde hair","green hair","multicolored hair","orange hair","dark blue hair","colored tips","grey hair","white hair","light green hair","pink hair"],
         'ear style': ["pig ears","tiger ears","horse ears","ear protection","bat ears","pikachu ears","bear ears","fox ears","behind ear","monkey ears","wolf ears","animal ears","cat ears","lion ears","squirrel ears","panda ears","dog ears","raccoon ears","fake animal ears","sheep ears","cow ears","kemonomimi mode","ferret ears","robot ears","deer ears","hair ears","rabbit ears","mouse ears","pointy ears","ear piercing","goat ears"],
         'headphones': ["headphones","headphones for animal ears","earpiece","bunny headphones","animal ear headphones","cat ear headphones","behind-the-head headphones","headset"],
@@ -409,7 +428,7 @@ def danbooru_search(tags="") -> str:
         'posture': ["airplane arms","indian style","inugami-ke no ichizoku pose","headstand","handstand","kneeling","legs apart","contrapposto","chest stand","animal pose","battoujutsu stance","sitting on person","knees together feet apart","crossed legs","arms behind head","arched back","praise the sun","v arms","bunny pose","prostration","butterfly sitting","shrugging","arm support","one knee","head tilt","letter pose","jumping","dojikko pose","reaching","reclining","lying","straddling","t-pose","symmetrical hand pose","w arms","arm behind head","crucifixion","arm behind back","claw pose","lotus position","upside-down","yoga","leaning forward","twisted torso","superhero landing","arms up","stroking own chin","body bridge","yokozuwari","knees to chest","standing","faceplant","sitting on lap","outstretched arm","stretching","jojo pose","a-pose","wariza","leaning back","top-down bottom-up","ojou-sama pose","full scorpion","all fours","hugging own legs","on stomach","seiza","spread arms","archer pose","figure four sitting","zombie pose","paw pose","standing on one leg","flexing","gendou pose","walking","horns pose","cowering","arm at side","fetal position","slouching","thigh straddling","upright straddle","on side","sitting","bent over","saboten pose","balancing","victory pose","villain pose","squatting","bras d'honneur","running","\o/","crossed arms","on back","fighting stance","arm up","outstretched hand"],
         'hand position': ["hand on own head","hand on headwear","hands on hips","hand on own forehead","hand in pocket","hands on own face","adjusting eyewear","hand on own chest","hand on own shoulder","hands in pockets","hand on own face","hand on ear","hand on own cheek"],
         'shoulder ornaments': ["bird on shoulder","weapon over shoulder","sword over shoulder","towel around neck","cat on shoulder"],
-        'pov': ["portrait","profile","sideways","wide shot","from behind","cowboy shot","portrait","very wide shot","upper body","vanishing point","lower body","dutch angle","panorama","full body","close-up","atmospheric perspective","pov","upside-down","from above","fisheye","face","perspective","cut-in","rotated"],
+        'pov': ["portrait","profile","sideways","wide shot","from behind","cowboy shot","portrait","very wide shot","upper body","vanishing point","lower body","dutch angle","full body","close-up","atmospheric perspective","pov","upside-down","from above","fisheye","face","perspective","rotated"],
         'wings': ["fairy wings","white wings","light hawk wings","ladybug wings","wing ribbon","plant wings","bowed wings","liquid wings","moth wings","dragon wings","heart wings","red wings","black wings","bat wings","metal wings","butterfly wings","demon wings","hair wings","feathered wings","mechanical wings","insect wings","energy wings","angel wings","fiery wings","gradient wings","glowing wings","multiple wings","ice wings"],
         'tail': ["tail ribbon","heart tail","squirrel tail","ghost tail","pig tail","wolf tail","bear tail","lion tail","scorpion tail","pikachu tail","tadpole tail","rabbit tail","multiple tails","dragon tail","demon tail","fox tail","horse tail","leopard tail","sheep tail","mouse tail","deer tail","monkey tail","ermine tail","fiery tail","dog tail","snake tail","cow tail","cat tail","tiger tail","fish tail"],
         'skin color': ["tanlines","tan","pale skin","sun tattoo","dark skin"],
@@ -455,7 +474,7 @@ def danbooru_search(tags="") -> str:
         'motorcycle brand': ["yamaha","suzuki","kawasaki","bmw motorcycle","vespa","scooter"],
         'comms': ["microphone stand","radio antenna","radio telescope","radio","walkie-talkie","smartphone","payphone","field radio","radio tower","speaker","radio booth","microphone","cellphone"],
         'artificial life': ["cyborg","android","mecha","transformers","non-humanoid robot","cyber elves","humanoid robot","robot animal"],
-        'themes': ["personification","fantasy","mechanization","cyberpunk","science fiction","steampunk"]
+        'themes': ["personification","fantasy","mechanization","cyberpunk, city lights","science fiction","steampunk"]
     }
     pet = {
         'pokemon': ["turtwig","litten","fennekin","blaziken","rowlet","charmeleon","piplup","bulbasaur","tepig","oshawott","froakie","charmander","squirtle","mudkip","charizard","popplio","snivy","torchic","dragonite","deoxys, deoxys (normal)","groudon","dialga","miraidon","cosmog","regice","azelf","meloetta","mewtwo","regigigas","tapu koko, tapu lele, tapu bulu, tapu fini","hoopa","deoxys, deoxys (speed)","yveltal","xerneas","giratina","moltres, galarian moltres","dialga, primal dialga","zekrom","registeel","unown","kyurem","celebi","articuno, galarian articuno","zygarde, zygarde (complete)","reshiram","lunala","kyogre","moltres","necrozma","tornadus, thundurus, landorus","koraidon","marshadow","lugia, shadow lugia","silvally","giratina, giratina (origin)","lugia","fly (pokemon)","latios","latias","solgaleo","mega pokemon","zamazenta","suicune","metagross","deoxys, deoxys (attack)","diancie","rayquaza","zacian","deoxys, deoxys (defense)","surf (pokemon)","zapdos","calyrex","mew","zygarde, zygarde (10%)","pikachu","arceus","cosmoem","palkia","ho-oh","articuno","shaymin","mesprit","darkrai","cresselia","zapdos, galarian zapdos","uxie"],
