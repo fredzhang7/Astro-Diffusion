@@ -19,9 +19,8 @@ from types import SimpleNamespace
 from torch import autocast
 import re
 from scipy.ndimage import gaussian_filter
-from util import upscale_image
 from typing import Tuple
-from util import anime_search, pony_search, danbooru_search
+from util import upscale_image, parse_anime_prompts, parse_pony_prompts, english_to_chinese
 
 
 sys.path.extend([
@@ -721,6 +720,12 @@ def load_model(args,                         # args from astro.py
             'sha256': '244dbe0dcb55c761bde9c2ac0e9b46cc9705ebfe5f1f3a7cc46251573ea14e16',
             'url': 'https://huggingface.co/nousr/robo-diffusion/resolve/main/models/robo-diffusion-v1.ckpt',
         },
+        "chinese-sd.ckpt": {
+            'url': 'https://huggingface.co/IDEA-CCNL/Taiyi-Stable-Diffusion-1B-Chinese-v0.1/resolve/main/Taiyi-Stable-Diffusion-1B-Chinese-v0.1.ckpt'
+        },
+        "chroma-v5.ckpt": {
+            'url': 'https://huggingface.co/SomaMythos/ChromaV5/resolve/main/ChromaV5%20(2.0).ckpt'
+        },
         "anime-sd.ckpt": {
             'sha256': '26cf2a2e30095926bb9fd9de0c83f47adc0b442dbfdc3d667d43778e8b70bece',
             'url': 'https://huggingface.co/hakurei/waifu-diffusion-v1-3/resolve/main/model-epoch05-float16.ckpt',
@@ -958,20 +963,17 @@ model = None
 def parse_args(args, prompts=[], nprompts=[]):
     ckpt = args.model_checkpoint
     if ckpt.startswith("anime-"):
-        for i, p in enumerate(prompts):
-            init_len = len(p)
-            p = danbooru_search(p)
-            prompts[i] = anime_search(p, 'anything' in ckpt) if len(p) < 75 and init_len == len(p) else p
+        prompts = parse_anime_prompts(prompts, 'anything' in ckpt)
     elif ckpt.startswith("pony-"):
-        for i, p in enumerate(prompts):
-            if len(p) < 60:
-                prompts[i] = pony_search(p)
+        prompts = parse_pony_prompts(prompts)
     elif ckpt.startswith("van-gogh-"):
         for i, prompt in enumerate(prompts):
             if not prompt.endswith("highly detailed"):
                 prompts[i] = prompt + ", highly detailed"
             if not prompt.startswith("lvngvncnt"):
                 prompts[i] = "lvngvncnt, " + prompt
+    elif ckpt.startswith("chinese-"):
+        prompts = english_to_chinese(prompts)
 
     args.nprompts = nprompts
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}

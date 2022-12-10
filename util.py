@@ -158,6 +158,11 @@ def load_summarizer():
     model = BartForConditionalGeneration.from_pretrained("sshleifer/distilbart-cnn-12-6")
 
 
+def reset_summarizer():
+    global tokenizer, model
+    tokenizer, model = None, None
+
+
 def anime_search(prompt, seek_artist=False, latest=False) -> str:
     """
     Summarizes the appearance of an anime character
@@ -255,11 +260,21 @@ def anime_search(prompt, seek_artist=False, latest=False) -> str:
                 summary = f'{summary}, beautiful eyes, perfect, body portrait' if c == -1 else f'{summary[:c]}, beautiful eyes, perfect, body portrait{summary[c:]}'
         return f'{prefix}, {name.strip()}, {summary.strip()}'
     except:
-        # print(bcolors.FAIL + f'Failed to summarize the appearance of \"{prompt}\"... Using the given prompt without prompt engineering...' + bcolors.ENDC)
         return prompt
 
 
-def parsePony(res) -> str:
+def parse_anime_prompts(prompts=[], is_anything=False) -> list[str]:
+    if model is None or tokenizer is None:
+        load_summarizer()
+    for i, p in enumerate(prompts):
+        initial_len = len(p)
+        p = danbooru_search(p)
+        prompts[i] = anime_search(p, is_anything) if len(p) < 75 and initial_len == len(p) else p
+    reset_summarizer()
+    return prompts
+
+
+def random_pony_tags(res) -> str:
     soup = BeautifulSoup(res.text, "html.parser")
     try:
         images = soup.find_all("a", href=lambda x: x and x.startswith("/images/"), title=lambda x: x and x.startswith("Size:"))
@@ -274,6 +289,8 @@ def pony_search(prompt="", seek_artist=True) -> str:
     """
     Summarizes the appearance of a pony
     """
+    if len(prompt) > 60:
+        return prompt
     nPony = ''
     name = prompt.lower()
     if 'solo' in name:
@@ -302,7 +319,7 @@ def pony_search(prompt="", seek_artist=True) -> str:
         summary = name
         if not resultText:
             r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, 1000)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+score.gte%3A100', headers=headers)
-            tags = parsePony(r)
+            tags = random_pony_tags(r)
             summary = tags if name == "" else name + ", " + tags
         else:
             resultText = resultText.text.strip()
@@ -315,7 +332,7 @@ def pony_search(prompt="", seek_artist=True) -> str:
             elif pages > 1000:
                 pages = 1000
             r = requests.get(f'https://derpibooru.org/search?page={random.randint(1, pages)}&sd=desc&sf=upvotes&q=safe%2C{nPony}+{name}%2C+score.gte%3A100', headers=headers)
-            summary = parsePony(r)
+            summary = random_pony_tags(r)
         if ' gif, ' in summary or summary.endswith('gif') or 'animated' in summary or 'vulgar' in summary:
             return pony_search(name)
         if seek_artist:
@@ -325,10 +342,35 @@ def pony_search(prompt="", seek_artist=True) -> str:
         return prompt
 
 
-def translate_to_english(prompt: str) -> str:
+def parse_pony_prompts(prompts=[], seek_artist=True) -> list[str]:
+    if len(prompts) == 0:
+        return []
+    prompts = [pony_search(prompt, seek_artist) for prompt in prompts]
+    return prompts
+
+
+def english_to_chinese(prompts=[]) -> list[str]:
     """
-    Translates the prompt to English
+    Accurately translates prompts from English to Chinese
     """
+    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+    tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
+    model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
+
+    translated = []
+    for prompt in prompts:
+        inputs = tokenizer(prompt, return_tensors="pt")
+        outputs = model.generate(**inputs)
+        translated.append(tokenizer.batch_decode(outputs, skip_special_tokens=True)[0])
+    return translated
+
+
+def translate(text="", from_lang='auto', to_lang='en') -> str:
+    """
+    Translates a prompt from one language to another using Google Translate
+    """
+    if from_lang == to_lang or len(text.replace(' ', '')) == 0:
+        return text
     try:
         import googletrans
     except:
@@ -337,8 +379,7 @@ def translate_to_english(prompt: str) -> str:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "googletrans"])
     from googletrans import Translator
     translator = Translator()
-    prompt = translator.translate(prompt, dest='en').text
-    return prompt
+    return translator.translate(text, src=from_lang, dest=to_lang).text
         
 
 def generate_prompts(ins="", max_tokens=80, samples=10) -> list[str]:

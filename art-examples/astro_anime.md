@@ -153,12 +153,6 @@ These are just some examples cherrypicked from batches of 6. There're many more 
 
 `1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights`
 
-![](https://media.discordapp.net/attachments/884528247998664744/1050330348556398603/1670481377_24_boy_slit_pupils_buzz_cut_blonde_hair_red_eyes_bishounen_colorful_cyberpunk_city_lights_highres.png)
-
-<br>
-
-`1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, bishounen, colorful, cyberpunk, city lights`
-
 ![](https://media.discordapp.net/attachments/884528247998664744/1050330348241829888/1670481266_20_boy_slit_pupils_buzz_cut_blonde_hair_red_eyes_bishounen_colorful_cyberpunk_city_lights_highres.png)
 
 <br>

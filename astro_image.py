@@ -37,6 +37,7 @@ def get_output_folder(output_path, batch_folder):
      robo-diffusion-v1.ckpt              (4.2 GB, high-quality robot, cyborg, android drawings, medium RAM)
 
     Drawing Styles
+     chinese-sd.ckpt                     (4.2 GB, trained on 20 million Chinese text and image pairs, compatible with English texts, max 150 to 200 tokens, medium RAM)
      vector-art.ckpt                     (2.1 GB, high-quality vector art, medium RAM)
      voxel-art.ckpt                      (2.1 GB, accurate, sd-v1-5.ckpt fine tuned on high res voxel art, medium RAM)
      nitro-diffusion.ckpt                (2.1 GB, mix of archer, arcane or modern disney styles, medium RAM)
@@ -51,6 +52,7 @@ def get_output_folder(output_path, batch_folder):
     Craft Style
      popup-book.ckpt                     (4.2 GB, pop-up book illustrations, medium RAM)
      papercut-diffusion.ckpt             (4.2 GB, sd-v1-5.ckpt but finetuned on paper cut images, medium RAM)
+     chroma-v5.ckpt                      (2.6 GB, mixes stable diffusion v1.5 and 2.0, generates images in 3D, low RAM)
 
 """
 
@@ -187,6 +189,7 @@ torch.cuda.empty_cache()
         # "comic-diffusion.ckpt" - include one of "charliebo artstyle", "holliemengert artstyle", "marioalberti artstyle", "pepelarraz artstyle", "andreasrocha artstyle", "jamesdaly artstyle"
         # "redshift-diffusion.ckpt" - use "redshift style" in your prompt, 512x704 for portraits, 704x512 for scenes and cars
         # "nitro-diffusion.ckpt" - use "archer style", "arcane style", and/or "modern disney style" in your prompt
+        # "chroma-v5.ckpt" - use "ChromaV5" at the start of your prompt
 
 
     Example Negative Prompt:
