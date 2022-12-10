@@ -29,4 +29,4 @@ scifipulp-diffusion.pt
 distil-sd-gpt2.pt
 sd-v1-5.ckpt
 xformers
-Taiyi-Stable-Diffusion-1B-Chinese-v0.1.ckpt
+chinese-sd.ckpt

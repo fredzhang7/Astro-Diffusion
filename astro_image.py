@@ -59,14 +59,14 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "anime-anything-v3.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
+    model_checkpoint = "chinese-sd.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
 
     # Image Settings
-    W = 832                              # image width
-    H = 960                              # image height
+    W = 512                              # image width
+    H = 512                              # image height
     W, H = map(lambda x: x - x % 64,     # ensure that shape is divisable by 64
                (W, H))
 
@@ -74,7 +74,7 @@ def AstroArgs():
     seed = -1                            # -1 means to use a random seed, a positive integer means use the number as the initial seed
     sampler = "ddim"                     # one of "klms", "dpm2", "dpm2_ancestral", "euler", "euler_ancestral", "ddim", "heun"
     steps = 50                           # number of steps to run
-    scale = 12                           # classifier-free guidance scale, which determines how much prompts are followed in image generation
+    scale = 7.5                           # classifier-free guidance scale, which determines how much prompts are followed in image generation
     ddim_eta = 0.0                       # mixes in a random amount of scaled noise into each timestep. 0 is no noise, 1.0 is more noise. setting this to 1.0 favors step counts 250 and up
     dynamic_threshold = None             # adaptive threshold for ddim. None: no adaptive threshold, 0.0: adaptive threshold, 0.0 < x < 1.0: adaptive threshold with x as initial threshold
     static_threshold = None              # static threshold for ddim. None: no static threshold, 0.0: static threshold, 0.0 < x < 1.0: static threshold with x as initial threshold
@@ -211,9 +211,9 @@ def return_image_gen(prompts):
 # Use commas (,), pipes (|), or double colons (::) as hard separators
 # ❗Uncomment one of the two sections below to generate image(s) from the prompts
 
-# prompts = ['1boy, ((slit pupils)), buzz cut, <hair color>, <eye color>, male focus, colorful, cyberpunk, city lights, <pov>']
-# nprompts = []  # don't change this unless the output image is of poor quality
-# render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)
+prompts = ['a chinese city, sci-fi, futuristic, high resolution wallpaper']
+nprompts = []  # don't change this unless the output image is of poor quality
+render_image_batch(args, prompts, nprompts, upscale_ratio=1, save_image=True)
 
 # from util import random_anime_tags
 # prompts = random_anime_tags()  # for now, scroll to the bottom of `util.py` to edit the tags

@@ -349,20 +349,26 @@ def parse_pony_prompts(prompts=[], seek_artist=True) -> list[str]:
     return prompts
 
 
-def english_to_chinese(prompts=[]) -> list[str]:
+def chinese_to_english(prompts=[]) -> list[str]:
     """
-    Accurately translates prompts from English to Chinese
+    Accurately translates prompts from Chinese to English
     """
-    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-    tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
-    model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-en-zh")
+    try:
+        import sentencepiece
+        from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+        tokenizer = AutoTokenizer.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
+        model = AutoModelForSeq2SeqLM.from_pretrained("Helsinki-NLP/opus-mt-zh-en")
 
-    translated = []
-    for prompt in prompts:
-        inputs = tokenizer(prompt, return_tensors="pt")
-        outputs = model.generate(**inputs)
-        translated.append(tokenizer.batch_decode(outputs, skip_special_tokens=True)[0])
-    return translated
+        translated = []
+        for prompt in prompts:
+            inputs = tokenizer(prompt, return_tensors="pt")
+            outputs = model.generate(**inputs)
+            translated.append(tokenizer.batch_decode(outputs, skip_special_tokens=True)[0])
+        return translated
+    except ImportError:
+        import subprocess, sys
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "sentencepiece"])
+        return english_to_chinese(prompts)
 
 
 def translate(text="", from_lang='auto', to_lang='en') -> str:
@@ -374,8 +380,7 @@ def translate(text="", from_lang='auto', to_lang='en') -> str:
     try:
         import googletrans
     except:
-        import subprocess
-        import sys
+        import subprocess, sys
         subprocess.check_call([sys.executable, "-m", "pip", "install", "googletrans"])
     from googletrans import Translator
     translator = Translator()

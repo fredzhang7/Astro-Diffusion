@@ -20,7 +20,7 @@ from torch import autocast
 import re
 from scipy.ndimage import gaussian_filter
 from typing import Tuple
-from util import upscale_image, parse_anime_prompts, parse_pony_prompts, english_to_chinese
+from util import upscale_image, parse_anime_prompts, parse_pony_prompts
 
 
 sys.path.extend([
@@ -972,8 +972,6 @@ def parse_args(args, prompts=[], nprompts=[]):
                 prompts[i] = prompt + ", highly detailed"
             if not prompt.startswith("lvngvncnt"):
                 prompts[i] = "lvngvncnt, " + prompt
-    elif ckpt.startswith("chinese-"):
-        prompts = english_to_chinese(prompts)
 
     args.nprompts = nprompts
     args.prompts = {k: f"{v:05d}" for v, k in enumerate(prompts)}
@@ -1039,9 +1037,9 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], nprompts:
     if model is None:
         model = load_model(args)
 
-    for iprompt, prompt in enumerate(prompts):
+    for i, prompt in enumerate(args.prompts):
         args.prompt = prompt
-        print(f"Prompt {iprompt+1} of {len(prompts)}")
+        print(f"Prompt {i+1} of {len(prompts)}")
         print(f"{args.prompt}")
 
         all_images = []
@@ -1063,7 +1061,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], nprompts:
                         all_images.append(T.functional.pil_to_tensor(image))
                     if args.save_samples:
                         if args.filename_format == "{timestring}_{seed}_{prompt}.png":
-                            filename = f"{args.time}_{args.seed}_{sanitize(prompt)[:160]}.png"
+                            filename = f"{args.time}_{args.seed}_{sanitize(prompts[i])[:160]}.png"
                         else:
                             filename = f"{args.time}_{args.seed}.png"
                         if upscale_ratio > 1:
@@ -1082,7 +1080,7 @@ def render_image_batch(args: SimpleNamespace, prompts: list[str] = [], nprompts:
             grid = make_grid(all_images,
                              nrow=int(len(all_images) / args.grid_rows))
             grid = rearrange(grid, 'c h w -> h w c').cpu().numpy()
-            filename = f"{args.time}_{iprompt:05d}_grid_{args.seed}.png"
+            filename = f"{args.time}_{i:05d}_grid_{args.seed}.png"
             grid_image = Image.fromarray(grid.astype(np.uint8))
             grid_image.save(os.path.join(args.outdir, filename))
             display.clear_output(wait=True)
