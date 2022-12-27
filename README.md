@@ -26,7 +26,6 @@
    * finetuned on 2,470,000+ prompts for stable diffusion v1.1 through v1.5
    * 50% faster forwardproporgation, 40% less RAM usage, 25%+ more variations, more fluent than other HuggingFace prompt generators
 6. DistilBART-powered animation prompt generator
-   * safe for work
    * given a name, describes the appearance or story of a pony, video game, fiction, manga, or anime character
 7. [] and <> support in anime prompts
    * randomizes what's inside: gestures, postures, scenaries, objects, etc.

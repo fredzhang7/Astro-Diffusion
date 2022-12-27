@@ -421,7 +421,7 @@ def safesearch_filter(image: Image.Image) -> Image.Image:
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
-    img = transform(img)
+    img = transform(image)
     img = img.unsqueeze(0)
     img = img.cpu()
     model = model.cpu()
