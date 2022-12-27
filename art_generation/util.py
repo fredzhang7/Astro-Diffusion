@@ -407,7 +407,7 @@ def download_safesearch(path):
 
 from PIL import Image
 inceptionv3 = None
-def safesearch_filter(img: Image.Image) -> Image.Image:
+def safesearch_filter(image: Image.Image) -> Image.Image:
     import torch, os
     model_path = 'google_safesearch_mini.bin'
     if not os.path.exists(model_path):
@@ -432,6 +432,6 @@ def safesearch_filter(img: Image.Image) -> Image.Image:
         if predicted[0] != 2 and abs(out[0][2] - out[0][predicted[0]]) > 0.2:
             img = Image.new('RGB', (256, 256), color = (0, 255, 255))
             print("\033[93m" + "Image blocked by Google SafeSearch (Mini)" + "\033[0m")
+            return img
 
-    img = transforms.ToPILImage()(img[0])
-    return img
+    return image
