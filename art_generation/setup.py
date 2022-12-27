@@ -1,0 +1,56 @@
+import subprocess, time
+from util import bcolors
+
+def setup_environment(cpu_only=False, print_subprocess=True):
+    print(bcolors.HEADER + "Setting up environment... This may take a few minutes..." + bcolors.ENDC)
+    start_time = time.time()
+    all_process = [
+        [
+            *"pip install".split(), 'numpy', 'requests', 'IPython', 'Pillow'
+        ],
+        [
+            *"pip install".split(), 'torch==1.12.1+cu113',
+            'torchvision==0.13.1+cu113', '--extra-index-url',
+            'https://download.pytorch.org/whl/cu113'
+        ],
+        [
+            *"pip install".split(), 'omegaconf==2.2.3', 'einops==0.4.1',
+            'pytorch-lightning==1.7.4', 'torchmetrics==0.9.3',
+            'torchtext==0.13.1', 'transformers==4.21.2', 'kornia==0.6.7'
+        ],
+        "git clone https://github.com/deforum/stable-diffusion".split(),
+        [
+            *"pip install -e".split(),
+            "git+https://github.com/CompVis/taming-transformers.git@master#egg=taming-transformers",
+        ],
+        [
+            *"pip install -e".split(),
+            "git+https://github.com/openai/CLIP.git@main#egg=clip",
+        ],
+        [
+            *"pip install".split(),
+            *"accelerate ftfy jsonmerge matplotlib resize-right timm torchdiffeq".split(),
+        ],
+        [
+            *"pip install".split(),
+            *'opencv-python opencv-contrib-python scikit-image scipy'.split()
+        ],
+        "git clone https://github.com/shariqfarooq123/AdaBins.git".split(),
+        "git clone https://github.com/isl-org/MiDaS.git".split()
+    ]
+    if cpu_only:
+        all_process[1] = [*"pip install".split(), 'torch==1.12.1', 'torchvision==0.13.1']
+    for process in all_process:
+        running = subprocess.run(process, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        if print_subprocess:
+            print(running)
+
+    print(
+        subprocess.run(
+            [*'git clone https://github.com/deforum/k-diffusion/'.split()],
+            stdout=subprocess.PIPE).stdout.decode('utf-8'))
+    with open('k-diffusion/k_diffusion/__init__.py', 'w') as f:
+        f.write('')
+
+    end_time = time.time()
+    print(f"Environment set up in {end_time-start_time:.0f} seconds")
