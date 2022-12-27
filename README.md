@@ -8,6 +8,7 @@
 <!-- Original Deforum SD: https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb -->
 
 1. [Deforum Stable Diffusion](https://colab.research.google.com/drive/1FgiGFa6rkUMCyzxUOleusYWfp1LBr5Sh?usp=sharing)
+   * Text2Img, Img2Img, Inpainting, Outpainting
 2. [Disco Diffusion](https://colab.research.google.com/github/alembics/disco-diffusion/blob/main/Disco_Diffusion.ipynb)
 3. 23+ more diffusion models
    * Painting Midjourney (v1)
@@ -26,8 +27,8 @@
    * 50% faster forwardproporgation, 40% less RAM usage, 25%+ more variations, more fluent than other HuggingFace prompt generators
 6. DistilBART-powered animation prompt generator
    * safe for work
-   * given a name, describes the appearance or story of the pony, video game, fiction, manga, or anime character
-7. [] and <> support in prompts
+   * given a name, describes the appearance or story of a pony, video game, fiction, manga, or anime character
+7. [] and <> support in anime prompts
    * randomizes what's inside: gestures, postures, scenaries, objects, etc.
 8. [Google Safesearch Mini](https://huggingface.co/FredZhang7/google-safesearch-mini)
    * finetuned on 2,220,000+ images classified as safe/unsafe by Google Safesearch, Reddit, and Imgur

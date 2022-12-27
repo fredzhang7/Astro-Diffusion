@@ -66,7 +66,7 @@ def get_output_folder(output_path, batch_folder):
 
 def AstroArgs():
     # Model Settings
-    model_checkpoint = "anime-midjourney-v2.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
+    model_checkpoint = "midjourney-v2.ckpt"    # one of "custom", a model checkpoint listed above. if you have no clue, use "sd-v1-5.ckpt" for starters
     check_sha256 = False                 # whether to check the sha256 hash of the checkpoint file. set to True if you have issues with model downloads
     custom_config_path = ""              # if model_checkpoint "custom", path to a custom model config yaml file. else ""
     custom_checkpoint_path = ""          # if model_checkpoint "custom", path to custom checkpoint file. else ""
@@ -114,7 +114,7 @@ def AstroArgs():
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
     init_image = ""                      # URL or local path to image
     
-    # Inpainting Settings
+    # Inpainting/Outpainting Settings
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
     use_alpha_as_mask = False            # use the alpha channel of the image as a mask
     mask_file = ""                       # URL or local path to mask
@@ -129,7 +129,6 @@ def AstroArgs():
     precision = 'autocast'               # one of 'autocast', 'fp32', 'fp16'
     C = 4                                # number of channels
     f = 8                                # number of features
-
     init_latent = None                   # if not None, use this latent as the starting point for generation
     init_sample = None                   # if not None, use this image as the initial sample
     init_c = None                        # if not None, use this c vector as the starting point for generation
