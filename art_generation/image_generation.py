@@ -941,11 +941,11 @@ def parse_args(args, prompts=[], nprompts=[]):
         folder = './negative_prompts/'
         if not os.path.exists(folder):
             folder = '../negative_prompts/'
-        if 'anything' in ckpt:
+        if 'anything' in ckpt or 'eimis-' in ckpt:
             args.nprompts = readLines(f'{folder}anime_anything.txt')
-        elif 'trinart.' in ckpt or 'anything' in ckpt:
+        elif 'trinart' in ckpt or 'anything' in ckpt:
             args.nprompts = readLines(f'{folder}anime_trinart.txt')
-        elif 'cyberpunk.' in ckpt:
+        elif 'cyberpunk' in ckpt:
             args.nprompts = readLines(f'{folder}anime_cyberpunk.txt')
         elif 'sd-v2' in ckpt:
             args.nprompts = readLines(f'{folder}sd_v2_0.txt')

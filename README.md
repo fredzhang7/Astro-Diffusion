@@ -54,7 +54,7 @@
 ### Super Res Examples
 1. [Video Upscale](https://www.youtube.com/playlist?list=PLCFlAfr2X8n1oFJMEcVTCuq3df5yPcZEf)
 2. [GIF Upscale](https://imgur.com/a/IEdJiyY)
-3. [Image SR](https://imgur.com/a/bfRMEBt)
+3. [ImageSR and PortraitSR](https://imgur.com/a/bfRMEBt)
 
 ### Text2Img Examples
 1. [Anime Models](/art_examples/astro_anime.md)

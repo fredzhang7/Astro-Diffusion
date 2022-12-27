@@ -114,7 +114,7 @@ def AstroArgs():
     strength_0_no_init = True            # if True, strength becomes 0 when init is not used
     init_image = ""                      # URL or local path to image
     
-    # Inpainting/Outpainting Settings
+    # In/Outpainting Settings
     use_mask = False                     # whether to use a mask. whiter pixels are masked out
     use_alpha_as_mask = False            # use the alpha channel of the image as a mask
     mask_file = ""                       # URL or local path to mask
@@ -209,7 +209,7 @@ def return_image_gen(prompts):
 
 
 # See prompt examples in the /prompt_examples and /art_examples folder
-# Use commas (,), pipes (|), or double colons (::) as hard separators
+# Use commas ",", pipes "|", or double colons "::" as hard separators
 
 prompts = ['dreamlikeart, a rainforest, high resolution wallpaper']
 nprompts = ['fog blurry lowres']

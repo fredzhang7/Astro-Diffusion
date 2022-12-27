@@ -5,7 +5,6 @@ Each CheckBox has a text in the form `"<tag name> <post count>"`, where the post
 
 ## Light Mode
 
----
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1057005818396028928/light_theme_tab_1.png)
 
@@ -16,7 +15,6 @@ Each CheckBox has a text in the form `"<tag name> <post count>"`, where the post
 
 ## Dark Mode
 
----
 
 ![](https://media.discordapp.net/attachments/884528247998664744/1057005819008389120/dark_theme_tab_1.png)
 

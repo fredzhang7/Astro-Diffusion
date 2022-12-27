@@ -399,15 +399,39 @@ def danbooru_search(tags="") -> str:
 
     return tags
 
+def download_safesearch(path):
+    print("Downloading google_safesearch_mini.bin...")
+    import urllib.request
+    url = "https://huggingface.co/FredZhang7/google-safesearch-mini/resolve/main/pytorch_model.bin"
+    urllib.request.urlretrieve(url, path)
+
 from PIL import Image
 inceptionv3 = None
-def safesearch_filter(image: Image.Image) -> Image.Image:
-    if inceptionv3 is None:
-        from transformers import AutoModelForImageClassification
-        from torch import cuda
-        inceptionv3 = AutoModelForImageClassification.from_pretrained("FredZhang7/google-safesearch-mini", trust_remote_code=True, revision="d0b4c6be6d908c39c0dd83d25dce50c0e861e46a")
+def safesearch_filter(img: Image.Image) -> Image.Image:
+    import torch, os
+    model_path = 'google_safesearch_mini.bin'
+    if not os.path.exists(model_path):
+        model_path = 'art_generation/' + model_path
+    if not os.path.exists(model_path):
+        download_safesearch(model_path)
+    model = torch.jit.load(model_path)
+    from torchvision import transforms
+    transform = transforms.Compose([
+        transforms.Resize(299),
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+    ])
+    img = transform(img)
+    img = img.unsqueeze(0)
+    img = img.cpu()
+    model = model.cpu()
+    model.eval()
+    with torch.no_grad():
+        out, _ = model(img)
+        _, predicted = torch.max(out.data, 1)
+        if predicted[0] != 2 and abs(out[0][2] - out[0][predicted[0]]) > 0.2:
+            img = Image.new('RGB', (256, 256), color = (0, 255, 255))
+            print("\033[93m" + "Image blocked by Google SafeSearch (Mini)" + "\033[0m")
 
-    prediction = inceptionv3.predict(image, device="cuda" if cuda.is_available() else "cpu", print_tensor=False)
-    if prediction != 'safe':
-        image = Image.new('RGB', image.size, (128, 128, 128))
-    return image
+    img = transforms.ToPILImage()(img[0])
+    return img
