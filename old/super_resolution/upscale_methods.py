@@ -20,8 +20,8 @@ def upscale_one(input, out_path='', model_name='', return_image=True):
         raise ValueError('Invalid model name.')
 
     if not isinstance(input, Image.Image):
-        image = Image.open(input)
-    image = method.do_upscale(image, model_name)
+        input = Image.open(input)
+    image = method.do_upscale(input, model_name)
 
     if return_image:
         return image

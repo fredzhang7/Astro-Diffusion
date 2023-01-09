@@ -348,7 +348,6 @@ def magic_prompt(prefix="", temperature=0.9, top_k=8, max_length=80, repitition_
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     model = GPT2LMHeadModel.from_pretrained('FredZhang7/distilgpt2-stable-diffusion-v2')
-    model.eval()
 
     input_ids = tokenizer(prefix, return_tensors='pt').input_ids
     output = model.generate(input_ids, do_sample=True, temperature=temperature, top_k=top_k, max_length=max_length, num_return_sequences=num_return_sequences, repetition_penalty=repitition_penalty, penalty_alpha=0.6, no_repeat_ngram_size=1, early_stopping=True)
@@ -429,8 +428,8 @@ def safesearch_filter(image: Image.Image) -> Image.Image:
     with torch.no_grad():
         out, _ = model(img)
         _, predicted = torch.max(out.data, 1)
-        if predicted[0] != 2 and abs(out[0][2] - out[0][predicted[0]]) > 0.2:
-            img = Image.new('RGB', (256, 256), color = (0, 255, 255))
+        if predicted[0] != 2 and abs(out[0][2] - out[0][predicted[0]]) > 0.20:
+            img = Image.new('RGB', image.size, color = (0, 255, 255))
             print("\033[93m" + "Image blocked by Google SafeSearch (Mini)" + "\033[0m")
             return img
 
