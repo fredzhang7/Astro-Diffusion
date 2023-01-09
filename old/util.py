@@ -116,9 +116,9 @@ def reset_summarizer():
     tokenizer, distilbart = None, None
 
 
-def anime_search(prompt, seek_artist=False, latest=False) -> str:
+def character_search(prompt, seek_artist=False, latest=False) -> str:
     """
-    Summarizes the appearance of an anime character
+    Summarizes the appearance of a character
     """
     prefix = '1'
     name = prompt
@@ -222,7 +222,7 @@ def parse_anime_prompts(prompts=[], is_anything=False) -> list[str]:
     for i, p in enumerate(prompts):
         initial_len = len(p)
         p = danbooru_search(p) if len(p) < 75 else p
-        prompts[i] = anime_search(p, is_anything) if initial_len == len(p) else p
+        prompts[i] = character_search(p, is_anything) if initial_len == len(p) else p
     reset_summarizer()
     return prompts
 
@@ -343,7 +343,7 @@ def translate(text="", from_lang='auto', to_lang='en') -> str:
     return translator.translate(text, src=from_lang, dest=to_lang).text
 
 
-def magic_prompt(prefix="", temperature=0.9, top_k=8, max_length=80, repitition_penalty=1.2, num_return_sequences=10) -> list[str]:
+def distilgpt2_prompt(prefix="", temperature=0.9, top_k=8, max_length=80, repitition_penalty=1.2, num_return_sequences=10) -> list[str]:
     from transformers import GPT2Tokenizer, GPT2LMHeadModel
     tokenizer = GPT2Tokenizer.from_pretrained('distilgpt2')
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
