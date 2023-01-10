@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="100" height="96" src="https://media.discordapp.net/attachments/884528247998664744/1060825763575767060/astro_no_smudge.png" alt="Astro Diffusion">
+  <img width="100" height="96" src="https://media.discordapp.net/attachments/884528247998664744/1062284479613390888/astro_no_smudge_round.png" alt="Astro Diffusion">
 </p>
 <h1 align="center">Innovating Text-to-Video Generation with Improved Coherence and Logic</h1>
 
