@@ -6,7 +6,7 @@
 <br>
 
 ## Message From Author
-This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the img2img and text2img methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos. In the coming months, [AMLA](https://github.com/AMLA-UBC) will introduce and release new open-source models that are not based on diffusion models or derivative work. We believe that generating videos longer than one minute, such as short action films and music videos, requires models that are capable of learning the relationship between vectors in videos and music, rather than relying on diffusion or interpolation techniques.
+This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the image-to-image and text-to-image methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos. In the coming months, [AMLA](https://github.com/AMLA-UBC) will introduce and release new open-source models that are not based on diffusion models or derivative work. We believe that generating videos longer than one minute, such as short action films and music videos, requires models that are capable of learning the relationship between vectors in videos and music, rather than relying on diffusion or interpolation techniques.
 
 See my earlier work at [HuggingFace](https://huggingface.co/FredZhang7) and the [previous](./previous) folder.
 
@@ -15,7 +15,7 @@ See my earlier work at [HuggingFace](https://huggingface.co/FredZhang7) and the 
 ## Description
 The Drone View V1 feature enables you to create a video from a drone's perspective by providing a description or prompt for the scene. While the drone is set to autopilot mode, you can modify its movements and responses to obstacles inside the `DroneArgs` class. See [here](https://www.youtube.com/playlist?list=PLCFlAfr2X8n2BxB9ZgKOVTG1WggWpnts0) for examples of video outputs.
 
-Drone View V2, Virtual Reality, and Panorama Photography camera modes are currently being developed.
+Drone View V2, Virtual Reality, Panorama Photography, Pan Shot, camera modes are currently being developed.
 
 <br>
 
