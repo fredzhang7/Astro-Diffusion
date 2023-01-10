@@ -9,12 +9,9 @@ from PIL import Image
 from urllib.parse import urlparse
 from tqdm import tqdm
 import numpy as np
-from PIL import Image
 from realesrgan import RealESRGANer
 import torch
 from torch import nn
-
-from torch import nn as nn
 from torch.nn import functional as F
 from torch.nn import init as init
 from torch.nn.modules.batchnorm import _BatchNorm
@@ -102,7 +99,7 @@ class Upscaler:
         self.mod_scale = None
 
         if os.path.basename(os.getcwd()) != 'super_resolution':
-            self.model_path = './super_resolution'
+            self.model_path = './super_resolution' if os.path.exists('./super_resolution') else './previous/super_resolution'
         if self.name:
             self.model_path = f"{self.model_path}/{self.name}"
         if self.model_path and create_dirs:
@@ -2400,5 +2397,3 @@ def inference(img, model, tile, tile_overlap, window_size, scale):
     output = E.div_(W)
 
     return output
-
-
