@@ -5,7 +5,7 @@ def upscale_one(input, out_path='', model_name='', return_image=True):
     Args:
         input (str or PIL.Image): Path to input image or PIL.Image object.
         out_path (str): Path to output image.
-        model_name (str): One of "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
+        model_name (str): One of "R-ESRGAN General 4x V3", "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
     """
     if 'r-esrgan' in model_name.lower():
         from super_resolution.automatic111 import UpscalerRealESRGAN
@@ -34,7 +34,7 @@ def upscale_frames(in_path, out_path, model_name):
     Args:
         in_path (str): Path to input gif or video.
         out_path (str): Path to output gif or video.
-        model_name (str): One of "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
+        model_name (str): One of "R-ESRGAN General 4x V3", "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
     """
     if 'r-esrgan' in model_name.lower():
         from super_resolution.automatic111 import UpscalerRealESRGAN
@@ -93,7 +93,7 @@ def upscale_folder(in_folder, out_folder, model_name):
     Args:
         in_folder (str): Path to input folder.
         out_folder (str): Path to output folder.
-        model_name (str): One of "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
+        model_name (str): One of "R-ESRGAN General 4x V3", "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
     """
     import os
     if not os.path.exists(out_folder):
@@ -106,4 +106,4 @@ def upscale_folder(in_folder, out_folder, model_name):
         elif ext in ['.gif', '.mp4', '.avi', '.mov']:
             upscale_frames(os.path.join(in_folder, file), os.path.join(out_folder, file), model_name)
         else:
-            print(f'Invalid file type: {file}')
+            print(f"\033[33mWarning: {file} is not a valid image, gif, or video. Skipping.\033[0m")

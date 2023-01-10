@@ -13,7 +13,7 @@ See my earlier work at [HuggingFace](https://huggingface.co/FredZhang7) and the 
 <br>
 
 ## Description
-The Drone View V1 feature enables you to create a video from a drone's perspective by providing a description or prompt for the scene. While the drone is set to autopilot mode, you can modify its movements and responses to obstacles inside the `DroneArgs` class. See [here](https://www.youtube.com/playlist?list=PLCFlAfr2X8n2BxB9ZgKOVTG1WggWpnts0) for examples of video outputs.
+The [Drone View V1](https://github.com/FredZhang7/Astro-Diffusion/wiki/Drone-View-V1) feature enables you to create a video from a drone's perspective by providing a description or prompt for the scene. While the drone is set to autopilot mode, you can modify its movements and responses to obstacles inside the `DroneArgs` class. See [here](https://www.youtube.com/playlist?list=PLCFlAfr2X8n2BxB9ZgKOVTG1WggWpnts0) for examples of video outputs.
 
 Drone View V2, Virtual Reality, Panorama Photography, and Pan Shot camera modes are currently being developed.
 
