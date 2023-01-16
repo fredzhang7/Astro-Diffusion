@@ -1,5 +1,15 @@
 from PIL import Image
 
+models = {
+    'r-esrgan general 4x v3': None,
+    'r-esrgan general wdn 4x v3': None,
+    'r-esrgan 4x+': None,
+    'r-esrgan 4x+ anime6b': None,
+    'r-esrgan 2x+': None,
+    'esrgan 4x': None,
+    'swin2sr 4x': None
+}
+
 def upscale_one(input, out_path='', model_name='', return_image=True):
     """Upscale image using the given model_name.\n\n
     Args:
@@ -7,21 +17,24 @@ def upscale_one(input, out_path='', model_name='', return_image=True):
         out_path (str): Path to output image.
         model_name (str): One of "R-ESRGAN General 4x V3", "R-ESRGAN General WDN 4x V3", "R-ESRGAN 4x+", "R-ESRGAN 4x+ Anime6B", "R-ESRGAN 2x+", "ESRGAN 4x", "Swin2SR 4x"
     """
-    if 'r-esrgan' in model_name.lower():
+    model_name = model_name.lower()
+    if 'r-esrgan' in model_name and models[model_name] is None:
         from super_resolution.automatic111 import UpscalerRealESRGAN
-        method = UpscalerRealESRGAN('./')
-    elif 'esrgan' in model_name.lower():
+        models[model_name] = UpscalerRealESRGAN('./')
+    elif 'esrgan' in model_name and models[model_name] is None:
         from super_resolution.automatic111 import UpscalerESRGAN
-        method = UpscalerESRGAN('./')
-    elif 'swin2sr' in model_name.lower():
+        models[model_name] = UpscalerESRGAN('./')
+    elif 'swin2sr' in model_name and models[model_name] is None:
         from super_resolution.automatic111 import UpscalerSwin2SR
-        method = UpscalerSwin2SR('./')
-    else:
-        raise ValueError('Invalid model name.')
+        models[model_name] = UpscalerSwin2SR('./')
 
     if not isinstance(input, Image.Image):
         input = Image.open(input)
-    image = method.do_upscale(input, model_name)
+    
+    try:
+        image = models[model_name].do_upscale(input, model_name)
+    except:
+        raise ValueError(f'Invalid model name: {model_name}' + '\nValid model names: ' + ', '.join(models.keys()))
 
     if return_image:
         return image
@@ -106,4 +119,4 @@ def upscale_folder(in_folder, out_folder, model_name):
         elif ext in ['.gif', '.mp4', '.avi', '.mov']:
             upscale_frames(os.path.join(in_folder, file), os.path.join(out_folder, file), model_name)
         else:
-            print(f"\033[33mWarning: {file} is not a valid image, gif, or video. Skipping.\033[0m")
+            print(f'Invalid file type: {file}')
