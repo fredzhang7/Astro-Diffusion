@@ -45,3 +45,6 @@ generate_drone_video(args)
 
 # convert GIF into MP4
 # ffmpeg -i "input.gif" -pix_fmt yuv420p -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" "output.mp4"
+
+# convert MP4 into thumbnail PNG
+# ffmpeg -i "input.mp4" -vframes 1 "output.png"
