@@ -21,8 +21,13 @@ Text-to-video generation for Virtual Reality, Panorama Photography, and Pan Shot
 
 <br>
 
-## Usage
-Run `setup.sh` to download the required packages and repositories. Download and save a Stable Diffusion model to the `./stable-diffusion-webui/models/Stable-diffusion` folder. Lastly, launch `webui-user.bat` in `./stable-diffusion-webui` before running Astro Stable Diffusion plugins.
+## Setup
+Download the required packages and repositories.
+```
+pip install -r requirements.txt
+git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
+```
+Download and save a Stable Diffusion model to the `./stable-diffusion-webui/models/Stable-diffusion` folder. Lastly, launch `webui-user.bat` in `./stable-diffusion-webui` before running Astro Stable Diffusion plugins.
 
 <br>
 
