@@ -1,19 +1,22 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFilter
 from transformers import DetrImageProcessor, DetrForObjectDetection
 from previous.super_resolution.upscale_methods import upscale_one
 from torch import tensor, Tensor, cuda
-import os
+import os, cv2, numpy as np
 from time import strftime
 from requests import post
 from io import BytesIO
 from base64 import b64decode, b64encode
 from random import randint, choice
+from math import ceil
+import warnings
+warnings.filterwarnings("ignore")
 
 detrProcessor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50")
 detrModel = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50")
 
 # function to upscale image to a certain resolution
-def superres_image(image: Image.Image, resolution: tuple, superres_method: str = "R-ESRGAN General WDN 4x V3") -> Image.Image:
+def superres_image(image: Image.Image, resolution: tuple[int, int], superres_method: str) -> Image.Image:
     image = upscale_one(image, model_name=superres_method, return_image=True)
     
     while image.size[0] < resolution[0] or image.size[1] < resolution[1]:
@@ -25,7 +28,7 @@ def superres_image(image: Image.Image, resolution: tuple, superres_method: str =
     return image
 
 # function to zoom in on the image
-def zoom(image: Image.Image, zoom_factor: float, zoom_mode: str = 'center', superres: bool = False) -> Image.Image:
+def zoom(image: Image.Image, zoom_factor: float, zoom_mode: str = 'center', superres: bool = False, superres_method: str = "R-ESRGAN General WDN 4x V3") -> Image.Image:
     width = image.width
     height = image.height
     new_width = int(width * zoom_factor)
@@ -37,7 +40,7 @@ def zoom(image: Image.Image, zoom_factor: float, zoom_mode: str = 'center', supe
     # crop the image to the original width and height
     if zoom_mode == 'random':
         zoom_modes = ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'mid-left', 'mid-right', 'top-mid', 'bottom-mid']
-        return zoom(image, zoom_factor, zoom_modes[randint(0, len(zoom_modes) - 1)])
+        return zoom(image, zoom_factor, zoom_modes[randint(0, len(zoom_modes) - 1)], superres, superres_method)
     elif zoom_mode == 'center':
         x = (new_width - width) // 2
         y = (new_height - height) // 2
@@ -52,10 +55,10 @@ def zoom(image: Image.Image, zoom_factor: float, zoom_mode: str = 'center', supe
         image = image.crop((new_width - width, new_height - height, new_width, new_height))
     elif zoom_mode == 'mid-left':
         x = (new_width - width) // 2
-        image = image.crop((x, 0, x + width, height))
+        image = image.crop((0, x, width, x + height))
     elif zoom_mode == 'mid-right':
         x = (new_width - width) // 2
-        image = image.crop((x, new_height - height, x + width, new_height))
+        image = image.crop((new_width - width, x, new_width, x + height))
     elif zoom_mode == 'top-mid':
         y = (new_height - height) // 2
         x = (new_width - width) // 2
@@ -68,7 +71,7 @@ def zoom(image: Image.Image, zoom_factor: float, zoom_mode: str = 'center', supe
         raise ValueError(f'Invalid zoom_mode: {zoom_mode}')
     
     if superres:
-        image = superres_image(image, (image.width, image.height))
+        image = superres_image(image, (image.width, image.height), superres_method)
     return image
 
 # function to get the largest bounding box in the image
@@ -86,11 +89,11 @@ def largest_bbox(image: Image.Image, threshold: float = 0.9) -> Tensor:
 # function to fill in missing pixels in the image
 def fill(image: Image.Image, args: dict) -> tuple[Image.Image, dict]:
     encoded = b64encode(open("./prefill.png", "rb").read())
-    encodedString = str(encoded, encoding='utf-8')
-    goodEncodedImg ='data:image/png;base64,' + encodedString
+    encodedStr = str(encoded, encoding='utf-8')
+    goodEncodedImg ='data:image/png;base64,' + encodedStr
     encoded = b64encode(open("./mask.png", "rb").read())
-    encodedString = str(encoded, encoding='utf-8')
-    goodEncodedMask ='data:image/png;base64,' + encodedString
+    encodedStr = str(encoded, encoding='utf-8')
+    goodEncodedMask ='data:image/png;base64,' + encodedStr
     img2img_url = "http://127.0.0.1:7860/sdapi/v1/img2img"
     payload = {
         "prompt": args.prompt,
@@ -109,7 +112,7 @@ def fill(image: Image.Image, args: dict) -> tuple[Image.Image, dict]:
     resp = post(img2img_url, json=payload).json()
     for i in resp['images']:
         image = Image.open(BytesIO(b64decode(i)))
-        image.save("./postfill.png") 
+        image.save('./postfill.png')
     return image, args
 
 # function to generate the next seed
@@ -121,7 +124,7 @@ def next_seed(args: dict) -> int:
     return args.seed
 
 # function to check if one row of the image is the same color
-def check_row_color(image: Image.Image):
+def check_row_color(image: Image.Image) -> None:
     img = image.copy()
     for y in range(img.height):
         row_color = img.getpixel((0, y))
@@ -132,7 +135,7 @@ def check_row_color(image: Image.Image):
             raise Exception("Row {} is the same color: {}".format(y, row_color))
 
 # function to check if one column of the image is the same color
-def check_col_color(image: Image.Image):
+def check_col_color(image: Image.Image) -> None:
     img = image.copy()
     for x in range(img.width):
         col_color = img.getpixel((x, 0))
@@ -144,8 +147,120 @@ def check_col_color(image: Image.Image):
 
 # function to round a number to the nearest multiple of 8
 def round_to_multiple_of_64(x: float) -> int:
-    from math import ceil
     return int(ceil(x / 64) * 64)
+
+# function to blend regions in the image, adapted from https://github.com/Mohdyusuf786/image-blending
+def blend_image(image: Image.Image, split_pos: int, vertical: bool) -> Image.Image:
+    # convert input image to Mat format
+    image = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
+
+    # split the image into two halves
+    if vertical:
+        img1 = image[:split_pos, :]
+        img2 = image[split_pos:, :]
+    else:
+        img1 = image[:, :split_pos]
+        img2 = image[:, split_pos:]
+
+    # generate gaussian pyramid for img1
+    gp_img1 = [img1]
+    for i in range(6):
+        img1 = cv2.pyrDown(img1)
+        gp_img1.append(img1)
+
+    # generate gaussian pyramid for img2
+    gp_img2 = [img2]
+    for i in range(6):
+        img2 = cv2.pyrDown(img2)
+        gp_img2.append(img2)
+
+    # generate laplacian pyramid for img1
+    lp_img1 = [gp_img1[5]]
+    for i in range(5, 0, -1):
+        size = (gp_img1[i - 1].shape[1], gp_img1[i - 1].shape[0])
+        gaussian_expanded = cv2.pyrUp(gp_img1[i], dstsize=size)
+        laplacian = cv2.subtract(gp_img1[i - 1], gaussian_expanded)
+        lp_img1.append(laplacian)
+
+    # generate laplacian pyramid for img2
+    lp_img2 = [gp_img2[5]]
+    for i in range(5, 0, -1):
+        size = (gp_img2[i - 1].shape[1], gp_img2[i - 1].shape[0])
+        gaussian_expanded = cv2.pyrUp(gp_img2[i], dstsize=size)
+        laplacian = cv2.subtract(gp_img2[i - 1], gaussian_expanded)
+        lp_img2.append(laplacian)
+
+    # add left and right halves of images in each level
+    ls = []
+    for img1_lap, img2_lap in zip(lp_img1, lp_img2):
+        rows, cols, dpt = img1_lap.shape
+        laplacian = np.hstack((img1_lap[:, :int(cols / 2)], img2_lap[:, int(cols / 2):]))
+        ls.append(laplacian)
+
+    # reconstruct image from laplacian pyramid
+    ls_ = ls[0]
+    for i in range(1, 6):
+        size = (ls[i].shape[1], ls[i].shape[0])
+        ls_ = cv2.pyrUp(ls_, dstsize=size)
+        ls_ = cv2.add(ls_, ls[i])
+
+    # convert to PIL image
+    blended = Image.fromarray(cv2.cvtColor(ls_, cv2.COLOR_BGR2RGB))
+    return blended
+
+def crop_from_center(img: Image.Image, distance: int, vertical: bool) -> Image.Image:
+    if vertical:
+        top = img.height // 2 - distance
+        botttom = img.height // 2 + distance
+        return img.crop((0, top, img.width, botttom))
+    else:
+        left = img.width // 2 - distance
+        right = img.width // 2 + distance
+        return img.crop((left, 0, right, img.height))
+
+def draw_high_lo_mask(mask: Image.Image, max_y: int) -> Image.Image:
+    gap = mask.height // 4 * 3
+    draw = ImageDraw.Draw(mask)
+    for x in range(0, mask.width, gap - 16):
+        draw.ellipse((x, max_y - 6, x + gap, max_y + 6), fill='white')
+    return mask
+
+def draw_left_right_mask(mask: Image.Image, max_x: int) -> Image.Image:
+    gap = mask.width // 2
+    draw = ImageDraw.Draw(mask)
+    for y in range(0, mask.height, gap - 16):
+        draw.ellipse((max_x - 6, y, max_x + 6, y + gap), fill='white')
+    return mask
+
+def gradient(img: Image.Image, args: dict, l: int, t: int, r: int, b: int, whiteout_l: int, whiteout_r: int, vertical: bool, iter: int = 2) -> tuple[Image.Image, dict]:
+    # first pass
+    blend = img.copy()
+    blend = blend.crop((l, t, r, b))
+    mask = Image.new('RGB', img.size, (0,0,0))
+    mask.paste(blend, (l, t))
+    distance = round(args.mask_blur * 3)
+    edge = crop_from_center(blend, distance=distance, vertical=vertical)
+    whiteout = Image.new('RGB', (edge.width, edge.height), (255,255,255))
+    mask.paste(whiteout, (whiteout_l, whiteout_r))
+    img.save('prefill.png')
+    mask.save('mask.png')
+    img, args = fill(img, args)
+
+    # second pass
+    for i in range(iter):
+        blend = img.copy()
+        blend = blend_image(blend, split_pos=args.w // 2, vertical=vertical) if vertical else blend_image(blend, split_pos=args.h // 2, vertical=vertical)
+        blend = blend.crop((l, t, r, b))
+        blend = blend.filter(ImageFilter.GaussianBlur(radius=2))
+        mask = Image.new('RGB', img.size, (0,0,0))
+        mask.paste(blend, (l, t))
+
+        img.save('prefill.png')
+        mask.save('mask.png')
+        img, args = fill(img, args)
+    
+    return img, args
+
 
 # function to generate each frame of the video
 def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.Image | list, dict]:
@@ -166,6 +281,7 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
     args.h = image.height
 
     if bbox[2] * bbox[3] > args.area_thres:
+        # large object detected
         if args.fly_mode == 'over':
             image = image.crop((0, 0, args.w, args.h // zoom_factor))
 
@@ -173,28 +289,41 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
             for skip in range(args.fly_skip):
                 expand_h = expand_h * zoom_factor
             expand_h = round_to_multiple_of_64(expand_h)
-            img = Image.new('RGB', (args.w, expand_h), 255)
-            mask = Image.new('L', (args.w, expand_h), 0)
+            img = Image.new('RGB', (args.w, expand_h), (255,255,255))
+            mask = Image.new('RGB', (args.w, expand_h), (0,0,0))
             zoom_mode = 'top-mid'
 
+            # project the colors of the top row to the black pixel region
             max_y = expand_h - image.height
-            for i in range(max_y):
-                for j in range(args.w):
-                    img.putpixel((j, i), 0)
-                    mask.putpixel((j, i), 255)
             img.paste(image, (0, max_y))
-
-            # get the pixel colors of the row just below the black pixels
             for i in range(args.w):
                 color = img.getpixel((i, max_y))
-                # fill in the black pixels with those colors
                 for j in range(max_y):
                     img.putpixel((i, j), color)
+                    mask.putpixel((i, j), (255,255,255))
             
-            gap = mask.height // 4 * 3
-            draw = ImageDraw.Draw(mask)
-            for x in range(0, mask.width, gap - 16):
-                draw.ellipse((x, max_y - 7, x+gap, max_y + 6), fill='white')
+            mask = draw_high_lo_mask(mask, max_y)
+
+        elif args.fly_mode == 'under':
+            image = image.crop((0, 0, args.w, args.h // zoom_factor))
+
+            expand_h = args.h
+            for skip in range(args.fly_skip):
+                expand_h = expand_h * zoom_factor
+            expand_h = round_to_multiple_of_64(expand_h)
+            img = Image.new('RGB', (args.w, expand_h), (255,255,255))
+            mask = Image.new('RGB', (args.w, expand_h), (0,0,0))
+            zoom_mode = 'bottom-mid'
+
+            max_y = image.height
+            img.paste(image, (0, 0))
+            for i in range(args.w):
+                color = img.getpixel((i, max_y))
+                for j in range(max_y, expand_h):
+                    img.putpixel((i, j), color)
+                    mask.putpixel((i, j), (255,255,255))
+
+            mask = draw_high_lo_mask(mask, max_y)
                 
         elif args.fly_mode == 'left':
             image = image.crop((0, 0, args.w // zoom_factor, args.h))
@@ -203,28 +332,19 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
             for skip in range(args.fly_skip):
                 expand_w = expand_w * zoom_factor
             expand_w = round_to_multiple_of_64(expand_w)
-            img = Image.new('RGB', (expand_w, args.h), 255)
-            mask = Image.new('L', (expand_w, args.h), 0)
+            img = Image.new('RGB', (expand_w, args.h), (255,255,255))
+            mask = Image.new('RGB', (expand_w, args.h), (0,0,0))
             zoom_mode = 'mid-left'
 
             max_x = expand_w - image.width
-            for i in range(max_x):
-                for j in range(args.h):
-                    img.putpixel((i, j), 0)
-                    mask.putpixel((i, j), 255)
             img.paste(image, (max_x, 0))
-
-            # get the pixel colors of the column just to the right of the black pixels
             for i in range(args.h):
                 color = img.getpixel((max_x, i))
-                # fill in the black pixels with those colors
                 for j in range(max_x):
                     img.putpixel((j, i), color)
+                    mask.putpixel((j, i), (255,255,255))
 
-            gap = mask.width // 2
-            draw = ImageDraw.Draw(mask)
-            for y in range(0, mask.height, gap - 16):
-                draw.ellipse((max_x - 7, y, max_x + 6, y+gap), fill='white')
+            mask = draw_left_right_mask(mask, max_x)
 
         elif args.fly_mode == 'right':
             image = image.crop((args.w // zoom_factor, 0, args.w, args.h))
@@ -233,44 +353,56 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
             for skip in range(args.fly_skip):
                 expand_w = expand_w * zoom_factor
             expand_w = round_to_multiple_of_64(expand_w)
-            img = Image.new('RGB', (expand_w, args.h), 255)
-            mask = Image.new('L', (expand_w, args.h), 0)
+            img = Image.new('RGB', (expand_w, args.h), (255,255,255))
+            mask = Image.new('RGB', (expand_w, args.h), (0,0,0))
             zoom_mode = 'mid-right'
 
             max_x = image.width
-            for i in range(max_x):
-                for j in range(args.h):
-                    img.putpixel((i, j), 0)
-                    mask.putpixel((i, j), 255)
             img.paste(image, (0, 0))
-
-            # get the pixel colors of the column just to the left of the black pixels
             for i in range(args.h):
                 color = img.getpixel((max_x, i))
-                # fill in the black pixels with those colors
                 for j in range(max_x):
                     img.putpixel((j, i), color)
+                    mask.putpixel((j, i), (255,255,255))
 
-            gap = mask.width // 2
-            draw = ImageDraw.Draw(mask)
-            for y in range(0, mask.height, gap - 16):
-                draw.ellipse((max_x - 7, y, max_x + 6, y+gap), fill='white')
+            mask = draw_left_right_mask(mask, max_x)
+
         else:
             raise ValueError(f'Invalid fly_mode: {args.fly_mode}')
         
         temp_w = args.w
         temp_h = args.h
-        mask = mask.convert('RGB')
-        mask.save('mask.png')
         args.w = img.width
         args.h = img.height
-        if mask.getbbox() != (0, 0, args.w, args.h):
-            args.seed = next_seed(args)
-            img.save('prefill.png')
-            img, args = fill(img, args)
-            img.save('postfill.png')
+        args.seed = next_seed(args)
+        mask.save('mask.png')
+        img.save('prefill.png')
+        args.cfg_scale += args.cfg_increase
+        img, args = fill(img, args)
+        distance = round(args.mask_blur * 3)
+
+        # apply gradient
+        if args.fly_mode == "over" or args.fly_mode == "under":
+            top = max_y - args.blend_strength // 2
+            bottom = max_y + args.blend_strength // 2 + args.mask_blur
+            
+            whiteout_l, whiteout_r = 0, max_y - distance + args.mask_blur // 3
+            l, t, r, b = 0, top, args.w, bottom
+            img, args = gradient(img, args, l, t, r, b, whiteout_l, whiteout_r, vertical=True)
+
+        elif args.fly_mode == "left" or args.fly_mode == "right":
+            left = max_x - args.blend_strength // 2
+            right = max_x + args.blend_strength // 2 + args.mask_blur
+
+            whiteout_l, whiteout_r = max_x - distance + args.mask_blur // 3, 0
+            l, t, r, b = left, 0, right, args.h
+            img, args = gradient(img, args, l, t, r, b, whiteout_l, whiteout_r, vertical=False)
+        
+        args.cfg_scale -= args.cfg_increase
         args.w = temp_w
         args.h = temp_h
+
+        # convert to image frames
         image = img.copy()
         for i in range(args.fly_skip):
             superres = True if (args.t + i) % (args.superres_seconds * args.fps) == 0 else False
@@ -288,7 +420,7 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
                 img = image.crop((start_w, 0, end_w, args.h))
             t = args.t + i
             zoom_factor *= eval(args.zoom_factor)
-            img = zoom(img, zoom_factor, zoom_mode, superres)
+            img = zoom(img, zoom_factor, zoom_mode, superres, args.superres_method)
             img.save(f'{args.tfolder}/{args.t + i}.png')
             
         images = [img]
@@ -296,7 +428,7 @@ def step(image: Image.Image, args: dict, superres: bool = False) -> tuple[Image.
             images.append(0)
         return images, args
     else:
-        image = zoom(image, zoom_factor, args.zoom_mode, superres)
+        image = zoom(image, zoom_factor, args.zoom_mode, superres, args.superres_method)
     
     return image, args
 
@@ -332,20 +464,10 @@ def generate_drone_video(args: dict) -> None:
             "steps": args.steps,
             "cfg_scale": args.cfg_scale,
             "sampler_index": args.sampler,
-            "seed": args.seed
+            "seed": args.seed,
+            'width': args.img_width,
+            'height': args.img_height
         }
-        if 'portrait' in args.prompt:
-            payload['width'] = args.protrait_w
-            payload['height'] = args.protrait_h
-            if "Euler" in args.sampler:
-                payload['sampler_index'] = 'Euler a'
-        elif 'landscape' in args.prompt:
-            payload['width'] = args.landscape_w
-            payload['height'] = args.landscape_h
-        else:
-            payload['width'] = args.default_w
-            payload['height'] = args.default_h
-
         resp = post(txt2img_url, json=payload).json()
 
         for i in resp['images']:
