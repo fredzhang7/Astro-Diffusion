@@ -1,24 +1,29 @@
 import gradio as gr
 from gradio.components import Textbox, Button, CheckboxGroup, Image, Checkbox
 import requests, time
-from customizations import sections
+from anime_webui.customizations import sections
 from copy import deepcopy
+import PIL
+from io import BytesIO
+
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
 
 def get_random_image() -> dict[str, str]:
     url = 'https://safebooru.donmai.us/posts/random.json'
-    r = requests.get(url)
+    r = requests.get(url, headers=headers)
     if r.status_code == 200:
         json = r.json()
     else:
         time.sleep(0.25)
         return get_random_image()
-    
+
     return { 'url': json['file_url'], 'tags': json['tag_string'], 'up_score': json['up_score'] }
 
 def search_tags(tags) -> dict[str, str]:
     if tags is None or len(tags.replace(' ', '')) == 0:
         return get_random_image()
     
+    print(tags)
     if tags.endswith(', '):
         tags = tags[:-2]
     if tags.count(', ') > 1:
@@ -28,7 +33,7 @@ def search_tags(tags) -> dict[str, str]:
         tags = tags.replace(', ', '+')
     tags = tags.replace(' ', '_')
     url = f'https://safebooru.donmai.us/posts/random.json?tags={tags}'
-    r = requests.get(url)
+    r = requests.get(url, headers=headers)
     if r.status_code == 200:
         json = r.json()
     else:
@@ -39,7 +44,7 @@ def search_tags(tags) -> dict[str, str]:
 
 
 import json
-with open('post_counts.json', 'r') as f:
+with open('./anime_webui/post_counts.json', 'r') as f:
     post_counts = json.load(f)
 
 def number_to_abbrev(num):
@@ -91,5 +96,6 @@ with gr.Blocks() as webui:
         button = Button('Search')
         def search(tags):
             result = search_tags(tags)
-            return result['url'], result['tags'], result['up_score']
+            image = PIL.Image.open(BytesIO(requests.get(result['url'], headers=headers).content))
+            return image, result['tags'], result['up_score']
         button.click(search, inputs=[input], outputs=[image, output, up_score])
