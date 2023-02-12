@@ -115,7 +115,7 @@ def upscale_folder(in_folder, out_folder, model_name):
     for file in os.listdir(in_folder):
         name, ext = os.path.splitext(file)
         if ext in ['.jpg', '.jpeg', '.png']:
-            upscale_one(os.path.join(in_folder, file), os.path.join(out_folder, file), model_name)
+            upscale_one(os.path.join(in_folder, file), os.path.join(out_folder, file), model_name, return_image=False)
         elif ext in ['.gif', '.mp4', '.avi', '.mov']:
             upscale_frames(os.path.join(in_folder, file), os.path.join(out_folder, file), model_name)
         else:
