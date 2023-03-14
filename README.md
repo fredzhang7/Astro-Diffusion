@@ -1,25 +1,23 @@
-<p align="center">
-  <img width="100" height="96" src="https://media.discordapp.net/attachments/884528247998664744/1062284479613390888/astro_no_smudge_round.png" alt="Astro Diffusion">
-</p>
 <h1 align="center">Innovating Text-to-Video Generation with Improved Coherence and Logic</h1>
 
 <br>
 
-## Message From Author
-This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the image-to-image and text-to-image methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos. In the coming months, [AMLA](https://github.com/AMLA-UBC) will introduce and release new open-source models that are not based on diffusion models or derivative work. We believe that generating videos that are well-structured, clear, and logical, such as short action films and music videos, requires models that are capable of learning the relationship between vectors in videos and music, rather than relying on diffusion or interpolation techniques.
-
-See my earlier work at [HuggingFace](https://huggingface.co/FredZhang7) and the [previous](./previous) folder.
-
-<br>
-
-## Description
+## Drone View V2
 The [Drone View V2](https://github.com/FredZhang7/Astro-Diffusion/wiki/Drone-View-V2) feature enables you to create a video with a duration of your choice from a drone's perspective by providing a description or prompt for a scene. While the drone is set to autopilot mode, you can modify its movements and responses to obstacles inside the `DroneArgs` class. See the playlist below for examples of video outputs.
 
-[![Astro Stable Diffusion Examples](https://i.imgur.com/f8HZ9ZU.png)](https://www.youtube.com/playlist?list=PLCFlAfr2X8n2BxB9ZgKOVTG1WggWpnts0 "Astro Stable Diffusion Examples Playlist")
+<img src="./drone_view_v2_diagram.png" alt="drone view diagram" width="40%" height="40%">
+
 
 Just a heads up, the visual content in the video is, for the most part, determined by the text-to-image model you choose, and is not influenced by Astro Stable Diffusion methods.
 
 Text-to-video generation for Virtual Reality, Panorama Photography, and Pan Shot are currently being developed.
+
+## Examples
+
+<a href="https://www.youtube.com/playlist?list=PLCFlAfr2X8n2BxB9ZgKOVTG1WggWpnts0">
+  <img src="https://i.imgur.com/f8HZ9ZU.png" alt="Astro Stable Diffusion Examples" style="width:50%; height:50%;">
+</a>
+
 
 <br>
 
@@ -32,6 +30,13 @@ git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git
 Download and save a Stable Diffusion model to the `./stable-diffusion-webui/models/Stable-diffusion` folder. Lastly, launch `webui-user.bat` in `./stable-diffusion-webui` before running Astro Stable Diffusion plugins.
 
 <br>
+
+
+## Message From Author
+This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the image-to-image and text-to-image methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos. In the coming months, [AMLA](https://github.com/AMLA-UBC) will introduce and release new open-source models that are not based on diffusion models or derivative work. We believe that generating videos that are well-structured, clear, and logical, such as short action films and music videos, requires models that are capable of learning the relationship between vectors in videos and music, rather than relying on diffusion or interpolation techniques.
+
+Earlier work has been moved to the [previous](./previous) folder, but it still provides useful AI Art helpers.
+
 
 ## Citations
 ```
