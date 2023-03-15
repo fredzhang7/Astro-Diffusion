@@ -5,7 +5,7 @@
 ## Drone View V2
 The [Drone View V2](https://github.com/FredZhang7/Astro-Diffusion/wiki/Drone-View-V2) feature enables you to create a video with a duration of your choice from a drone's perspective by providing a description or prompt for a scene. While the drone is set to autopilot mode, you can modify its movements and responses to obstacles inside the `DroneArgs` class. See the playlist below for examples of video outputs.
 
-<img src="./drone_view_v2.png" alt="drone view diagram" width="40%" height="40%">
+<img src="./drone_view_v2.png" alt="drone view diagram" width="60%" height="60%">
 
 
 Just a heads up, the art style in the videos are, for the most part, determined by the text-to-image model you choose, and is not influenced by Astro Stable Diffusion methods.
