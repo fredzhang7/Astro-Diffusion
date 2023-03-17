@@ -10,7 +10,7 @@ The [Drone View V2](https://github.com/FredZhang7/Astro-Diffusion/wiki/Drone-Vie
 
 Just a heads up, the art style in the videos are, for the most part, determined by the text-to-image model you choose, and is not influenced by Astro Stable Diffusion methods.
 
-Text-to-video generation for Virtual Reality, Panorama Photography, and Pan Shot are currently being developed.
+Text-to-video generation for Drone View V3, Virtual Reality, Panorama Photography, and Pan Shot are currently being developed.
 
 ## Examples
 
