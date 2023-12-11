@@ -32,13 +32,13 @@ Download and save a Stable Diffusion model to the `./stable-diffusion-webui/mode
 <br>
 
 
-## Message From Author
-This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the image-to-image and text-to-image methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos. In the coming months, [AMLA](https://github.com/AMLA-UBC) will introduce and release new open-source models that are not based on diffusion models or derivative work. We believe that generating videos that are well-structured, clear, and logical, such as short action films and music videos, requires models that are capable of learning the relationship between vectors in videos and music, rather than relying on diffusion or interpolation techniques.
+## Notes
+This repository is similar to [Deforum Stable Diffusion](https://colab.research.google.com/github/deforum/stable-diffusion/blob/main/Deforum_Stable_Diffusion.ipynb) in that both are based on the image-to-image and text-to-image methods of Stable Diffusion. However, Astro Stable Diffusion differs in that it uses non-interpolation methods to create videos.
 
 Earlier work has been moved to the [previous](./previous) folder, but it still provides useful AI Art helpers.
 
 
-## Citations
+## Inspirations
 ```
 @article{Forsgren_Martiros_2022,
   author = {Forsgren, Seth* and Martiros, Hayk*},
