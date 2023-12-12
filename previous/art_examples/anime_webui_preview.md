@@ -1,6 +1,10 @@
 # Anime Webui Preview
 Each CheckBox has a text in the form `"<tag name> <post count>"`, where the post count is proportional to the number of training images labelled with the tag.
 
+Users can customize an anime character in terms of head, face, topwear, bottomwear, male and female fashion items, pose, pet, background, scene, technology, food, and special effect tags. Each tag you select in a checkbox-style button is added to the prompt.
+
+[Link to the actual webui package](https://github.com/FredZhang7/Astro-Diffusion/tree/master/previous/anime_webui)
+
 <br>
 
 ## Light Mode
